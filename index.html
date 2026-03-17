@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미래 직업 추천</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h4>미래 직업 추천</h4>
+    </div>
+
+    <div class="card">
+      <form id="jobForm" class="form-grid">
+        <div class="field">
+          <label for="name">성명</label>
+          <input id="name" name="name" type="text" placeholder="성명을 입력하세요" required>
+        </div>
+
+        <div class="field">
+          <label for="dob">출생연도 <span style="font-weight:400;color:#64748b">: 취업시기 결정</span></label>
+          <input id="dob" name="dob" type="number" inputmode="numeric" placeholder="예) 2010" required>
+        </div>
+
+        <div class="field">
+          <label for="country">취업 국가</label>
+          <select id="country" name="country">
+            <option value="대한민국">대한민국</option>
+            <option value="미국">미국</option>
+            <option value="일본">일본</option>
+            <option value="독일">독일</option>
+            <option value="중국">중국</option>
+            <option value="러시아">러시아</option>
+            <option value="인도">인도</option>
+            <option value="영국">영국</option>
+            <option value="프랑스">프랑스</option>
+            <option value="이탈리아">이탈리아</option>
+            <option value="캐나다">캐나다</option>
+            <option value="호주">호주</option>
+            <option value="멕시코">멕시코</option>
+            <option value="베트남">베트남</option>
+            <option value="브라질">브라질</option>
+            <option value="사우디아라비아">사우디아라비아</option>
+            <option value="스위스">스위스</option>
+            <option value="싱가포르">싱가포르</option>
+            <option value="이스라엘">이스라엘</option>
+            <option value="인도네시아">인도네시아</option>
+            <option value="나이지리아">나이지리아</option>
+            <option value="남아프리카공화국">남아프리카공화국</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="ability">학업 계획 <span style="font-weight:400;color:#64748b">: 지능/노력/성적 등 감안</span></label>
+          <select id="ability" name="ability">
+            <option value="상">석박사 이상 예정 (출생연도 2000~2029년 사이)</option>
+            <option value="중">대학/대학원 예정 (출생연도 2004~2033년 사이)</option>
+            <option value="하">전문대/직업고 예정 (출생연도 2008~2037년 사이)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="riasec">직업 흥미 유형 (RIASEC)</label>
+          <select id="riasec" name="riasec">
+            <option value="R">🔧 만들고 조작 - 기계·도구를 직접 다루는 게 재미있어요</option>
+            <option value="I">🔬 파고들고 연구 - 원리 탐구, 데이터·과학을 좋아해요</option>
+            <option value="A">🎨 만들고 표현 - 그림·영상·디자인·창작을 즐겨요</option>
+            <option value="S">🤝 돕고 함께 - 사람들과 어울리고 돌보는 게 보람 있어요</option>
+            <option value="E">🚀 이끌고 도전 - 목표 설정, 설득·리더십이 잘 맞아요</option>
+            <option value="C">📋 정리하고 관리 - 규칙대로 꼼꼼하게 체계적으로 일해요</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="big5">개인 성향 (Big5)</label>
+          <select id="big5" name="big5">
+            <option value="O">✨ 호기심 — 새 아이디어·변화를 즐기고 상상력이 풍부해요</option>
+            <option value="C">📌 계획적 — 목표를 세우고 책임감 있게 끝까지 해내요</option>
+            <option value="E">😊 외향적 — 사람들과 함께하는 환경에서 활발히 활동해요</option>
+            <option value="A">💛 배려심 — 타인을 돕고 협력하는 게 자연스러워요</option>
+            <option value="N">🛡 신중함 — 위험을 미리 감지하고 꼼꼼히 대비해요</option>
+          </select>
+        </div>
+
+        <button type="submit" class="submit-btn">추천 직업 보기 →</button>
+      </form>
+      <p id="formMessage" class="form-message"></p>
+    </div>
+  </div>
+
+  <script>
+    // 폼 제출 시 사용자 데이터만 저장하고 result.html로 이동
+    document.getElementById('jobForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(e.target);
+      const userData = Object.fromEntries(formData.entries());
+      
+      // 출생연도 검증
+      const birthYear = parseInt(userData.dob, 10);
+      if (Number.isNaN(birthYear) || birthYear < 1900 || birthYear > 2100) {
+        document.getElementById('formMessage').textContent = '출생연도 형식이 올바르지 않습니다. 예) 2010 형식으로 입력해 주세요.';
+        return;
+      }
+
+      // 사용자 데이터만 localStorage에 저장 (계산은 result.html에서 수행)
+      localStorage.setItem('userInput', JSON.stringify(userData));
+      
+      // 결과 페이지로 이동
+      window.location.href = 'result.html';
+    });
+  </script>
+</body>
+</html>
