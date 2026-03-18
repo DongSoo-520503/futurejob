@@ -292,9 +292,26 @@
       }
 
       try {
-        const response = await fetch('./future_job_117000.json');
+        const countryFileMap = {
+// 국가 추가 
+          '대한민국': 'KR.json',
+          '미국': 'US.json',
+          '일본': 'JP.json',
+          '독일': 'DE.json',
+          '캐나다': 'CA.json'
+        };
+
+        const selectedCountry = String(userInput.country || '').trim();
+        const fileName = countryFileMap[selectedCountry];
+
+        if (!fileName) {
+          throw new Error('선택한 국가의 데이터 파일이 없습니다. 입력 화면에서 국가를 다시 선택해 주세요.');
+        }
+
+// datadp 추가한 국가 fileName 을 fetch
+        const response = await fetch(`./data/${fileName}`);
         if (!response.ok) {
-          throw new Error(`데이터 파일 로드 실패 (상태: ${response.status})`);
+          throw new Error(`${selectedCountry} 데이터 파일 로드 실패 (상태: ${response.status})`);
         }
         const jobData = await response.json();
 
@@ -311,7 +328,7 @@
         const period = `${Math.floor(year / 10) * 10}년대`;
 
         const firstCandidates = jobData.filter(
-          row => row['국가'] === userInput.country &&
+          row => String(row['국가'] || '').trim() === selectedCountry &&
                  row['시기'] === period &&
                  row['직업등급'] === userInput.ability
         );
