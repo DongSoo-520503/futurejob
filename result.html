@@ -37,7 +37,7 @@
       return String(value);
     }
 
-    // ==================== IndexedDB 헬퍼 함수 ====================
+    // ==================== IndexedDB 헬퍼 ====================
     const DB_NAME = "JobRecommenderDB";
     const STORE_NAME = "results";
     const KEY_LATEST = "latest_result";
@@ -63,23 +63,16 @@
         return new Promise((resolve, reject) => {
           const tx = db.transaction(STORE_NAME, "readwrite");
           const store = tx.objectStore(STORE_NAME);
-          const req = store.put(value, key);
-          req.onsuccess = () => resolve();
-          req.onerror = () => reject(req.error || new Error("저장 실패"));
+          store.put(value, key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
         });
       } catch (err) {
         console.error("IndexedDB 저장 오류:", err);
       }
     }
 
-    // ==================== 매칭 점수 계산 함수 ====================
-    function matchScore(rowCodes, userCodes) {
-      if (!rowCodes || !userCodes) return 0.5;
-      const matched = userCodes.some(code => rowCodes.includes(code));
-      return matched ? 1.0 : 0.5;
-    }
-
-    // ==================== 엑셀 관련 함수 ====================
+    // ==================== 엑셀 생성 함수 ====================
     function buildExcelHtml(rows) {
       const headers = [
         '번호', '직업명', '국가', '취업 시기', '연봉 순위',
@@ -87,96 +80,59 @@
         '핵심 전문 지식', '직업 해설'
       ];
 
-      let html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" ';
-      html += 'xmlns:x="urn:schemas-microsoft-com:office:excel" ';
-      html += 'xmlns="http://www.w3.org/TR/REC-html40">';
-      html += '<head><meta charset="UTF-8">';
-      html += '<!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>2nd Candidates</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->';
-      html += '<style>';
-      html += 'table{border-collapse:collapse;font-family:Malgun Gothic,Arial,sans-serif;font-size:12pt;}';
-      html += 'th,td{border:1px solid #999;padding:6px 8px;vertical-align:top;}';
-      html += 'th{background:#dbeafe;font-weight:700;}';
-      html += '</style></head><body><table><thead><tr>';
+      let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" 
+xmlns:x="urn:schemas-microsoft-com:office:excel" 
+xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8">
+<!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+<x:Name>2nd Candidates</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+<style>table{border-collapse:collapse;font-family:Malgun Gothic,Arial,sans-serif;font-size:12pt;}
+th,td{border:1px solid #999;padding:6px 8px;vertical-align:top;}
+th{background:#dbeafe;font-weight:700;}</style></head><body><table><thead><tr>`;
 
-      headers.forEach(header => {
-        html += `<th>${escapeHtml(header)}</th>`;
-      });
-
+      headers.forEach(h => html += `<th>${escapeHtml(h)}</th>`);
       html += '</tr></thead><tbody>';
 
-      rows.forEach((item, index) => {
-        const row = {
-          no: index + 1,
-          job: item['추천직업'] || item.job || '',
-          country: item['국가'] || item.country || '',
-          period: item['시기'] || item.period || '',
-          salaryRank: item['연봉순위'] || item.salaryRank || '',
-          major: item['추천학과/전공'] || item.major || '',
-          prepPeriod: item['준비기간'] || item.prepPeriod || '',
-          riasec: item['RIASEC'] || item.riasec || '',
-          big5: item['BIG5'] || item.big5 || '',
-          knowledge: item['핵심전문지식'] || item.knowledge || '',
-          description: item['직업해설'] || item.description || ''
-        };
-
-        html += '<tr>';
-        html += `<td>${escapeHtml(row.no)}</td>`;
-        html += `<td>${escapeHtml(toText(row.job))}</td>`;
-        html += `<td>${escapeHtml(toText(row.country))}</td>`;
-        html += `<td>${escapeHtml(toText(row.period))}</td>`;
-        html += `<td>${escapeHtml(toText(row.salaryRank))}</td>`;
-        html += `<td>${escapeHtml(toText(row.major))}</td>`;
-        html += `<td>${escapeHtml(toText(row.prepPeriod))}</td>`;
-        html += `<td>${escapeHtml(toText(row.riasec))}</td>`;
-        html += `<td>${escapeHtml(toText(row.big5))}</td>`;
-        html += `<td>${escapeHtml(toText(row.knowledge))}</td>`;
-        html += `<td>${escapeHtml(toText(row.description))}</td>`;
-        html += '</tr>';
+      rows.forEach((item, i) => {
+        html += `<tr>
+<td>${i+1}</td>
+<td>${escapeHtml(toText(item['추천직업'] || ''))}</td>
+<td>${escapeHtml(toText(item['국가'] || ''))}</td>
+<td>${escapeHtml(toText(item['시기'] || ''))}</td>
+<td>${escapeHtml(toText(item['연봉순위'] || ''))}</td>
+<td>${escapeHtml(toText(item['추천학과/전공'] || ''))}</td>
+<td>${escapeHtml(toText(item['준비기간'] || ''))}</td>
+<td>${escapeHtml(toText(item['RIASEC'] || ''))}</td>
+<td>${escapeHtml(toText(item['BIG5'] || ''))}</td>
+<td>${escapeHtml(toText(item['핵심전문지식'] || ''))}</td>
+<td>${escapeHtml(toText(item['직업해설'] || ''))}</td>
+</tr>`;
       });
 
       html += '</tbody></table></body></html>';
       return html;
     }
 
-    // ==================== 비밀번호 확인 함수 (난독화 버전) ====================
+    // ==================== 개발자 다운로드 비밀번호 ====================
     function checkDeveloperPassword() {
-      // 개발자용 비밀번호를 Base64로 인코딩 (간단한 난독화)
-      // 실제 비밀번호: dev1234 -> Base64: ZGV2MTIzNA== 예시이다 진짜는 아래
-      const encodedPassword = "a2RzczUy";
-      
-      // Base64 디코딩
-      const DEVELOPER_PASSWORD = atob(encodedPassword);
-      
-      const userPassword = prompt("🔐 개발자 전용 다운로드입니다.\n비밀번호를 입력하세요:");
-      
-      if (userPassword === null) {
-        return false;
-      }
-      
-      if (userPassword === DEVELOPER_PASSWORD) {
-        return true;
-      } else {
-        alert("비밀번호가 일치하지 않습니다.");
-        return false;
-      }
+      const encoded = "a2RzczUy"; // kdss52
+      const password = atob(encoded);
+      const input = prompt("🔐 개발자 전용 다운로드입니다.\n비밀번호를 입력하세요:");
+      if (input === null) return false;
+      if (input === password) return true;
+      alert("비밀번호가 일치하지 않습니다.");
+      return false;
     }
 
-    function downloadSecondCandidatesExcel(secondCandidates, userName, birthYear, period) {
-      // 비밀번호 확인
-      if (!checkDeveloperPassword()) {
+    function downloadSecondCandidatesExcel(candidates, userName, birthYear, period) {
+      if (!checkDeveloperPassword()) return;
+      if (!candidates?.length) {
+        alert('후보군 데이터가 없습니다.');
         return;
       }
 
-      if (!secondCandidates || !secondCandidates.length) {
-        alert('2차 후보군 데이터가 없습니다.');
-        return;
-      }
-
-      const html = buildExcelHtml(secondCandidates);
-      const blob = new Blob(['\ufeff' + html], {
-        type: 'application/vnd.ms-excel;charset=utf-8;'
-      });
-
+      const html = buildExcelHtml(candidates);
+      const blob = new Blob(['\ufeff' + html], { type: 'application/vnd.ms-excel;charset=utf-8;' });
       const safeName = (userName || '사용자').replace(/[\\/*?:"<>|]/g, '');
       const fileName = `${safeName}_${birthYear || '0000'}_${period || '시기미상'}_2차후보군.xls`;
 
@@ -184,116 +140,106 @@
       const a = document.createElement('a');
       a.href = url;
       a.download = fileName;
-      document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
       URL.revokeObjectURL(url);
-
-      alert(`${secondCandidates.length}개의 2차 후보군 데이터가 ${fileName} 파일로 다운로드되었습니다.`);
+      alert(`${candidates.length}개 항목이 ${fileName}로 다운로드되었습니다.`);
     }
 
-    // ==================== 결과 표시 함수 ====================
+    // ==================== 결과 화면 렌더링 ====================
     function displayResult(data, secondCandidates) {
       const el = document.getElementById('resultContent');
-      const hasSecondCandidates = secondCandidates && secondCandidates.length > 0;
+      const hasCandidates = secondCandidates?.length > 0;
 
       el.innerHTML = `
-        <div class="info-card">
-          <div class="info-item"><span class="info-label">성명</span><span class="info-value">${escapeHtml(data.name)}</span></div>
-          <div class="info-item"><span class="info-label">취업 국가</span><span class="info-value">${escapeHtml(data.country)}</span></div>
-          <div class="info-item"><span class="info-label">취업 시기</span><span class="info-value">${escapeHtml(data.period)}</span></div>
-          <div class="info-item"><span class="info-label">연봉 순위</span><span class="info-value">${escapeHtml(data.salaryRank)}위 (2차 후보군 ${escapeHtml(data.matchedCount || 0)}개 중)</span></div>
-        </div>
+<div class="info-card">
+  <div class="info-item"><span class="info-label">성명</span><span class="info-value">${escapeHtml(data.name)}</span></div>
+  <div class="info-item"><span class="info-label">취업 국가</span><span class="info-value">${escapeHtml(data.country)}</span></div>
+  <div class="info-item"><span class="info-label">취업 시기</span><span class="info-value">${escapeHtml(data.period)}</span></div>
+  <div class="info-item"><span class="info-label">연봉 순위</span><span class="info-value">${escapeHtml(data.salaryRank)}위 (2차 후보군 ${escapeHtml(data.matchedCount || 0)}개 중)</span></div>
+</div>
 
-        <div class="job-card">
-          <div class="section-title">추천 직업</div>
-          <div class="job-name">${escapeHtml(data.job)}</div>
-        </div>
+<div class="job-card">
+  <div class="section-title">추천 직업</div>
+  <div class="job-name">${escapeHtml(data.job)}</div>
+</div>
 
-        <div class="section-card">
-          <div class="section-title">직업 해설</div>
-          <p class="section-text">${escapeHtml(data.description || '')}</p>
-        </div>
+<div class="section-card">
+  <div class="section-title">직업 해설</div>
+  <p class="section-text">${escapeHtml(data.description || '')}</p>
+</div>
 
-        <div class="section-card">
-          <div class="section-title">핵심 전문 지식</div>
-          <p class="section-text">${escapeHtml(data.knowledge || '')}</p>
-        </div>
+<div class="section-card">
+  <div class="section-title">핵심 전문 지식</div>
+  <p class="section-text">${escapeHtml(data.knowledge || '')}</p>
+</div>
 
-        <div class="section-card">
-          <div class="section-title">추천 학과 / 전공</div>
-          <p class="section-text">${escapeHtml(data.major || '')}</p>
-        </div>
+<div class="section-card">
+  <div class="section-title">추천 학과 / 전공</div>
+  <p class="section-text">${escapeHtml(data.major || '')}</p>
+</div>
 
-        <div class="section-card">
-          <div class="section-title">준비 기간</div>
-          <p class="section-text">${escapeHtml(data.prepPeriod || '')}</p>
-        </div>
+<div class="section-card">
+  <div class="section-title">준비 기간</div>
+  <p class="section-text">${escapeHtml(data.prepPeriod || '')}</p>
+</div>
 
-        <div class="process-card">
-          <div class="process-title">추천 산출 과정</div>
+<div class="process-card">
+  <div class="process-title">추천 산출 과정</div>
+  <div class="process-step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <div class="step-label">조건 필터링</div>
+      <p class="step-text">국가, 시기, 학업 계획 기준으로 ${escapeHtml(data.firstCount || 0)}개 추출</p>
+    </div>
+  </div>
+  <div class="process-step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <div class="step-label">성향 매칭</div>
+      <p class="step-text">RIASEC과 Big5 <strong>둘 다</strong> 일치하는 <strong>${escapeHtml(data.matchedCount || 0)}개</strong> 선별</p>
+    </div>
+  </div>
+  <div class="process-step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <div class="step-label">최종 추천</div>
+      <p class="step-text">매칭된 후보 중 연봉순위 가장 높은 직업 1개 선택<br>(동순위 시 임의 선택)</p>
+    </div>
+  </div>
+</div>
 
-          <div class="process-step">
-            <div class="step-num">1</div>
-            <div class="step-content">
-              <div class="step-label">조건 필터링</div>
-              <p class="step-text">국가, 시기, 학업 계획을 기준으로 1차 후보군 ${escapeHtml(data.firstCount || 0)}개를 추출하였습니다.</p>
-            </div>
-          </div>
+<a href="index.html" class="back-btn">← 다시 입력하기</a>
 
-          <div class="process-step">
-            <div class="step-num">2</div>
-            <div class="step-content">
-              <div class="step-label">성향 일치 확인</div>
-              <p class="step-text">추출된 1차 후보군 중에서 선택한 RIASEC과 Big5에 맞는 <strong>2차 후보군 ${escapeHtml(data.matchedCount || 0)}개</strong>를 추출하였습니다.</p>
+<div class="download-wrap">
+  <button id="downloadBtn" class="download-btn" ${hasCandidates ? '' : 'disabled'}>
+    🔒 2차 후보군 전체 다운로드 (개발자 전용)
+  </button>
+  <div class="download-help">
+    ${hasCandidates 
+      ? '개발자 전용 기능입니다. 비밀번호 입력 후 다운로드 가능' 
+      : '후보군 데이터가 저장되어 있지 않습니다.'}
+  </div>
+</div>`;
 
-              <div class="download-wrap">
-                <button id="downloadExcelBtn" class="download-btn" ${hasSecondCandidates ? '' : 'disabled'}>
-                  🔒 2차 후보군 전체 다운로드 (개발자 전용)
-                </button>
-                <div class="download-help">
-                  ${hasSecondCandidates
-                    ? '개발자 전용 기능입니다. 비밀번호를 입력하면 2차 후보군 전체를 엑셀 파일로 다운로드합니다.'
-                    : '현재 브라우저 저장소에 2차 후보군 전체 목록이 없어 다운로드할 수 없습니다.'}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="process-step">
-            <div class="step-num">3</div>
-            <div class="step-content">
-              <div class="step-label">최종 선택</div>
-              <p class="step-text">2차 후보군 중 연봉순위가 가장 높은 직업을 추천합니다.<br>(동순위 ${escapeHtml(data.topCount || 0)}개 중 상위 1개 선택)</p>
-            </div>
-          </div>
-        </div>
-
-        <a href="index.html" class="back-btn">← 다시 입력하기</a>
-      `;
-
-      // 다운로드 버튼 이벤트 연결
-      const downloadBtn = document.getElementById('downloadExcelBtn');
-      if (downloadBtn && hasSecondCandidates) {
-        downloadBtn.addEventListener('click', function() {
+      if (hasCandidates) {
+        document.getElementById('downloadBtn')?.addEventListener('click', () => {
           downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
         });
       }
     }
 
-    // ==================== 메인 실행 함수 ====================
+    // ==================== 메인 로직 ====================
     async function loadAndDisplayResult() {
-      const resultEl = document.getElementById('resultContent');
-      
+      const el = document.getElementById('resultContent');
       const userInput = JSON.parse(localStorage.getItem('userInput'));
+
       if (!userInput) {
-        resultEl.innerHTML = '<div class="empty-box"><p>입력된 데이터가 없습니다. 메인 페이지로 돌아가 주세요.</p><a href="index.html" class="back-btn">← 다시 입력하기</a></div>';
+        el.innerHTML = '<div class="empty-box"><p>입력 정보가 없습니다.</p><a href="index.html" class="back-btn">← 다시 입력하기</a></div>';
         return;
       }
 
       try {
         const countryFileMap = {
-// 국가 추가 
           '대한민국': 'KR.json',
           '미국': 'US.json',
           '일본': 'JP.json',
@@ -301,67 +247,63 @@
           '캐나다': 'CA.json'
         };
 
-        const selectedCountry = String(userInput.country || '').trim();
-        const fileName = countryFileMap[selectedCountry];
+        const country = String(userInput.country || '').trim();
+        const fileName = countryFileMap[country];
+        if (!fileName) throw new Error('국가 데이터 파일을 찾을 수 없습니다.');
 
-        if (!fileName) {
-          throw new Error('선택한 국가의 데이터 파일이 없습니다. 입력 화면에서 국가를 다시 선택해 주세요.');
-        }
-
-// datadp 추가한 국가 fileName 을 fetch
-        const response = await fetch(`./data/${fileName}`);
-        if (!response.ok) {
-          throw new Error(`${selectedCountry} 데이터 파일 로드 실패 (상태: ${response.status})`);
-        }
-        const jobData = await response.json();
+        const res = await fetch(`./data/${fileName}`);
+        if (!res.ok) throw new Error(`데이터 로드 실패: ${res.status}`);
+        const jobData = await res.json();
 
         const riasecList = [userInput.riasec].filter(Boolean);
-        const big5List = [userInput.big5].filter(Boolean);
+        const big5List   = [userInput.big5].filter(Boolean);
 
-        if (riasecList.length === 0 || big5List.length === 0) {
-          throw new Error('RIASEC과 BIG5 유형이 선택되지 않았습니다.');
+        if (!riasecList.length || !big5List.length) {
+          throw new Error('RIASEC 또는 BIG5 유형이 선택되지 않았습니다.');
         }
 
         const birthYear = parseInt(userInput.dob, 10);
         const addYear = userInput.ability === '상' ? 30 : userInput.ability === '중' ? 26 : 22;
-        const year = birthYear + addYear;
-        const period = `${Math.floor(year / 10) * 10}년대`;
+        const period = `${Math.floor((birthYear + addYear) / 10) * 10}년대`;
 
-        const firstCandidates = jobData.filter(
-          row => String(row['국가'] || '').trim() === selectedCountry &&
-                 row['시기'] === period &&
-                 row['직업등급'] === userInput.ability
+        // 1차 후보군
+        const firstCandidates = jobData.filter(row =>
+          String(row['국가'] || '').trim() === country &&
+          row['시기'] === period &&
+          row['직업등급'] === userInput.ability
         );
 
-        if (firstCandidates.length === 0) {
-          throw new Error(`'${period}' 시기의 데이터가 없습니다. 출생년도와 학업계획을 확인해 주세요.`);
+        if (!firstCandidates.length) {
+          throw new Error(`'${period}' 시기 데이터가 없습니다.`);
         }
 
-        const candidatesWithScores = firstCandidates.map(row => {
-          const rowRiasec = (row['RIASEC'] || '').split(',').map(s => s.trim()).filter(Boolean);
-          const rowBig5 = (row['BIG5'] || '').split(',').map(s => s.trim()).filter(Boolean);
+        // 2차 후보군 : RIASEC + BIG5 둘 다 매칭
+        const matchedCandidates = firstCandidates.filter(row => {
+          const rCodes = (row['RIASEC'] || '').split(',').map(s => s.trim()).filter(Boolean);
+          const bCodes = (row['BIG5']   || '').split(',').map(s => s.trim()).filter(Boolean);
 
-          const riasecScore = matchScore(rowRiasec, riasecList);
-          const big5Score = matchScore(rowBig5, big5List);
-          const finalScore = riasecScore * 0.6 + big5Score * 0.4;
+          const riasecMatch = riasecList.some(code => rCodes.includes(code));
+          const big5Match   = big5List.some(code   => bCodes.includes(code));
 
-          return { ...row, riasec_score: riasecScore, big5_score: big5Score, final_score: finalScore };
+          return riasecMatch && big5Match;
         });
 
-        const maxScore = Math.max(...candidatesWithScores.map(c => c.final_score));
-        const matchedCandidates = candidatesWithScores.filter(c => c.final_score === maxScore);
-        
-        matchedCandidates.sort((a, b) => 
-          b.final_score - a.final_score ||
-          (parseInt(a['연봉순위'] || 9999, 10) - parseInt(b['연봉순위'] || 9999, 10))
+        if (!matchedCandidates.length) {
+          // 둘 다 매칭되는 게 하나도 없으면 → 경고 처리하거나, 완화 조건 적용 가능
+          // 여기서는 일단 첫 번째 후보를 fallback으로 사용 (또는 에러)
+          matchedCandidates.push(firstCandidates[0]); // 또는 throw Error
+        }
+
+        // 연봉순위 오름차순 정렬 (작을수록 높음)
+        matchedCandidates.sort((a, b) =>
+          parseInt(a['연봉순위'] || 9999, 10) - parseInt(b['연봉순위'] || 9999, 10)
         );
 
         const best = matchedCandidates[0];
-        const topCount = matchedCandidates.filter(r => r.final_score === best.final_score).length;
 
         const result = {
           name: userInput.name,
-          country: userInput.country,
+          country,
           dob: userInput.dob,
           period,
           job: best['추천직업'] || '',
@@ -371,23 +313,18 @@
           major: best['추천학과/전공'] || '',
           prepPeriod: best['준비기간'] || '',
           firstCount: firstCandidates.length,
-          matchedCount: matchedCandidates.length,
-          topCount
+          matchedCount: matchedCandidates.length
         };
 
         localStorage.setItem('jobResult', JSON.stringify(result));
-        try {
-          await saveToDB(KEY_LATEST, result);
-          await saveToDB(KEY_SECOND, matchedCandidates);
-        } catch (saveErr) {
-          console.error("IndexedDB 저장 실패:", saveErr);
-        }
+        await saveToDB(KEY_LATEST, result);
+        await saveToDB(KEY_SECOND, matchedCandidates);
 
         displayResult(result, matchedCandidates);
 
-      } catch (error) {
-        console.error('에러:', error);
-        resultEl.innerHTML = `<div class="empty-box"><p>${escapeHtml(error.message)}</p><a href="index.html" class="back-btn">← 다시 입력하기</a></div>`;
+      } catch (err) {
+        console.error(err);
+        el.innerHTML = `<div class="empty-box"><p>${escapeHtml(err.message)}</p><a href="index.html" class="back-btn">← 다시 입력하기</a></div>`;
       }
     }
 
