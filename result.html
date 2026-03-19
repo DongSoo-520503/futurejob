@@ -260,18 +260,17 @@ th{background:#dbeafe;font-weight:700;}</style></head><body><table><thead><tr>`;
          '프랑스': 'FR.json',
          '이탈리아': 'IT.json',
          '스위스': 'CH.json',
-         '튀르키예': 'TR.json'
-
-      // 다음 수정시 , 바로 위 '나라': '**.json' 끝에 , 쉼표 추가. 추가한 나라 끝은 , 쉼표 제거.
-
-        // '폴란드': 'PL.json',
-        // '멕시코': 'MX.json',
-        // '브라질': 'BR.json',
-        // '남아프리카공화국': 'ZA.json',
-        // '나이지리아': 'NG.json',
-        // '러시아': 'RU.json'
+         '튀르키예': 'TR.json',
+         '폴란드': 'PL.json',
+         '멕시코': 'MX.json',
+         '브라질': 'BR.json',
+         '남아프리카공화국': 'ZA.json',
+         '나이지리아': 'NG.json',
+         '러시아': 'RU.json'
 
         };
+ 
+   // 다음 추가시 , 바로 위 '나라': '**.json' 끝에 , 쉼표 추가. 추가한 나라 끝은 , 쉼표 제거.
 
         const country = String(userInput.country || '').trim();
         const fileName = countryFileMap[country];
