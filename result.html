@@ -208,25 +208,27 @@ th{background:#dbeafe;font-weight:700;}</style></head><body><table><thead><tr>`;
   </div>
 </div>
 
+// result.html 내의 displayResult 함수 마지막 부분을 다음과 같이 수정하세요.
+
 <a href="index.html" class="back-btn">← 다시 입력하기</a>
 
 <div class="download-wrap">
   <button id="downloadBtn" class="download-btn" ${hasCandidates ? '' : 'disabled'}>
-    🔒 2차 후보군 전체 다운로드 (개발자 전용)
+    🔒 2차 후보군 전체 다운로드 (개발자전용 비밀번호 필요)
   </button>
-  <div class="download-help">
-    ${hasCandidates 
-      ? '개발자 전용 기능입니다. 비밀번호 입력 후 다운로드 가능' 
-      : '후보군 데이터가 저장되어 있지 않습니다.'}
-  </div>
+  
+  <button class="download-btn" style="margin-top:10px; background-color:#fee500; color:#000;" 
+          onclick="window.open('https://open.kakao.com/o/g6YIdfmi')">
+    개발자앞 직접 문의
+  </button>
 </div>`;
 
-      if (hasCandidates) {
-        document.getElementById('downloadBtn')?.addEventListener('click', () => {
-          downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
-        });
-      }
-    }
+// 이벤트 리스너가 정상 작동하도록 기존 로직 유지
+if (hasCandidates) {
+  document.getElementById('downloadBtn')?.addEventListener('click', () => {
+    downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
+  });
+}    }
 
     // ==================== 메인 로직 ====================
     async function loadAndDisplayResult() {
