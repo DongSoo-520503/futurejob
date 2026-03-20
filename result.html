@@ -73,46 +73,199 @@
     }
 
     // ==================== 엑셀 생성 함수 ====================
-    function buildExcelHtml(rows) {
-      const headers = [
-        '번호', '직업명', '국가', '취업 시기', '연봉 순위',
-        '추천 학과/전공', '준비 기간', 'RIASEC', 'Big5',
-        '핵심 전문 지식', '직업 해설'
-      ];
-
-      let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" 
-xmlns:x="urn:schemas-microsoft-com:office:excel" 
-xmlns="http://www.w3.org/TR/REC-html40">
-<head><meta charset="UTF-8">
-<!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
-<x:Name>2nd Candidates</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
-<style>table{border-collapse:collapse;font-family:Malgun Gothic,Arial,sans-serif;font-size:12pt;}
-th,td{border:1px solid #999;padding:6px 8px;vertical-align:top;}
-th{background:#dbeafe;font-weight:700;}</style></head><body><table><thead><tr>`;
-
-      headers.forEach(h => html += `<th>${escapeHtml(h)}</th>`);
-      html += '</tr></thead><tbody>';
-
-      rows.forEach((item, i) => {
-        html += `<tr>
-<td>${i+1}</td>
-<td>${escapeHtml(toText(item['추천직업'] || ''))}</td>
-<td>${escapeHtml(toText(item['국가'] || ''))}</td>
-<td>${escapeHtml(toText(item['시기'] || ''))}</td>
-<td>${escapeHtml(toText(item['연봉순위'] || ''))}</td>
-<td>${escapeHtml(toText(item['추천학과/전공'] || ''))}</td>
-<td>${escapeHtml(toText(item['준비기간'] || ''))}</td>
-<td>${escapeHtml(toText(item['RIASEC'] || ''))}</td>
-<td>${escapeHtml(toText(item['BIG5'] || ''))}</td>
-<td>${escapeHtml(toText(item['핵심전문지식'] || ''))}</td>
-<td>${escapeHtml(toText(item['직업해설'] || ''))}</td>
-</tr>`;
-      });
-
-      html += '</tbody></table></body></html>';
-      return html;
+    function normalizeStudyPlan(userInput) {
+      return toText(
+        userInput?.studyPlan ||
+        userInput?.educationPlan ||
+        userInput?.plan ||
+        userInput?.abilityLabel ||
+        userInput?.ability ||
+        ''
+      );
     }
 
+    function normalizeRiasec(userInput) {
+      return toText(
+        userInput?.riasecLabel ||
+        userInput?.riasecText ||
+        userInput?.riasecName ||
+        userInput?.riasec ||
+        ''
+      );
+    }
+
+    function normalizeBig5(userInput) {
+      return toText(
+        userInput?.big5Label ||
+        userInput?.big5Text ||
+        userInput?.big5Name ||
+        userInput?.big5 ||
+        ''
+      );
+    }
+
+    function buildExcelExportInfo(userInput, fallback = {}) {
+      const birthYear = toText(userInput?.dob || fallback.birthYear || '');
+      const ability = toText(userInput?.abilityLabel || userInput?.ability || fallback.studyPlan || '');
+      return {
+        name: toText(userInput?.name || fallback.name || '사용자'),
+        birthYear,
+        country: toText(userInput?.country || fallback.country || ''),
+        studyPlan: normalizeStudyPlan(userInput) || ability,
+        period: toText(fallback.period || userInput?.period || ''),
+        riasec: normalizeRiasec(userInput),
+        big5: normalizeBig5(userInput)
+      };
+    }
+
+    function loadExcelJs() {
+      if (window.ExcelJS) return Promise.resolve(window.ExcelJS);
+
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js';
+        script.onload = () => {
+          if (window.ExcelJS) resolve(window.ExcelJS);
+          else reject(new Error('ExcelJS 로드에 실패했습니다.'));
+        };
+        script.onerror = () => reject(new Error('ExcelJS 스크립트를 불러오지 못했습니다.'));
+        document.head.appendChild(script);
+      });
+    }
+
+    async function buildStyledWorkbook(rows, exportInfo = {}) {
+      const ExcelJS = await loadExcelJs();
+
+      const workbook = new ExcelJS.Workbook();
+      workbook.creator = 'ChatGPT';
+      workbook.created = new Date();
+
+      const ws = workbook.addWorksheet('2nd Candidates', {
+        views: [{ showGridLines: true }]
+      });
+
+      ws.columns = [
+        { key: 'A', width: 13.0 },
+        { key: 'B', width: 10.5 },
+        { key: 'C', width: 22.625 },
+        { key: 'D', width: 13.0 },
+        { key: 'E', width: 40.625 },
+        { key: 'F', width: 31.0 },
+        { key: 'G', width: 28.75 },
+        { key: 'H', width: 20.0 }
+      ];
+
+      const fillBlue = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'D9E2F3' }
+      };
+
+      const mediumBorder = {
+        top: { style: 'medium', color: { argb: '7F7F7F' } },
+        left: { style: 'medium', color: { argb: '7F7F7F' } },
+        bottom: { style: 'medium', color: { argb: '7F7F7F' } },
+        right: { style: 'medium', color: { argb: '7F7F7F' } }
+      };
+
+      const thinBorder = {
+        top: { style: 'thin', color: { argb: 'BFBFBF' } },
+        left: { style: 'thin', color: { argb: 'BFBFBF' } },
+        bottom: { style: 'thin', color: { argb: 'BFBFBF' } },
+        right: { style: 'thin', color: { argb: 'BFBFBF' } }
+      };
+
+      const topLabelStyle = {
+        font: { name: '맑은 고딕', size: 12, bold: true },
+        fill: fillBlue,
+        border: mediumBorder,
+        alignment: { vertical: 'middle', horizontal: 'left', wrapText: true }
+      };
+
+      const topValueStyle = {
+        font: { name: '맑은 고딕', size: 12, bold: false },
+        fill: fillBlue,
+        border: mediumBorder,
+        alignment: { vertical: 'middle', horizontal: 'left', wrapText: true }
+      };
+
+      const topEmphasisStyle = {
+        font: { name: '맑은 고딕', size: 12, bold: true },
+        fill: fillBlue,
+        border: mediumBorder,
+        alignment: { vertical: 'middle', horizontal: 'left', wrapText: true }
+      };
+
+      const headerStyle = {
+        font: { name: '맑은 고딕', size: 12, bold: true },
+        border: mediumBorder,
+        alignment: { vertical: 'middle', horizontal: 'center', wrapText: true }
+      };
+
+      const bodyStyle = {
+        font: { name: '맑은 고딕', size: 12, bold: false },
+        border: thinBorder,
+        alignment: { vertical: 'top', horizontal: 'left', wrapText: true }
+      };
+
+      const bodyCenterStyle = {
+        font: { name: '맑은 고딕', size: 12, bold: false },
+        border: thinBorder,
+        alignment: { vertical: 'top', horizontal: 'center', wrapText: true }
+      };
+
+      const blankRow = () => ws.addRow([]);
+
+      blankRow();
+      const r2 = ws.addRow([null, '성명', exportInfo.name || '사용자', exportInfo.birthYear ? `${exportInfo.birthYear}년생` : '', null, null, null, null]);
+      const r3 = ws.addRow([null, '취업국가', '학업계획', '취업 시기', '직업흥미유형 (RIASEC)', '개인 성향 (Big5)', null, null]);
+      const r4 = ws.addRow([null, exportInfo.country || '', exportInfo.studyPlan || '', exportInfo.period || '', exportInfo.riasec || '', exportInfo.big5 || '', null, null]);
+      blankRow();
+      const r6 = ws.addRow([null, '연봉순위', '직업명', '직업분류', '직업 해설', '핵심전문지식', '추천학과/전공', '준비기간']);
+
+      [r2, r3, r4, r6].forEach(row => row.height = 24);
+
+      ['B2','C2','D2'].forEach(addr => Object.assign(ws.getCell(addr), { style: addr === 'B2' ? topLabelStyle : (addr === 'C2' ? topEmphasisStyle : topEmphasisStyle) }));
+      ['B3','C3','D3','E3','F3'].forEach(addr => Object.assign(ws.getCell(addr), { style: topLabelStyle }));
+      ['B4','C4','D4','E4','F4'].forEach(addr => Object.assign(ws.getCell(addr), { style: topValueStyle }));
+      ['B6','C6','D6','E6','F6','G6','H6'].forEach(addr => Object.assign(ws.getCell(addr), { style: headerStyle }));
+
+      rows.forEach((item) => {
+        const row = ws.addRow([
+          null,
+          item['연봉순위'] || '',
+          item['추천직업'] || '',
+          item['직업분류'] || '',
+          item['직업해설'] || '',
+          item['핵심전문지식'] || '',
+          item['추천학과/전공'] || '',
+          item['준비기간'] || ''
+        ]);
+
+        row.height = 74;
+        row.getCell(2).style = bodyCenterStyle;
+        for (let i = 3; i <= 8; i += 1) {
+          row.getCell(i).style = bodyStyle;
+        }
+      });
+
+      ws.pageSetup = {
+        paperSize: 9,
+        orientation: 'landscape',
+        fitToPage: true,
+        fitToWidth: 1,
+        fitToHeight: 0,
+        margins: {
+          left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2
+        }
+      };
+
+      ws.getColumn('A').eachCell((cell) => {
+        cell.border = {};
+      });
+
+      return workbook;
+    }
     // ==================== 개발자 다운로드 비밀번호 ====================
     function checkDeveloperPassword() {
       const encoded = "a2RzczUy"; // 난독화
@@ -124,25 +277,43 @@ th{background:#dbeafe;font-weight:700;}</style></head><body><table><thead><tr>`;
       return false;
     }
 
-    function downloadSecondCandidatesExcel(candidates, userName, birthYear, period) {
+    async function downloadSecondCandidatesExcel(candidates, userName, birthYear, period) {
       if (!checkDeveloperPassword()) return;
       if (!candidates?.length) {
         alert('후보군 데이터가 없습니다.');
         return;
       }
 
-      const html = buildExcelHtml(candidates);
-      const blob = new Blob(['\ufeff' + html], { type: 'application/vnd.ms-excel;charset=utf-8;' });
-      const safeName = (userName || '사용자').replace(/[\\/*?:"<>|]/g, '');
-      const fileName = `${safeName}_${birthYear || '0000'}_${period || '시기미상'}_2차후보군.xls`;
+      try {
+        const userInput = JSON.parse(localStorage.getItem('userInput') || '{}');
+        const exportInfo = buildExcelExportInfo(userInput, {
+          name: userName,
+          birthYear,
+          period
+        });
 
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      a.click();
-      URL.revokeObjectURL(url);
-      alert(`${candidates.length}개 항목이 ${fileName}로 다운로드되었습니다.`);
+        const workbook = await buildStyledWorkbook(candidates, exportInfo);
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([
+          buffer
+        ], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        const safeName = (userName || exportInfo.name || '사용자').replace(/[\\/*?:"<>|]/g, '');
+        const fileName = `${safeName}_${birthYear || exportInfo.birthYear || '0000'}_${period || exportInfo.period || '시기미상'}_2차후보군.xlsx`;
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        alert(`${candidates.length}개 항목이 ${fileName}로 다운로드되었습니다.`);
+      } catch (err) {
+        console.error('엑셀 생성 오류:', err);
+        alert('엑셀 파일 생성 중 오류가 발생했습니다. 콘솔을 확인해 주세요.');
+      }
     }
 
     // ==================== 결과 화면 렌더링 ====================
