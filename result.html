@@ -155,12 +155,17 @@ th{background:#dbeafe;font-weight:700;}</style></head><body><table><thead><tr>`;
   <div class="info-item"><span class="info-label">성명</span><span class="info-value">${escapeHtml(data.name)}</span></div>
   <div class="info-item"><span class="info-label">취업 국가</span><span class="info-value">${escapeHtml(data.country)}</span></div>
   <div class="info-item"><span class="info-label">취업 시기</span><span class="info-value">${escapeHtml(data.period)}</span></div>
-  <div class="info-item"><span class="info-label">연봉 순위</span><span class="info-value">${escapeHtml(data.salaryRank)}위 (2차 후보군 ${escapeHtml(data.matchedCount || 0)}개 중)</span></div>
+  <div class="info-item"><span class="info-label">연봉 순위</span><span class="info-value">${escapeHtml(data.salaryRank)}위 (성향매칭 후보 ${escapeHtml(data.matchedCount || 0)}개 중)</span></div>
 </div>
 
 <div class="job-card">
   <div class="section-title">추천 직업</div>
   <div class="job-name">${escapeHtml(data.job)}</div>
+</div>
+
+<div class="section-card">
+  <div class="section-title">직업 분류</div>
+  <p class="section-text">${escapeHtml(data.jobCategory || '정보 없음')}</p>
 </div>
 
 <div class="section-card">
@@ -203,22 +208,26 @@ th{background:#dbeafe;font-weight:700;}</style></head><body><table><thead><tr>`;
     <div class="step-num">3</div>
     <div class="step-content">
       <div class="step-label">최종 추천</div>
-      <p class="step-text">매칭된 후보 중 연봉순위 가장 높은 직업 1개 선택<br>(동순위 시 임의 선택)</p>
+      <p class="step-text">매칭된 후보 중 연봉순위 가장 높은 직업 1개 선택</p>
     </div>
   </div>
 </div>
-
 
 <a href="index.html" class="back-btn">← 다시 입력하기</a>
 
 <div class="download-wrap">
   <button id="downloadBtn" class="download-btn" ${hasCandidates ? '' : 'disabled'}>
-    🔒 2차 후보군 전체 다운로드 (개발자전용 비밀번호 필요)
+    🔒 성향매칭${escapeHtml(data.matchedCount || 0)}개 전체다운로드(비밀번호)
+  </button>
+
+  <button class="download-btn" style="margin-top:10px; background-color:#475569; color:#fff;" 
+          onclick="window.open('AI.html')">
+    🔍 모르는 용어,문장 AI에게 물어보기
   </button>
   
   <button class="download-btn" style="margin-top:10px; background-color:#fee500; color:#000;" 
           onclick="window.open('https://open.kakao.com/o/g6YIdfmi')">
-    개발자앞 직접 문의 ( 카카오 오픈채팅 참여 )
+    🔍개발자앞 직접문의(카카오 오픈채팅)
   </button>
 </div>`;
 
@@ -227,7 +236,8 @@ if (hasCandidates) {
   document.getElementById('downloadBtn')?.addEventListener('click', () => {
     downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
   });
-}    }
+}
+    }
 
     // ==================== 메인 로직 ====================
     async function loadAndDisplayResult() {
@@ -241,7 +251,6 @@ if (hasCandidates) {
 
       try {
         const countryFileMap = {
-
          '대한민국': 'KR.json',
          '미국': 'US.json',
          '일본': 'JP.json',
@@ -268,10 +277,7 @@ if (hasCandidates) {
          '남아프리카공화국': 'ZA.json',
          '나이지리아': 'NG.json',
          '러시아': 'RU.json'
-
         };
- 
-   // 다음 추가시 , 바로 위 '나라': '**.json' 끝에 , 쉼표 추가. 추가한 나라 끝은 , 쉼표 제거.
 
         const country = String(userInput.country || '').trim();
         const fileName = countryFileMap[country];
@@ -315,9 +321,7 @@ if (hasCandidates) {
         });
 
         if (!matchedCandidates.length) {
-          // 둘 다 매칭되는 게 하나도 없으면 → 경고 처리하거나, 완화 조건 적용 가능
-          // 여기서는 일단 첫 번째 후보를 fallback으로 사용 (또는 에러)
-          matchedCandidates.push(firstCandidates[0]); // 또는 throw Error
+          matchedCandidates.push(firstCandidates[0]); // fallback
         }
 
         // 연봉순위 오름차순 정렬 (작을수록 높음)
@@ -338,6 +342,7 @@ if (hasCandidates) {
           knowledge: best['핵심전문지식'] || '',
           major: best['추천학과/전공'] || '',
           prepPeriod: best['준비기간'] || '',
+          jobCategory: best['직업분류'] || '정보 없음',          // ← 추가된 부분
           firstCount: firstCandidates.length,
           matchedCount: matchedCandidates.length
         };
