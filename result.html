@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>추천 결과</title>
+  <title>미래직업 추천결과</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h4>미래 직업 추천 결과</h4>
+      <h4>미래직업 추천결과</h4>
     </div>
 
     <div id="resultContent">
@@ -115,7 +115,7 @@ th{background:#dbeafe;font-weight:700;}</style></head><body><table><thead><tr>`;
 
     // ==================== 개발자 다운로드 비밀번호 ====================
     function checkDeveloperPassword() {
-      const encoded = "a2RzczUy"; // kdss52
+      const encoded = "a2RzczUy"; // 난독화
       const password = atob(encoded);
       const input = prompt("🔐 개발자 전용 다운로드입니다.\n비밀번호를 입력하세요:");
       if (input === null) return false;
