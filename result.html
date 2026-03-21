@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>미래직업 추천결과</title>
+  <meta name="description" content="개인 입력값을 바탕으로 산출된 미래직업 추천 결과 페이지">
+  <meta name="robots" content="noindex, nofollow, noarchive">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
@@ -45,6 +47,21 @@
       if (Array.isArray(value)) return value.join(', ');
       if (value === null || value === undefined) return '';
       return String(value);
+    }
+
+    function updateResultMeta(data) {
+      const title = `${data.job || '미래직업 추천결과'} | FutureJob`;
+      document.title = title;
+
+      const descText = data.description && String(data.description).trim()
+        ? String(data.description).trim().slice(0, 140)
+        : '개인 입력값을 바탕으로 산출된 미래직업 추천 결과 페이지';
+
+      let descMeta = document.querySelector('meta[name="description"]');
+      if (descMeta) descMeta.setAttribute('content', descText);
+
+      let robotsMeta = document.querySelector('meta[name="robots"]');
+      if (robotsMeta) robotsMeta.setAttribute('content', 'noindex, nofollow, noarchive');
     }
 
     // ==================== IndexedDB 헬퍼 ====================
@@ -295,7 +312,7 @@
       }
 
       try {
-        const userInput = JSON.parse(localStorage.getItem('userInput') || '{}');
+        const userInput = JSON.parse(localStorage.getItem('futureJob_userInput') || '{}');
         const exportInfo = buildExcelExportInfo(userInput, {
           name: userName,
           birthYear,
@@ -328,6 +345,8 @@
 
     // ==================== 결과 화면 렌더링 ====================
     function displayResult(data, secondCandidates) {
+      updateResultMeta(data);
+
       const el = document.getElementById('resultContent');
       const hasCandidates = secondCandidates?.length > 0;
 
@@ -450,7 +469,7 @@ if (hasCandidates) {
     // ==================== 메인 로직 ====================
     async function loadAndDisplayResult() {
       const el = document.getElementById('resultContent');
-      const userInput = JSON.parse(localStorage.getItem('userInput'));
+      const userInput = JSON.parse(localStorage.getItem('futureJob_userInput'));
 
       if (!userInput) {
         el.innerHTML = '<div class="empty-box"><p>입력 정보가 없습니다.</p><a href="index.html" class="back-btn">← 다시 입력하기</a></div>';
@@ -518,19 +537,18 @@ if (hasCandidates) {
         }
 
         // 2차 후보군 : RIASEC + BIG5 둘 다 매칭
-        const matchedCandidates = firstCandidates.filter(row => {
-          const rCodes = (row['RIASEC'] || '').split(',').map(s => s.trim()).filter(Boolean);
-          const bCodes = (row['BIG5']   || '').split(',').map(s => s.trim()).filter(Boolean);
+        const realMatchedCandidates = firstCandidates.filter(row => {
+        const rCodes = (row['RIASEC'] || '').split(',').map(s => s.trim()).filter(Boolean);
+        const bCodes = (row['BIG5']   || '').split(',').map(s => s.trim()).filter(Boolean);
 
-          const riasecMatch = riasecList.some(code => rCodes.includes(code));
-          const big5Match   = big5List.some(code   => bCodes.includes(code));
+        const riasecMatch = riasecList.some(code => rCodes.includes(code));
+        const big5Match   = big5List.some(code   => bCodes.includes(code));
 
-          return riasecMatch && big5Match;
+        return riasecMatch && big5Match;
         });
 
-        if (!matchedCandidates.length) {
-          matchedCandidates.push(firstCandidates[0]); // fallback
-        }
+        const realMatchedCount = realMatchedCandidates.length;
+        const matchedCandidates = realMatchedCount ? [...realMatchedCandidates] : [firstCandidates[0]];
 
         // 연봉순위 오름차순 정렬 (작을수록 높음)
         matchedCandidates.sort((a, b) =>
@@ -550,9 +568,9 @@ if (hasCandidates) {
           knowledge: best['핵심전문지식'] || '',
           major: best['추천학과/전공'] || '',
           prepPeriod: best['준비기간'] || '',
-          jobCategory: best['직업분류'] || '정보 없음',          // ← 추가된 부분
+          jobCategory: best['직업분류'] || '정보 없음',
           firstCount: firstCandidates.length,
-          matchedCount: matchedCandidates.length
+          matchedCount: realMatchedCount
         };
 
         localStorage.setItem('jobResult', JSON.stringify(result));

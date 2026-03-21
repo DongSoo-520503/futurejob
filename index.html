@@ -9,19 +9,18 @@
   <link rel="stylesheet" href="style.css">
 
 <!-- 구글 검색 노출 -->
-  <meta name="description" content="AI 기반 미래 직업 추천 서비스">
-  <meta name="keywords" content="미래 직업, 직업 추천, AI 직업 테스트, 초등, 중학, 고등, 교육">
-  <meta name="author" content="FutureJob">
+<meta name="description" content="AI 기반으로 성향(RIASEC, Big5)과 학업 계획을 분석하여 미래 유망 직업을 추천해주는 서비스">
+<meta name="keywords" content="미래 직업, 직업 추천, AI 직업 테스트, 초등, 중학, 고등, 교육">
+<meta name="author" content="FutureJob">
+<meta name="robots" content="index, follow">
 
-  <!-- 모바일 최적화 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Open Graph (카톡, SNS 공유) -->
-  <meta property="og:title" content="Future Job Recommendation">
-  <meta property="og:description" content="AI 기반 미래 직업 추천 서비스">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.futurejob.site">
- 
+<!-- Open Graph (카톡, SNS 공유) -->
+<meta property="og:title" content="Future Job Recommendation">
+<meta property="og:description" content="AI 기반 미래 직업 추천 서비스">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.futurejob.site/">
+<meta property="og:image" content="https://www.futurejob.site/kdsimage.png">
+<link rel="canonical" href="https://www.futurejob.site/"> 
 <!-- 구글 검색 노출 끝 -->
 
 <!-- Google Search Console 한줄  -->
@@ -36,12 +35,8 @@
   gtag('config', 'G-T9440GDLT7');
 </script>
 
-<meta name="google-site-verification" content="pUQZD3iOFcU8lV2yrRhR96065eqW3iqYfB7qYglr8XY" />
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="canonical" href="https://www.futurejob.site">
-
 
 </head>
 <body>
@@ -149,7 +144,7 @@
       }
 
       // 사용자 데이터만 localStorage에 저장 (계산은 result.html에서 수행)
-      localStorage.setItem('userInput', JSON.stringify(userData));
+     localStorage.setItem('futureJob_userInput', JSON.stringify(userData));
       
       // 결과 페이지로 이동
       window.location.href = 'result.html';
@@ -157,4 +152,3 @@
   </script>
 </body>
 </html>
-

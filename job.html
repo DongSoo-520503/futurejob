@@ -10,9 +10,10 @@
 
   <meta name="description" content="미래 직업 상세 정보">
   <meta name="author" content="FutureJob">
+  <meta name="robots" content="index, follow">
   <meta property="og:title" content="직업 상세 | FutureJob">
   <meta property="og:description" content="미래 직업 상세 정보">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
   <meta property="og:url" content="https://www.futurejob.site/job.html">
   <link rel="canonical" href="https://www.futurejob.site/job.html">
 
@@ -101,11 +102,17 @@
       let descMeta = document.querySelector('meta[name="description"]');
       if (descMeta) descMeta.setAttribute('content', descText);
 
+      let robotsMeta = document.querySelector('meta[name="robots"]');
+      if (robotsMeta) robotsMeta.setAttribute('content', 'index, follow');
+
       let ogTitle = document.querySelector('meta[property="og:title"]');
       if (ogTitle) ogTitle.setAttribute('content', title);
 
       let ogDesc = document.querySelector('meta[property="og:description"]');
       if (ogDesc) ogDesc.setAttribute('content', descText);
+
+      let ogType = document.querySelector('meta[property="og:type"]');
+      if (ogType) ogType.setAttribute('content', 'article');
 
       let ogUrl = document.querySelector('meta[property="og:url"]');
       if (ogUrl) ogUrl.setAttribute('content', canonicalUrl);
