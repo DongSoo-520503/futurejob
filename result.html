@@ -339,11 +339,18 @@
   <div class="info-item"><span class="info-label">연봉 순위</span><span class="info-value">${escapeHtml(data.salaryRank)}위 (성향매칭 후보 ${escapeHtml(data.matchedCount || 0)}개 중)</span></div>
 </div>
 
+
 <div class="job-card">
   <div class="section-title">추천 직업</div>
-  <div class="job-name">${escapeHtml(data.job)}</div>
+  <div class="job-name">
+      <a
+          href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(data.job)}"
+          style="color:#e2e8f0; text-decoration:none; font-weight:700;"
+          >      
+           ${escapeHtml(data.job)}
+       </a>
+  </div>
 </div>
-
 <div class="section-card">
   <div class="section-title">직업 분류</div>
   <p class="section-text">${escapeHtml(data.jobCategory || '정보 없음')}</p>
@@ -394,11 +401,32 @@
   </div>
 </div>
 
+<div class="section-card">
+  <div class="section-title">성향매칭후보 상세보기</div>
+  <div class="section-text" style="white-space:normal; line-height:1.2;">
+
+${
+  hasCandidates
+    ? secondCandidates.map((item, index) => `
+      <div style="padding:0 0 6px 0; border-bottom:1px solid rgba(148,163,184,0.18);">
+        <a
+          href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(item['추천직업'] || '')}"
+          style="color:#2563eb; text-decoration:none; font-weight:600; line-height:1.3; display:inline-block;"
+        >
+          연봉순위 ${index + 1}위 ${escapeHtml(item['추천직업'] || '')}
+        </a>
+      </div>
+    `).join('')
+    : '후보 데이터가 없습니다.'
+}
+
+  </div>
+</div>
 <a href="index.html" class="back-btn">← 다시 입력하기</a>
 
 <div class="download-wrap">
   <button id="downloadBtn" class="download-btn" ${hasCandidates ? '' : 'disabled'}>
-    🔒 성향매칭 ${escapeHtml(data.matchedCount || 0)}개 전체 다운로드(비밀번호)
+    🔒 성향매칭 ${escapeHtml(data.matchedCount || 0)}개 전체 다운로드(r)
   </button>
 
   <button class="download-btn" style="margin-top:10px; background-color:#475569; color:#fff;" 

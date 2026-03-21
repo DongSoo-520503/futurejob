@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>직업 상세 | FutureJob</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <meta name="description" content="미래 직업 상세 정보">
+  <meta name="author" content="FutureJob">
+  <meta property="og:title" content="직업 상세 | FutureJob">
+  <meta property="og:description" content="미래 직업 상세 정보">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.futurejob.site/job.html">
+  <link rel="canonical" href="https://www.futurejob.site/job.html">
+
+  <!-- Google tag (gtag.js) 방문자 분석 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9440GDLT7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T9440GDLT7');
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h4>직업 상세 정보</h4>
+    </div>
+
+    <div id="jobDetailContent">
+      <div class="empty-box">
+        <p>직업 정보를 불러오는 중입니다...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return (params.get(name) || '').trim();
+    }
+
+    function toText(value) {
+      if (Array.isArray(value)) return value.join(', ');
+      if (value === null || value === undefined) return '';
+      return String(value);
+    }
+
+    const countryFileMap = {
+      '대한민국': 'KR.json',
+      '미국': 'US.json',
+      '일본': 'JP.json',
+      '독일': 'DE.json',
+      '캐나다': 'CA.json',
+      '호주': 'AU.json',
+      '싱가포르': 'SG.json',
+      '영국': 'UK.json',
+      '중국': 'CN.json',
+      '인도': 'IN.json',
+      '베트남': 'VN.json',
+      '태국': 'TH.json',
+      '인도네시아': 'ID.json',
+      '아랍에미리트': 'AE.json',
+      '사우디아라비아': 'SA.json',
+      '이스라엘': 'IL.json',
+      '프랑스': 'FR.json',
+      '이탈리아': 'IT.json',
+      '스위스': 'CH.json',
+      '튀르키예': 'TR.json',
+      '폴란드': 'PL.json',
+      '멕시코': 'MX.json',
+      '브라질': 'BR.json',
+      '남아프리카공화국': 'ZA.json',
+      '나이지리아': 'NG.json',
+      '러시아': 'RU.json'
+    };
+
+    function updateMeta(jobName, country, description) {
+      const title = `${jobName} | ${country} | FutureJob`;
+      document.title = title;
+
+      const descText = description && description.trim()
+        ? description.trim().slice(0, 140)
+        : `${country} 기준 ${jobName} 직업 상세 정보`;
+
+      const canonicalUrl = `${window.location.origin}/job.html?country=${encodeURIComponent(country)}&job=${encodeURIComponent(jobName)}`;
+
+      let descMeta = document.querySelector('meta[name="description"]');
+      if (descMeta) descMeta.setAttribute('content', descText);
+
+      let ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', title);
+
+      let ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', descText);
+
+      let ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.setAttribute('content', canonicalUrl);
+
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.setAttribute('href', canonicalUrl);
+    }
+
+    function renderError(message) {
+      const el = document.getElementById('jobDetailContent');
+      el.innerHTML = `
+        <div class="empty-box">
+          <p>${escapeHtml(message)}</p>
+          <a href="index.html" class="back-btn">← 처음으로 돌아가기</a>
+        </div>
+      `;
+    }
+
+    function renderJobDetail(item, country) {
+      const el = document.getElementById('jobDetailContent');
+
+      const jobName = toText(item['추천직업']);
+      const description = toText(item['직업해설']);
+      updateMeta(jobName, country, description);
+
+      el.innerHTML = `
+        <div class="job-card">
+          <div class="section-title">직업명</div>
+          <div class="job-name">${escapeHtml(jobName)}</div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">직업 분류</div>
+          <p class="section-text">${escapeHtml(toText(item['직업분류']) || '정보 없음')}</p>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">직업 해설</div>
+          <p class="section-text">${escapeHtml(description || '정보 없음')}</p>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">핵심 전문 지식</div>
+          <p class="section-text">${escapeHtml(toText(item['핵심전문지식']) || '정보 없음')}</p>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">추천 학과 / 전공</div>
+          <p class="section-text">${escapeHtml(toText(item['추천학과/전공']) || '정보 없음')}</p>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">준비 기간</div>
+          <p class="section-text">${escapeHtml(toText(item['준비기간']) || '정보 없음')}</p>
+        </div>
+
+        <a href="javascript:history.back()" class="back-btn">← 이전 페이지로 돌아가기</a>
+        <a href="index.html" class="back-btn" style="margin-top:10px;">← 다시 입력하기</a>
+      `;
+    }
+
+    async function loadJobDetail() {
+      const country = getQueryParam('country');
+      const job = getQueryParam('job');
+
+      if (!country || !job) {
+        renderError('직업명 또는 국가 정보가 없습니다.');
+        return;
+      }
+
+      const fileName = countryFileMap[country];
+      if (!fileName) {
+        renderError('해당 국가 데이터 파일을 찾을 수 없습니다.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`./data/${fileName}`);
+        if (!res.ok) {
+          throw new Error(`데이터 로드 실패: ${res.status}`);
+        }
+
+        const rows = await res.json();
+
+        const item = rows.find(row =>
+          String(row['추천직업'] || '').trim() === job
+        );
+
+        if (!item) {
+          renderError('해당 직업 정보를 찾을 수 없습니다.');
+          return;
+        }
+
+        renderJobDetail(item, country);
+      } catch (err) {
+        console.error(err);
+        renderError(err.message || '직업 정보를 불러오지 못했습니다.');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadJobDetail);
+  </script>
+</body>
+</html>
