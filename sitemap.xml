@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- 기존 기본 sitemap (메인 페이지, AI.html, job.html 등) -->
+  <!-- 기본 페이지용 -->
   <sitemap>
     <loc>https://www.futurejob.site/sitemap.xml</loc>
     <lastmod>2026-03-22</lastmod>
   </sitemap>
 
-  <!-- generate_sitemap.py로 만든 직업 상세 페이지용 (1번째 파일) -->
+  <!-- 직업 상세 페이지용 - 3개 파일 -->
   <sitemap>
     <loc>https://www.futurejob.site/sitemap_jobs_1.xml</loc>
     <lastmod>2026-03-22</lastmod>
   </sitemap>
-
-  <!-- 2번째 파일 -->
   <sitemap>
     <loc>https://www.futurejob.site/sitemap_jobs_2.xml</loc>
+    <lastmod>2026-03-22</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_3.xml</loc>
     <lastmod>2026-03-22</lastmod>
   </sitemap>
 
