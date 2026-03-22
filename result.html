@@ -18,87 +18,13 @@
   gtag('config', 'G-T9440GDLT7');
 </script>
 
-<script>
-// ===== sitemap 생성용 (중복 제거 + 분할) =====
-
-// 1. job URL 생성 함수 (유일성 기준: jobId)
-function generateJobUrl(job) {
-  return `https://www.futurejob.site/job.html?id=${encodeURIComponent(job.id)}`;
-}
-
-// 2. 중복 제거 + 정렬
-function buildUniqueJobUrls(jobList) {
-  const urlSet = new Set();
-
-  jobList.forEach(job => {
-    if (job.id) {
-      urlSet.add(generateJobUrl(job));
-    }
-  });
-
-  // 정렬 (크롤링 안정성)
-  return Array.from(urlSet).sort();
-}
-
-// 3. sitemap XML 생성
-function createSitemapXml(urls) {
-  const today = new Date().toISOString().split('T')[0];
-
-  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-
-  urls.forEach(url => {
-    xml += `
-  <url>
-    <loc>${url}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>`;
-  });
-
-  xml += `\n</urlset>`;
-  return xml;
-}
-
-// 4. 파일 분할 (50,000개 기준)
-function splitSitemaps(urls, chunkSize = 50000) {
-  const chunks = [];
-  for (let i = 0; i < urls.length; i += chunkSize) {
-    chunks.push(urls.slice(i, i + chunkSize));
-  }
-  return chunks;
-}
-
-// 5. 다운로드 함수
-function downloadSitemaps(jobList) {
-  const uniqueUrls = buildUniqueJobUrls(jobList);
-  const chunks = splitSitemaps(uniqueUrls);
-
-  if (!chunks.length) return;
-
-  chunks.forEach((chunk, index) => {
-    const xml = createSitemapXml(chunk);
-    const blob = new Blob([xml], { type: 'application/xml' });
-
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `sitemap_jobs_${index + 1}.xml`;
-    a.click();
-  });
-}
-// ===== 사용법 =====
-// JSON 데이터 로딩 후 아래 호출만 하면 됨
-// downloadSitemaps(jobData);
-
-</script>
-
-
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h4>미래직업 추천결과</h4>
+       <p style="font-size:0.78rem; color:#94a3b8; margin-top:2px; text-align:center; line-height:1.4;">AI(Claude Pro)가 각국의 사정을 감안하여 추정한 것입니다.<br>미래가 불확실하다는 점도 잊지 마세요.
+       </p>
     </div>
 
     <div id="resultContent">
@@ -497,7 +423,7 @@ function downloadSitemaps(jobList) {
 </div>
 
 <div class="section-card">
-  <div class="section-title">성향매칭후보 <strong>${escapeHtml(data.matchedCount || 0)}개</strong> 상세보기 ( 해당직업 클릭 )</div>
+  <div class="section-title">성향매칭후보 상세보기</div>
   <div class="section-text" style="white-space:normal; line-height:1.2;">
 
 ${
@@ -521,7 +447,7 @@ ${
 
 <div class="download-wrap">
   <button id="downloadBtn" class="download-btn" ${hasCandidates ? '' : 'disabled'}>
-    🔒 성향매칭 ${escapeHtml(data.matchedCount || 0)}개 전체 다운로드(PW)
+    🔒 성향매칭 ${escapeHtml(data.matchedCount || 0)}개 전체 다운로드(r)
   </button>
 
   <button class="download-btn" style="margin-top:10px; background-color:#475569; color:#fff;" 
@@ -589,9 +515,6 @@ if (hasCandidates) {
         const res = await fetch(`./data/${fileName}`);
         if (!res.ok) throw new Error(`데이터 로드 실패: ${res.status}`);
         const jobData = await res.json();
-
-        // 🔥 추가 (이거 없으면 아무 일도 안 일어남)
-        downloadSitemaps(jobData);
 
         const riasecList = [userInput.riasec].filter(Boolean);
         const big5List   = [userInput.big5].filter(Boolean);
