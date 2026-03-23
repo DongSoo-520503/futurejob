@@ -530,19 +530,28 @@
         downloadShareCard(data);
       });
 
-      // STEP 6: QR코드 생성
+      // STEP 6: QR코드 생성 (api.qrserver.com 사용)
       document.getElementById('qrBtn')?.addEventListener('click', () => {
-        const url = encodeURIComponent(window.location.href);
-        const qrApiUrl = `https://chart.googleapis.com/chart?cht=qr&chs=320x320&chl=${url}&choe=UTF-8`;
+        const url     = encodeURIComponent(window.location.href);
+        const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${url}&format=png`;
         const img     = document.getElementById('qrImg');
         const display = document.getElementById('qrDisplay');
         const btn     = document.getElementById('qrBtn');
 
-        img.src = qrApiUrl;
+        btn.disabled = true;
+        btn.textContent = '⏳ 생성 중...';
+
         img.onload = () => {
           display.style.display = 'block';
+          btn.disabled = false;
           btn.textContent = '🔲 QR코드 재생성';
         };
+        img.onerror = () => {
+          btn.disabled = false;
+          btn.textContent = '🔲 이 페이지 QR코드 생성';
+          alert('QR코드 생성에 실패했습니다. 인터넷 연결을 확인해 주세요.');
+        };
+        img.src = qrApiUrl;
       });
 
       // STEP 6: QR 이미지 저장
