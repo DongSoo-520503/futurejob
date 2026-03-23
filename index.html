@@ -87,7 +87,6 @@
             <option value="남아프리카공화국">남아프리카공화국</option> 
             <option value="나이지리아">나이지리아</option> 
             <option value="러시아">러시아</option> 
-
           </select>
         </div>
 
@@ -131,7 +130,6 @@
   </div>
 
   <script>
-    // 폼 제출 시 사용자 데이터만 저장하고 result.html로 이동
     document.getElementById('jobForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
@@ -145,19 +143,24 @@
         return;
       }
 
-      // 사용자 데이터만 localStorage에 저장 (계산은 result.html에서 수행)
+      // ── GA4: 폼 제출 이벤트 ─────────────────────────────────
+      gtag('event', 'submit_form', {
+        country: userData.country,
+        ability: userData.ability,
+        riasec:  userData.riasec,
+        big5:    userData.big5
+      });
 
-     localStorage.setItem('futureJob_userInput', JSON.stringify(userData));
-
-     // ── GA4: 폼 제출 이벤트 ──────────────────────────────────────
-     gtag('event', 'submit_form', {
-            country:  userData.country,
-            ability:  userData.ability,
-            riasec:   userData.riasec,
-            big5:     userData.big5
-           });
-
-       window.location.href = 'result.html';
+      // STEP 8: localStorage 완전 제거 → URL 파라미터로 전달
+      const params = new URLSearchParams({
+        name:    userData.name,
+        dob:     userData.dob,
+        country: userData.country,
+        ability: userData.ability,
+        riasec:  userData.riasec,
+        big5:    userData.big5
+      });
+      window.location.href = `result.html?${params.toString()}`;
     });
   </script>
 </body>
