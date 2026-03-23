@@ -493,17 +493,17 @@ document.getElementById('kakaoShareBtn')?.addEventListener('click', () => {
       content: {
         title: `나의 미래 직업: ${data.job}`,
         description: `${data.country} · ${data.period} · AI가 추천하는 미래 직업을 확인해 보세요!`,
-        imageUrl: 'https://futurejob.site/kdsimage.png',
+        imageUrl: 'https://www.futurejob.site/kdsimage.png',
         link: {
-          mobileWebUrl: shareUrl,
-          webUrl: shareUrl
+          mobileWebUrl: 'https://www.futurejob.site/',
+          webUrl:       'https://www.futurejob.site/'
         }
       },
       buttons: [{
         title: '나도 내 직업 추천 받기',
         link: {
-          mobileWebUrl: `${baseUrl}/`,
-          webUrl: `${baseUrl}/`
+          mobileWebUrl: 'https://www.futurejob.site/',
+          webUrl:       'https://www.futurejob.site/'
         }
       }]
     });
