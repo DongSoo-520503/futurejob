@@ -26,7 +26,6 @@
           integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
           crossorigin="anonymous"></script>
   <script>
-    // ★ developers.kakao.com 에서 발급한 JavaScript 앱 키로 교체하세요
     const KAKAO_APP_KEY = '1d496a6dc1fc8f8e88bafb5f36db7ca6';
     if (window.Kakao && !Kakao.isInitialized()) {
       Kakao.init(KAKAO_APP_KEY);
@@ -253,7 +252,6 @@
       if (!candidates?.length) { alert('후보군 데이터가 없습니다.'); return; }
 
       try {
-        // STEP 8: localStorage 대신 URL 파라미터에서 읽기
         const p = new URLSearchParams(window.location.search);
         const userInputFromUrl = {
           name:    p.get('name')    || userName || '',
@@ -275,7 +273,6 @@
         const a = document.createElement('a');
         a.href = url; a.download = fileName;
         document.body.appendChild(a);
-        // ── GA4: 엑셀 다운로드 ──────────────────────────────
         gtag('event', 'download_excel', { count: candidates.length, country: exportInfo.country, period: exportInfo.period });
         a.click(); a.remove();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
@@ -322,7 +319,6 @@
         const link = document.createElement('a');
         link.download = `미래직업_${result.job || 'card'}.png`;
         link.href = canvas.toDataURL('image/png');
-        // ── GA4: 카드 이미지 저장 ──────────────────────────
         gtag('event', 'save_card_image', { job: result.job, country: result.country });
         link.click();
       } catch (err) {
@@ -337,14 +333,13 @@
     function displayResult(data, secondCandidates) {
       updateResultMeta(data);
 
-      // ── GA4: 결과 조회 ──────────────────────────────────────
       gtag('event', 'view_result', { job: data.job, country: data.country, period: data.period, riasec: data.riasec, big5: data.big5 });
 
       const el = document.getElementById('resultContent');
       const hasCandidates = secondCandidates?.length > 0;
 
-      // STEP 8: 카카오 공유용 URL (한글 country는 encodeURIComponent)
-      const shareUrl = `https://futurejob.site/result.html?dob=${data.dob}&ability=${data.ability}&riasec=${data.riasec}&big5=${data.big5}&country=${encodeURIComponent(data.country)}`;
+      const baseUrl = 'https://futurejob.site';
+      const shareUrl = `${baseUrl}/result.html?name=${encodeURIComponent(data.name || '')}&dob=${encodeURIComponent(data.dob || '')}&country=${encodeURIComponent(data.country || '')}&ability=${encodeURIComponent(data.ability || '')}&riasec=${encodeURIComponent(data.riasec || '')}&big5=${encodeURIComponent(data.big5 || '')}&job=${encodeURIComponent(data.job || '')}`;
 
       el.innerHTML = `
 <div class="info-card">
@@ -432,13 +427,11 @@
 <a href="index.html" class="back-btn">← 다시 입력하기</a>
 
 <div class="download-wrap">
-  <!-- STEP 4: 직업카드 이미지 저장 -->
   <button id="shareCardBtn" class="download-btn"
     style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;">
     📷 내 직업카드 이미지 저장
   </button>
 
-  <!-- STEP 8: 카카오 공유 -->
   <button id="kakaoShareBtn" class="download-btn"
     style="margin-top:10px; background:#fee500; color:#000; font-weight:700;">
     💬 카카오로 내 직업 공유하기
@@ -458,7 +451,6 @@
     개발자앞 직접문의(카톡오픈채팅)
   </button>
 
-  <!-- STEP 6: 학교·학원용 QR코드 공유 -->
   <div id="qrSection" style="margin-top:18px; padding:16px; background:#1e293b;
        border-radius:12px; border:1px solid #334155; text-align:center;">
     <p style="font-size:0.82rem; color:#94a3b8; margin:0 0 10px 0;">
@@ -482,19 +474,16 @@
   </div>
 </div>`;
 
-      // ── 이벤트 리스너 ─────────────────────────────────────────
       if (hasCandidates) {
         document.getElementById('downloadBtn')?.addEventListener('click', () => {
           downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
         });
       }
 
-      // STEP 4: 카드 이미지 저장
       document.getElementById('shareCardBtn')?.addEventListener('click', () => {
         downloadShareCard(data);
       });
 
-      // STEP 8: 카카오 공유 ─────────────────────────────────────
       document.getElementById('kakaoShareBtn')?.addEventListener('click', () => {
         gtag('event', 'kakao_share', { job: data.job, country: data.country });
 
@@ -502,21 +491,22 @@
           Kakao.Share.sendDefault({
             objectType: 'feed',
             content: {
-              title:       `나의 미래 직업: ${data.job}`,
+              title: `나의 미래 직업: ${data.job}`,
               description: `${data.country} · ${data.period} · AI가 추천하는 미래 직업을 확인해 보세요!`,
-              imageUrl: 'https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8DJXQX28RY1K/kakaolink40_original.png',
-              link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
+              link: {
+                mobileWebUrl: shareUrl,
+                webUrl: shareUrl
+              }
             },
             buttons: [{
               title: '나도 내 직업 추천 받기',
               link: {
-                mobileWebUrl: 'https://www.futurejob.site/',
-                webUrl:       'https://www.futurejob.site/'
+                mobileWebUrl: `${baseUrl}/`,
+                webUrl: `${baseUrl}/`
               }
             }]
           });
         } else {
-          // Kakao SDK 미초기화 시 클립보드 복사로 폴백
           navigator.clipboard.writeText(shareUrl).then(() => {
             alert('공유 링크가 클립보드에 복사되었습니다!\n카카오톡에 붙여넣기해서 공유하세요 😊');
           }).catch(() => {
@@ -525,7 +515,6 @@
         }
       });
 
-      // STEP 6: QR코드 생성
       document.getElementById('qrBtn')?.addEventListener('click', () => {
         const url      = encodeURIComponent(window.location.href);
         const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${url}&format=png`;
@@ -550,7 +539,6 @@
         img.src = qrApiUrl;
       });
 
-      // STEP 6: QR 이미지 저장
       document.getElementById('qrDownloadBtn')?.addEventListener('click', () => {
         const img = document.getElementById('qrImg');
         if (!img.src) return;
@@ -565,7 +553,6 @@
     async function loadAndDisplayResult() {
       const el = document.getElementById('resultContent');
 
-      // STEP 8: localStorage 완전 제거 → URL 파라미터에서 읽기
       const p = new URLSearchParams(window.location.search);
       const userInput = {
         name:    p.get('name')    || '',
@@ -643,9 +630,9 @@
           country,
           dob:          userInput.dob,
           period,
-          ability:      userInput.ability,      // STEP 8 공유 URL용
-          riasec:       userInput.riasec || '',  // STEP 4 카드용
-          big5:         userInput.big5   || '',  // STEP 4 카드용
+          ability:      userInput.ability,
+          riasec:       userInput.riasec || '',
+          big5:         userInput.big5   || '',
           job:          best['추천직업']        || '',
           salaryRank:   best['연봉순위']         || '',
           description:  best['직업해설']         || '',
@@ -660,7 +647,6 @@
         await saveToDB(KEY_LATEST, result);
         await saveToDB(KEY_SECOND, matchedCandidates);
 
-        // STEP 8: URL에 job 파라미터 추가 (history.replaceState)
         const newParams = new URLSearchParams(window.location.search);
         newParams.set('job', result.job);
         history.replaceState(null, '', `result.html?${newParams.toString()}`);
