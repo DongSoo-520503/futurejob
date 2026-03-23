@@ -344,7 +344,7 @@
       const hasCandidates = secondCandidates?.length > 0;
 
       // STEP 8: 카카오 공유용 URL (한글 country는 encodeURIComponent)
-      const shareUrl = `https://www.futurejob.site/result.html?dob=${data.dob}&ability=${data.ability}&riasec=${data.riasec}&big5=${data.big5}&country=${encodeURIComponent(data.country)}`;
+      const shareUrl = `https://futurejob.site/result.html?dob=${data.dob}&ability=${data.ability}&riasec=${data.riasec}&big5=${data.big5}&country=${encodeURIComponent(data.country)}`;
 
       el.innerHTML = `
 <div class="info-card">
