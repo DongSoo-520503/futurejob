@@ -166,7 +166,7 @@
       const ExcelJS = await loadExcelJs();
 
       const workbook = new ExcelJS.Workbook();
-      workbook.creator = 'ChatGPT';
+      workbook.creator = 'FutureJob';
       workbook.created = new Date();
 
       const ws = workbook.addWorksheet('2nd Candidates', {
@@ -575,7 +575,6 @@ if (hasCandidates) {
           matchedCount: realMatchedCount
         };
 
-        localStorage.setItem('jobResult', JSON.stringify(result));
         await saveToDB(KEY_LATEST, result);
         await saveToDB(KEY_SECOND, matchedCandidates);
 
