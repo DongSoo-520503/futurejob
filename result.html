@@ -9,20 +9,45 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T9440GDLT7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-T9440GDLT7');
-</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9440GDLT7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T9440GDLT7');
+  </script>
+
+  <!-- html2canvas: 결과 카드 이미지 저장 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </head>
 <body>
+
+  <!-- ══ 공유용 이미지 카드 (캡처 전용, 화면 밖에 위치) ══ -->
+  <div id="shareCard" style="
+    position:fixed; left:-9999px; top:0; visibility:hidden;
+    width:540px; padding:36px 32px 28px;
+    background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);
+    font-family:'Noto Sans KR',sans-serif; color:#e2e8f0;
+    border-radius:20px; box-sizing:border-box;
+  ">
+    <div style="font-size:11px;color:#64748b;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;">
+      FutureJob · futurejob.site
+    </div>
+    <div id="sc_name"  style="font-size:13px;color:#94a3b8;margin-bottom:4px;"></div>
+    <div id="sc_job"   style="font-size:28px;font-weight:700;color:#f1f5f9;line-height:1.3;margin-bottom:14px;"></div>
+    <div id="sc_meta"  style="font-size:12px;color:#64748b;margin-bottom:16px;"></div>
+    <div id="sc_desc"  style="font-size:13px;color:#cbd5e1;line-height:1.6;border-top:1px solid #334155;padding-top:14px;margin-bottom:18px;"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;" id="sc_tags"></div>
+    <div style="margin-top:20px;font-size:11px;color:#475569;text-align:right;">
+      AI 미래 직업 추천 · futurejob.site
+    </div>
+  </div>
+
   <div class="container">
     <div class="header">
-      <h4>미래직업 추천결과</h4>
+      <h1 style="font-size:1.1rem; font-weight:700; margin:0;">미래직업 추천결과</h1>
        <p style="font-size:0.78rem; color:#94a3b8; margin-top:2px; text-align:center; line-height:1.4;">AI(Claude Pro)가 각국의 사정을 감안하여 추정한 것입니다.<br>미래가 불확실하다는 점도 잊지 마세요.
        </p>
     </div>
@@ -295,6 +320,7 @@
 
       return workbook;
     }
+
     // ==================== 개발자 다운로드 비밀번호 ====================
     function checkDeveloperPassword() {
       const encoded = "a2RzczUy"; // 난독화
@@ -342,6 +368,71 @@
       } catch (err) {
         console.error('엑셀 생성 오류:', err);
         alert('엑셀 파일 생성 중 오류가 발생했습니다. 콘솔을 확인해 주세요.');
+      }
+    }
+
+    // ==================== 결과 이미지 카드 저장 ====================
+    function fillShareCard(result) {
+      const riasecLabel = {
+        R:'🔧 만들고 조작', I:'🔬 파고들고 연구', A:'🎨 만들고 표현',
+        S:'🤝 돕고 함께',  E:'🚀 이끌고 도전',  C:'📋 정리하고 관리'
+      };
+      const big5Label = {
+        O:'✨ 호기심', C:'📌 계획적', E:'😊 외향적', A:'💛 배려심', N:'🛡 신중함'
+      };
+
+      document.getElementById('sc_name').textContent =
+        `${result.name || ''}의 미래 직업`;
+      document.getElementById('sc_job').textContent =
+        result.job || '';
+      document.getElementById('sc_meta').textContent =
+        `${result.country} · ${result.period} · 연봉순위 ${result.salaryRank || '-'}위`;
+
+      const fullDesc = result.description || '';
+      const desc = fullDesc.slice(0, 80);
+      document.getElementById('sc_desc').textContent =
+        desc ? desc + (fullDesc.length > 80 ? '…' : '') : '';
+
+      const tags = [];
+      if (result.riasec) tags.push(riasecLabel[result.riasec] || result.riasec);
+      if (result.big5)   tags.push(big5Label[result.big5]     || result.big5);
+      document.getElementById('sc_tags').innerHTML = tags.map(t =>
+        `<span style="background:#1e3a5f;color:#93c5fd;border-radius:20px;
+          padding:4px 12px;font-size:11px;">${t}</span>`
+      ).join('');
+    }
+
+    async function downloadShareCard(result) {
+      const btn = document.getElementById('shareCardBtn');
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ 생성 중...'; }
+
+      try {
+        fillShareCard(result);
+        const card = document.getElementById('shareCard');
+
+        // 캡처 직전 잠깐 보이게
+        card.style.left = '-9999px';
+        card.style.visibility = 'visible';
+        await new Promise(r => setTimeout(r, 150));
+
+        const canvas = await html2canvas(card, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: null,
+          logging: false
+        });
+
+        card.style.visibility = 'hidden';
+
+        const link = document.createElement('a');
+        link.download = `미래직업_${result.job || 'card'}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } catch (err) {
+        console.error('카드 저장 실패:', err);
+        alert('이미지 저장에 실패했습니다. 다시 시도해 주세요.');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '📷 내 직업카드 이미지 저장'; }
       }
     }
 
@@ -446,6 +537,11 @@ ${
 <a href="index.html" class="back-btn">← 다시 입력하기</a>
 
 <div class="download-wrap">
+  <button id="shareCardBtn" class="download-btn"
+    style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;">
+    📷 내 직업카드 이미지 저장
+  </button>
+
   <button id="downloadBtn" class="download-btn" ${hasCandidates ? '' : 'disabled'}>
     🔒 성향매칭 ${escapeHtml(data.matchedCount || 0)}개 전체 다운로드(r)
   </button>
@@ -460,12 +556,17 @@ ${
   </button>
 </div>`;
 
-// 이벤트 리스너가 정상 작동하도록 기존 로직 유지
-if (hasCandidates) {
-  document.getElementById('downloadBtn')?.addEventListener('click', () => {
-    downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
-  });
-}
+      // ── 이벤트 리스너 ──────────────────────────────────────────
+      if (hasCandidates) {
+        document.getElementById('downloadBtn')?.addEventListener('click', () => {
+          downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
+        });
+      }
+
+      // 카드 저장 버튼
+      document.getElementById('shareCardBtn')?.addEventListener('click', () => {
+        downloadShareCard(data);
+      });
     }
 
     // ==================== 메인 로직 ====================
@@ -540,13 +641,13 @@ if (hasCandidates) {
 
         // 2차 후보군 : RIASEC + BIG5 둘 다 매칭
         const realMatchedCandidates = firstCandidates.filter(row => {
-        const rCodes = (row['RIASEC'] || '').split(',').map(s => s.trim()).filter(Boolean);
-        const bCodes = (row['BIG5']   || '').split(',').map(s => s.trim()).filter(Boolean);
+          const rCodes = (row['RIASEC'] || '').split(',').map(s => s.trim()).filter(Boolean);
+          const bCodes = (row['BIG5']   || '').split(',').map(s => s.trim()).filter(Boolean);
 
-        const riasecMatch = riasecList.some(code => rCodes.includes(code));
-        const big5Match   = big5List.some(code   => bCodes.includes(code));
+          const riasecMatch = riasecList.some(code => rCodes.includes(code));
+          const big5Match   = big5List.some(code   => bCodes.includes(code));
 
-        return riasecMatch && big5Match;
+          return riasecMatch && big5Match;
         });
 
         const realMatchedCount = realMatchedCandidates.length;
@@ -564,6 +665,8 @@ if (hasCandidates) {
           country,
           dob: userInput.dob,
           period,
+          riasec: userInput.riasec || '',   // ← 카드 이미지용
+          big5:   userInput.big5   || '',   // ← 카드 이미지용
           job: best['추천직업'] || '',
           salaryRank: best['연봉순위'] || '',
           description: best['직업해설'] || '',
