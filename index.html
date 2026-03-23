@@ -146,10 +146,18 @@
       }
 
       // 사용자 데이터만 localStorage에 저장 (계산은 result.html에서 수행)
+
      localStorage.setItem('futureJob_userInput', JSON.stringify(userData));
-      
-      // 결과 페이지로 이동
-      window.location.href = 'result.html';
+
+     // ── GA4: 폼 제출 이벤트 ──────────────────────────────────────
+     gtag('event', 'submit_form', {
+            country:  userData.country,
+            ability:  userData.ability,
+            riasec:   userData.riasec,
+            big5:     userData.big5
+           });
+
+       window.location.href = 'result.html';
     });
   </script>
 </body>
