@@ -488,7 +488,7 @@ document.getElementById('kakaoShareBtn')?.addEventListener('click', () => {
   gtag('event', 'kakao_share', { job: data.job, country: data.country });
 
   if (window.Kakao && Kakao.isInitialized()) {
-    Kakao.Share.sendDefault({
+    Kakao.Link.sendDefault({
       objectType: 'feed',
       content: {
         title: `나의 미래 직업: ${data.job}`,
