@@ -510,8 +510,7 @@
           });
         } else {
           navigator.clipboard.writeText(shareUrl).then(() => {
-            alert('공유 링크가 클립보드에 복사되었습니다!
-카카오톡에 붙여넣기해서 공유하세요 😊');
+            alert('공유 링크가 클립보드에 복사되었습니다!\n카카오톡에 붙여넣기해서 공유하세요 😊');
           }).catch(() => {
             prompt('아래 링크를 복사해서 공유하세요:', shareUrl);
           });
