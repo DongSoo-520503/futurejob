@@ -21,16 +21,7 @@
   <!-- html2canvas: 결과 카드 이미지 저장 (STEP 4) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-  <!-- 카카오 JavaScript SDK (STEP 8) -->
-  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-          integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
-          crossorigin="anonymous"></script>
-  <script>
-    const KAKAO_APP_KEY = '1d496a6dc1fc8f8e88bafb5f36db7ca6';
-    if (window.Kakao && !Kakao.isInitialized()) {
-      Kakao.init(KAKAO_APP_KEY);
-    }
-  </script>
+  <!-- 카카오 SDK 제거 - 링크 복사 방식으로 대체 -->
 
 </head>
 <body>
@@ -434,7 +425,7 @@
 
   <button id="kakaoShareBtn" class="download-btn"
     style="margin-top:10px; background:#fee500; color:#000; font-weight:700;">
-    💬 카카오로 내 직업 공유하기
+    🔗 공유 링크 복사하기
   </button>
 
   <button id="downloadBtn" class="download-btn" ${hasCandidates ? '' : 'disabled'}>
@@ -484,38 +475,15 @@
         downloadShareCard(data);
       });
 
-      // STEP 8: 카카오 공유
+      // STEP 8: 링크 복사 공유
       document.getElementById('kakaoShareBtn')?.addEventListener('click', () => {
-        gtag('event', 'kakao_share', { job: data.job, country: data.country });
-
-        if (window.Kakao && Kakao.isInitialized()) {
-          Kakao.Link.sendDefault({
-            objectType: 'feed',
-            content: {
-              title:       `나의 미래 직업: ${data.job}`,
-              description: `${data.country} · ${data.period} · AI가 추천하는 미래 직업을 확인해 보세요!`,
-              imageUrl:    'https://www.futurejob.site/kdsimage.png',
-              link: {
-                mobileWebUrl: 'https://www.futurejob.site/',
-                webUrl:       'https://www.futurejob.site/'
-              }
-            },
-            buttons: [{
-              title: '나도 내 직업 추천 받기',
-              link: {
-                mobileWebUrl: 'https://www.futurejob.site/',
-                webUrl:       'https://www.futurejob.site/'
-              }
-            }]
-          });
-        } else {
-          navigator.clipboard.writeText(shareUrl).then(() => {
-            alert('공유 링크가 클립보드에 복사되었습니다!\n카카오톡에 붙여넣기해서 공유하세요 😊');
-          }).catch(() => {
-            prompt('아래 링크를 복사해서 공유하세요:', shareUrl);
-          });
-        }
-      });
+        gtag('event', 'share_link_copy', { job: data.job, country: data.country });
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          alert('링크가 복사되었습니다!\n카카오톡에 붙여넣기해서 공유하세요 😊');
+        }).catch(() => {
+          prompt('아래 링크를 복사해서 공유하세요:', shareUrl);
+        });
+      })
       document.getElementById('qrBtn')?.addEventListener('click', () => {
         const url      = encodeURIComponent(window.location.href);
         const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${url}&format=png`;
