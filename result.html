@@ -18,13 +18,13 @@
     gtag('config', 'G-T9440GDLT7');
   </script>
 
-  <!-- html2canvas: 결과 카드 이미지 저장 -->
+  <!-- html2canvas: 결과 카드 이미지 저장 (STEP 4) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </head>
 <body>
 
-  <!-- ══ 공유용 이미지 카드 (캡처 전용, 화면 밖에 위치) ══ -->
+  <!-- ══ 공유용 이미지 카드 — 캡처 전용, 화면 밖 (STEP 4) ══ -->
   <div id="shareCard" style="
     position:fixed; left:-9999px; top:0; visibility:hidden;
     width:540px; padding:36px 32px 28px;
@@ -48,8 +48,8 @@
   <div class="container">
     <div class="header">
       <h1 style="font-size:1.1rem; font-weight:700; margin:0;">미래직업 추천결과</h1>
-       <p style="font-size:0.78rem; color:#94a3b8; margin-top:2px; text-align:center; line-height:1.4;">AI(Claude Pro)가 각국의 사정을 감안하여 추정한 것입니다.<br>미래가 불확실하다는 점도 잊지 마세요.
-       </p>
+      <p style="font-size:0.78rem; color:#94a3b8; margin-top:2px; text-align:center; line-height:1.4;">AI(Claude Pro)가 각국의 사정을 감안하여 추정한 것입니다.<br>미래가 불확실하다는 점도 잊지 마세요.
+      </p>
     </div>
 
     <div id="resultContent">
@@ -174,7 +174,6 @@
 
     function loadExcelJs() {
       if (window.ExcelJS) return Promise.resolve(window.ExcelJS);
-
       return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js';
@@ -209,62 +208,41 @@
         { key: 'H', width: 20.0 }
       ];
 
-      const fillBlue = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'D9E2F3' }
-      };
-
+      const fillBlue = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9E2F3' } };
       const mediumBorder = {
         top: { style: 'medium', color: { argb: '7F7F7F' } },
         left: { style: 'medium', color: { argb: '7F7F7F' } },
         bottom: { style: 'medium', color: { argb: '7F7F7F' } },
         right: { style: 'medium', color: { argb: '7F7F7F' } }
       };
-
       const thinBorder = {
         top: { style: 'thin', color: { argb: 'BFBFBF' } },
         left: { style: 'thin', color: { argb: 'BFBFBF' } },
         bottom: { style: 'thin', color: { argb: 'BFBFBF' } },
         right: { style: 'thin', color: { argb: 'BFBFBF' } }
       };
-
       const topLabelStyle = {
-        font: { name: '맑은 고딕', size: 12, bold: true },
-        fill: fillBlue,
-        border: mediumBorder,
+        font: { name: '맑은 고딕', size: 12, bold: true }, fill: fillBlue, border: mediumBorder,
         alignment: { vertical: 'middle', horizontal: 'left', wrapText: true }
       };
-
       const topValueStyle = {
-        font: { name: '맑은 고딕', size: 12, bold: false },
-        fill: fillBlue,
-        border: mediumBorder,
+        font: { name: '맑은 고딕', size: 12, bold: false }, fill: fillBlue, border: mediumBorder,
         alignment: { vertical: 'middle', horizontal: 'left', wrapText: true }
       };
-
       const topEmphasisStyle = {
-        font: { name: '맑은 고딕', size: 12, bold: true },
-        fill: fillBlue,
-        border: mediumBorder,
+        font: { name: '맑은 고딕', size: 12, bold: true }, fill: fillBlue, border: mediumBorder,
         alignment: { vertical: 'middle', horizontal: 'left', wrapText: true }
       };
-
       const headerStyle = {
-        font: { name: '맑은 고딕', size: 12, bold: true },
-        border: mediumBorder,
+        font: { name: '맑은 고딕', size: 12, bold: true }, border: mediumBorder,
         alignment: { vertical: 'middle', horizontal: 'center', wrapText: true }
       };
-
       const bodyStyle = {
-        font: { name: '맑은 고딕', size: 12, bold: false },
-        border: thinBorder,
+        font: { name: '맑은 고딕', size: 12, bold: false }, border: thinBorder,
         alignment: { vertical: 'top', horizontal: 'left', wrapText: true }
       };
-
       const bodyCenterStyle = {
-        font: { name: '맑은 고딕', size: 12, bold: false },
-        border: thinBorder,
+        font: { name: '맑은 고딕', size: 12, bold: false }, border: thinBorder,
         alignment: { vertical: 'top', horizontal: 'center', wrapText: true }
       };
 
@@ -279,7 +257,7 @@
 
       [r2, r3, r4, r6].forEach(row => row.height = 24);
 
-      ['B2','C2','D2'].forEach(addr => Object.assign(ws.getCell(addr), { style: addr === 'B2' ? topLabelStyle : (addr === 'C2' ? topEmphasisStyle : topEmphasisStyle) }));
+      ['B2','C2','D2'].forEach(addr => Object.assign(ws.getCell(addr), { style: addr === 'B2' ? topLabelStyle : topEmphasisStyle }));
       ['B3','C3','D3','E3','F3'].forEach(addr => Object.assign(ws.getCell(addr), { style: topLabelStyle }));
       ['B4','C4','D4','E4','F4'].forEach(addr => Object.assign(ws.getCell(addr), { style: topValueStyle }));
       ['B6','C6','D6','E6','F6','G6','H6'].forEach(addr => Object.assign(ws.getCell(addr), { style: headerStyle }));
@@ -295,35 +273,24 @@
           item['추천학과/전공'] || '',
           item['준비기간'] || ''
         ]);
-
         row.height = 74;
         row.getCell(2).style = bodyCenterStyle;
-        for (let i = 3; i <= 8; i += 1) {
-          row.getCell(i).style = bodyStyle;
-        }
+        for (let i = 3; i <= 8; i++) row.getCell(i).style = bodyStyle;
       });
 
       ws.pageSetup = {
-        paperSize: 9,
-        orientation: 'landscape',
-        fitToPage: true,
-        fitToWidth: 1,
-        fitToHeight: 0,
-        margins: {
-          left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2
-        }
+        paperSize: 9, orientation: 'landscape', fitToPage: true,
+        fitToWidth: 1, fitToHeight: 0,
+        margins: { left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2 }
       };
-
-      ws.getColumn('A').eachCell((cell) => {
-        cell.border = {};
-      });
+      ws.getColumn('A').eachCell((cell) => { cell.border = {}; });
 
       return workbook;
     }
 
     // ==================== 개발자 다운로드 비밀번호 ====================
     function checkDeveloperPassword() {
-      const encoded = "a2RzczUy"; // 난독화
+      const encoded = "a2RzczUy";
       const password = atob(encoded);
       const input = prompt("🔐 개발자 전용 다운로드입니다.\n비밀번호를 입력하세요:");
       if (input === null) return false;
@@ -334,35 +301,22 @@
 
     async function downloadSecondCandidatesExcel(candidates, userName, birthYear, period) {
       if (!checkDeveloperPassword()) return;
-      if (!candidates?.length) {
-        alert('후보군 데이터가 없습니다.');
-        return;
-      }
+      if (!candidates?.length) { alert('후보군 데이터가 없습니다.'); return; }
 
       try {
         const userInput = JSON.parse(localStorage.getItem('futureJob_userInput') || '{}');
-        const exportInfo = buildExcelExportInfo(userInput, {
-          name: userName,
-          birthYear,
-          period
-        });
-
+        const exportInfo = buildExcelExportInfo(userInput, { name: userName, birthYear, period });
         const workbook = await buildStyledWorkbook(candidates, exportInfo);
         const buffer = await workbook.xlsx.writeBuffer();
-        const blob = new Blob([
-          buffer
-        ], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
         const safeName = (userName || exportInfo.name || '사용자').replace(/[\\/*?:"<>|]/g, '');
         const fileName = `${safeName}_${birthYear || exportInfo.birthYear || '0000'}_${period || exportInfo.period || '시기미상'}_2차후보군.xlsx`;
 
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        a.href = url; a.download = fileName;
+        document.body.appendChild(a); a.click(); a.remove();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
         alert(`${candidates.length}개 항목이 ${fileName}로 다운로드되었습니다.`);
       } catch (err) {
@@ -371,7 +325,7 @@
       }
     }
 
-    // ==================== 결과 이미지 카드 저장 ====================
+    // ==================== 결과 이미지 카드 저장 (STEP 4) ====================
     function fillShareCard(result) {
       const riasecLabel = {
         R:'🔧 만들고 조작', I:'🔬 파고들고 연구', A:'🎨 만들고 표현',
@@ -381,17 +335,14 @@
         O:'✨ 호기심', C:'📌 계획적', E:'😊 외향적', A:'💛 배려심', N:'🛡 신중함'
       };
 
-      document.getElementById('sc_name').textContent =
-        `${result.name || ''}의 미래 직업`;
-      document.getElementById('sc_job').textContent =
-        result.job || '';
+      document.getElementById('sc_name').textContent = `${result.name || ''}의 미래 직업`;
+      document.getElementById('sc_job').textContent  = result.job || '';
       document.getElementById('sc_meta').textContent =
         `${result.country} · ${result.period} · 연봉순위 ${result.salaryRank || '-'}위`;
 
       const fullDesc = result.description || '';
-      const desc = fullDesc.slice(0, 80);
       document.getElementById('sc_desc').textContent =
-        desc ? desc + (fullDesc.length > 80 ? '…' : '') : '';
+        fullDesc.slice(0, 80) + (fullDesc.length > 80 ? '…' : '');
 
       const tags = [];
       if (result.riasec) tags.push(riasecLabel[result.riasec] || result.riasec);
@@ -409,19 +360,13 @@
       try {
         fillShareCard(result);
         const card = document.getElementById('shareCard');
-
-        // 캡처 직전 잠깐 보이게
         card.style.left = '-9999px';
         card.style.visibility = 'visible';
         await new Promise(r => setTimeout(r, 150));
 
         const canvas = await html2canvas(card, {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: null,
-          logging: false
+          scale: 2, useCORS: true, backgroundColor: null, logging: false
         });
-
         card.style.visibility = 'hidden';
 
         const link = document.createElement('a');
@@ -451,18 +396,16 @@
   <div class="info-item"><span class="info-label">연봉 순위</span><span class="info-value">${escapeHtml(data.salaryRank)}위 (성향매칭 후보 ${escapeHtml(data.matchedCount || 0)}개 중)</span></div>
 </div>
 
-
 <div class="job-card">
   <div class="section-title">추천 직업</div>
   <div class="job-name">
-      <a
-          href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(data.job)}"
-          style="color:#e2e8f0; text-decoration:none; font-weight:700;"
-          >      
-           ${escapeHtml(data.job)}
-       </a>
+    <a href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(data.job)}"
+       style="color:#e2e8f0; text-decoration:none; font-weight:700;">
+      ${escapeHtml(data.job)}
+    </a>
   </div>
 </div>
+
 <div class="section-card">
   <div class="section-title">직업 분류</div>
   <p class="section-text">${escapeHtml(data.jobCategory || '정보 없음')}</p>
@@ -516,27 +459,22 @@
 <div class="section-card">
   <div class="section-title">성향매칭후보 상세보기</div>
   <div class="section-text" style="white-space:normal; line-height:1.2;">
-
-${
-  hasCandidates
-    ? secondCandidates.map((item, index) => `
-      <div style="padding:0 0 6px 0; border-bottom:1px solid rgba(148,163,184,0.18);">
-        <a
-          href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(item['추천직업'] || '')}"
-          style="color:#2563eb; text-decoration:none; font-weight:600; line-height:1.3; display:inline-block;"
-        >
-          연봉순위 ${index + 1}위 ${escapeHtml(item['추천직업'] || '')}
-        </a>
-      </div>
-    `).join('')
-    : '후보 데이터가 없습니다.'
-}
-
+    ${hasCandidates
+      ? secondCandidates.map((item, index) => `
+          <div style="padding:0 0 6px 0; border-bottom:1px solid rgba(148,163,184,0.18);">
+            <a href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(item['추천직업'] || '')}"
+               style="color:#2563eb; text-decoration:none; font-weight:600; line-height:1.3; display:inline-block;">
+              연봉순위 ${index + 1}위 ${escapeHtml(item['추천직업'] || '')}
+            </a>
+          </div>`).join('')
+      : '후보 데이터가 없습니다.'}
   </div>
 </div>
+
 <a href="index.html" class="back-btn">← 다시 입력하기</a>
 
 <div class="download-wrap">
+  <!-- STEP 4: 직업카드 이미지 저장 -->
   <button id="shareCardBtn" class="download-btn"
     style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;">
     📷 내 직업카드 이미지 저장
@@ -546,26 +484,75 @@ ${
     🔒 성향매칭 ${escapeHtml(data.matchedCount || 0)}개 전체 다운로드(r)
   </button>
 
-  <button class="download-btn" style="margin-top:10px; background-color:#475569; color:#fff;" 
+  <button class="download-btn" style="margin-top:10px; background-color:#475569; color:#fff;"
           onclick="window.open('AI.html')">
-     모르는 용어,문장 AI앞 문의하기  </button>
-  
-  <button class="download-btn" style="margin-top:10px; background-color:#fee500; color:#000;" 
+    모르는 용어,문장 AI앞 문의하기
+  </button>
+
+  <button class="download-btn" style="margin-top:10px; background-color:#fee500; color:#000;"
           onclick="window.open('https://open.kakao.com/o/g6YIdfmi')">
     개발자앞 직접문의(카톡오픈채팅)
   </button>
+
+  <!-- STEP 6: 학교·학원용 QR코드 공유 -->
+  <div id="qrSection" style="margin-top:18px; padding:16px; background:#1e293b;
+       border-radius:12px; border:1px solid #334155; text-align:center;">
+    <p style="font-size:0.82rem; color:#94a3b8; margin:0 0 10px 0;">
+      📌 선생님·학원용 — QR코드로 학생 전체에게 배포하세요
+    </p>
+    <button id="qrBtn" class="download-btn"
+      style="background:#0f766e; color:#fff; margin-bottom:12px;">
+      🔲 이 페이지 QR코드 생성
+    </button>
+    <div id="qrDisplay" style="display:none; margin-top:8px;">
+      <img id="qrImg" src="" alt="QR코드"
+           style="width:160px; height:160px; border-radius:8px; background:#fff; padding:6px;">
+      <p style="font-size:0.78rem; color:#64748b; margin:8px 0 0 0;">
+        이미지를 꾹 눌러 저장하거나 캡처해서 사용하세요
+      </p>
+      <button id="qrDownloadBtn" class="download-btn"
+        style="margin-top:8px; background:#0f766e; color:#fff; font-size:0.82rem; padding:8px 16px;">
+        ⬇️ QR 이미지 저장
+      </button>
+    </div>
+  </div>
 </div>`;
 
-      // ── 이벤트 리스너 ──────────────────────────────────────────
+      // ── 이벤트 리스너 ─────────────────────────────────────────
       if (hasCandidates) {
         document.getElementById('downloadBtn')?.addEventListener('click', () => {
           downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
         });
       }
 
-      // 카드 저장 버튼
+      // STEP 4: 카드 이미지 저장
       document.getElementById('shareCardBtn')?.addEventListener('click', () => {
         downloadShareCard(data);
+      });
+
+      // STEP 6: QR코드 생성
+      document.getElementById('qrBtn')?.addEventListener('click', () => {
+        const url = encodeURIComponent(window.location.href);
+        const qrApiUrl = `https://chart.googleapis.com/chart?cht=qr&chs=320x320&chl=${url}&choe=UTF-8`;
+        const img     = document.getElementById('qrImg');
+        const display = document.getElementById('qrDisplay');
+        const btn     = document.getElementById('qrBtn');
+
+        img.src = qrApiUrl;
+        img.onload = () => {
+          display.style.display = 'block';
+          btn.textContent = '🔲 QR코드 재생성';
+        };
+      });
+
+      // STEP 6: QR 이미지 저장
+      document.getElementById('qrDownloadBtn')?.addEventListener('click', () => {
+        const img = document.getElementById('qrImg');
+        if (!img.src) return;
+        const a = document.createElement('a');
+        a.href = img.src;
+        a.download = 'futurejob_qr.png';
+        a.click();
       });
     }
 
@@ -581,32 +568,15 @@ ${
 
       try {
         const countryFileMap = {
-         '대한민국': 'KR.json',
-         '미국': 'US.json',
-         '일본': 'JP.json',
-         '독일': 'DE.json',
-         '캐나다': 'CA.json',
-         '호주': 'AU.json',
-         '싱가포르': 'SG.json',
-         '영국': 'UK.json',
-         '중국': 'CN.json',
-         '인도': 'IN.json',
-         '베트남': 'VN.json',
-         '태국': 'TH.json',
-         '인도네시아': 'ID.json',
-         '아랍에미리트': 'AE.json',
-         '사우디아라비아': 'SA.json',
-         '이스라엘': 'IL.json',
-         '프랑스': 'FR.json',
-         '이탈리아': 'IT.json',
-         '스위스': 'CH.json',
-         '튀르키예': 'TR.json',
-         '폴란드': 'PL.json',
-         '멕시코': 'MX.json',
-         '브라질': 'BR.json',
-         '남아프리카공화국': 'ZA.json',
-         '나이지리아': 'NG.json',
-         '러시아': 'RU.json'
+          '대한민국': 'KR.json', '미국': 'US.json', '일본': 'JP.json',
+          '독일': 'DE.json', '캐나다': 'CA.json', '호주': 'AU.json',
+          '싱가포르': 'SG.json', '영국': 'UK.json', '중국': 'CN.json',
+          '인도': 'IN.json', '베트남': 'VN.json', '태국': 'TH.json',
+          '인도네시아': 'ID.json', '아랍에미리트': 'AE.json', '사우디아라비아': 'SA.json',
+          '이스라엘': 'IL.json', '프랑스': 'FR.json', '이탈리아': 'IT.json',
+          '스위스': 'CH.json', '튀르키예': 'TR.json', '폴란드': 'PL.json',
+          '멕시코': 'MX.json', '브라질': 'BR.json', '남아프리카공화국': 'ZA.json',
+          '나이지리아': 'NG.json', '러시아': 'RU.json'
         };
 
         const country = String(userInput.country || '').trim();
@@ -625,35 +595,27 @@ ${
         }
 
         const birthYear = parseInt(userInput.dob, 10);
-        const addYear = userInput.ability === '상' ? 30 : userInput.ability === '중' ? 26 : 22;
-        const period = `${Math.floor((birthYear + addYear) / 10) * 10}년대`;
+        const addYear   = userInput.ability === '상' ? 30 : userInput.ability === '중' ? 26 : 22;
+        const period    = `${Math.floor((birthYear + addYear) / 10) * 10}년대`;
 
-        // 1차 후보군
         const firstCandidates = jobData.filter(row =>
           String(row['국가'] || '').trim() === country &&
           row['시기'] === period &&
           row['직업등급'] === userInput.ability
         );
 
-        if (!firstCandidates.length) {
-          throw new Error(`'${period}' 시기 데이터가 없습니다.`);
-        }
+        if (!firstCandidates.length) throw new Error(`'${period}' 시기 데이터가 없습니다.`);
 
-        // 2차 후보군 : RIASEC + BIG5 둘 다 매칭
         const realMatchedCandidates = firstCandidates.filter(row => {
           const rCodes = (row['RIASEC'] || '').split(',').map(s => s.trim()).filter(Boolean);
           const bCodes = (row['BIG5']   || '').split(',').map(s => s.trim()).filter(Boolean);
-
-          const riasecMatch = riasecList.some(code => rCodes.includes(code));
-          const big5Match   = big5List.some(code   => bCodes.includes(code));
-
-          return riasecMatch && big5Match;
+          return riasecList.some(code => rCodes.includes(code)) &&
+                 big5List.some(code   => bCodes.includes(code));
         });
 
-        const realMatchedCount = realMatchedCandidates.length;
+        const realMatchedCount  = realMatchedCandidates.length;
         const matchedCandidates = realMatchedCount ? [...realMatchedCandidates] : [firstCandidates[0]];
 
-        // 연봉순위 오름차순 정렬 (작을수록 높음)
         matchedCandidates.sort((a, b) =>
           parseInt(a['연봉순위'] || 9999, 10) - parseInt(b['연봉순위'] || 9999, 10)
         );
@@ -661,20 +623,20 @@ ${
         const best = matchedCandidates[0];
 
         const result = {
-          name: userInput.name,
+          name:         userInput.name,
           country,
-          dob: userInput.dob,
+          dob:          userInput.dob,
           period,
-          riasec: userInput.riasec || '',   // ← 카드 이미지용
-          big5:   userInput.big5   || '',   // ← 카드 이미지용
-          job: best['추천직업'] || '',
-          salaryRank: best['연봉순위'] || '',
-          description: best['직업해설'] || '',
-          knowledge: best['핵심전문지식'] || '',
-          major: best['추천학과/전공'] || '',
-          prepPeriod: best['준비기간'] || '',
-          jobCategory: best['직업분류'] || '정보 없음',
-          firstCount: firstCandidates.length,
+          riasec:       userInput.riasec || '',   // STEP 4 카드용
+          big5:         userInput.big5   || '',   // STEP 4 카드용
+          job:          best['추천직업']       || '',
+          salaryRank:   best['연봉순위']        || '',
+          description:  best['직업해설']        || '',
+          knowledge:    best['핵심전문지식']     || '',
+          major:        best['추천학과/전공']    || '',
+          prepPeriod:   best['준비기간']         || '',
+          jobCategory:  best['직업분류']         || '정보 없음',
+          firstCount:   firstCandidates.length,
           matchedCount: realMatchedCount
         };
 

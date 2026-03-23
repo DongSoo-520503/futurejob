@@ -77,7 +77,7 @@
       return String(value);
     }
 
-    // ── RIASEC별 OG 이미지 매핑 ──────────────────────────────────
+    // ── RIASEC별 OG 이미지 매핑 (STEP 3) ────────────────────────
     const riasecImageMap = {
       R: 'https://www.futurejob.site/og_R.png',
       I: 'https://www.futurejob.site/og_I.png',
@@ -100,7 +100,7 @@
       '나이지리아': 'NG.json', '러시아': 'RU.json'
     };
 
-    // ── updateMeta: riasecCode 파라미터 추가 ─────────────────────
+    // ── updateMeta: riasecCode → OG 이미지 동적 교체 (STEP 3) ───
     function updateMeta(jobName, country, description, riasecCode) {
       const title = `${jobName} | ${country} | FutureJob`;
       document.title = title;
@@ -111,11 +111,9 @@
 
       const canonicalUrl = `${window.location.origin}/job.html?country=${encodeURIComponent(country)}&job=${encodeURIComponent(jobName)}`;
 
-      // RIASEC 첫 번째 코드로 OG 이미지 결정
       const firstRiasec = (riasecCode || '').split(',')[0].trim().toUpperCase();
       const ogImage = riasecImageMap[firstRiasec] || riasecImageMap.default;
 
-      // 기본 메타 업데이트
       ['meta[name="description"]', 'meta[property="og:description"]']
         .forEach(sel => document.querySelector(sel)?.setAttribute('content', descText));
       ['meta[property="og:title"]']
@@ -123,7 +121,6 @@
       document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
       document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl);
 
-      // OG 이미지 동적 교체
       const ogImgMeta = document.querySelector('meta[property="og:image"]');
       if (ogImgMeta) {
         ogImgMeta.setAttribute('content', ogImage);
@@ -134,23 +131,15 @@
         document.head.appendChild(newMeta);
       }
 
-      // JSON-LD 동적 업데이트 (Schema.org Occupation)
       const schema = {
         "@context": "https://schema.org",
         "@type": "Occupation",
         "name": jobName,
         "description": descText,
-        "occupationLocation": {
-          "@type": "Country",
-          "name": country
-        },
+        "occupationLocation": { "@type": "Country", "name": country },
         "url": canonicalUrl,
         "image": ogImage,
-        "publisher": {
-          "@type": "Organization",
-          "name": "FutureJob",
-          "url": "https://www.futurejob.site"
-        }
+        "publisher": { "@type": "Organization", "name": "FutureJob", "url": "https://www.futurejob.site" }
       };
       const schemaEl = document.getElementById('jsonld-schema');
       if (schemaEl) schemaEl.textContent = JSON.stringify(schema, null, 2);
@@ -164,15 +153,64 @@
         </div>`;
     }
 
-    // ── renderJobDetail: riasecCode 추출 후 updateMeta에 전달 ────
+    // ── FAQ 생성 함수 — Schema.org FAQPage 마크업 포함 (STEP 5) ──
+    function buildFaq(item, country, jobName) {
+      const major     = toText(item['추천학과/전공'] || '');
+      const period    = toText(item['준비기간']      || '');
+      const knowledge = toText(item['핵심전문지식']  || '');
+      const category  = toText(item['직업분류']      || '');
+
+      const faqs = [
+        {
+          q: `${jobName}이 되려면 어떤 학과를 가야 하나요?`,
+          a: major || `${jobName}과 관련된 학과·전공을 통해 준비할 수 있습니다.`
+        },
+        {
+          q: `${jobName} 준비 기간은 얼마나 걸리나요?`,
+          a: period || `직업 특성과 개인 역량에 따라 다르지만 충분한 준비가 필요합니다.`
+        },
+        {
+          q: `${country}에서 ${jobName}에게 필요한 전문 지식은 무엇인가요?`,
+          a: knowledge || `해당 분야의 핵심 전문 지식과 실무 경험이 필요합니다.`
+        },
+        {
+          q: `${jobName}은 어떤 직업 분류에 속하나요?`,
+          a: category
+            ? `${jobName}은 '${category}' 분야에 속하는 직업입니다.`
+            : `미래 유망 직업군에 속합니다.`
+        }
+      ];
+
+      return `
+        <div class="section-card" style="margin-top:12px;"
+             itemscope itemtype="https://schema.org/FAQPage">
+          <div class="section-title">자주 묻는 질문 (FAQ)</div>
+          ${faqs.map(f => `
+            <div style="margin-bottom:14px; padding-bottom:14px;
+                        border-bottom:1px solid rgba(148,163,184,0.15);"
+                 itemscope itemprop="mainEntity"
+                 itemtype="https://schema.org/Question">
+              <p style="font-weight:600; color:#e2e8f0; margin:0 0 6px 0; font-size:0.92rem;"
+                 itemprop="name">Q. ${escapeHtml(f.q)}</p>
+              <div itemscope itemprop="acceptedAnswer"
+                   itemtype="https://schema.org/Answer">
+                <p style="color:#94a3b8; margin:0; font-size:0.88rem; line-height:1.6;"
+                   itemprop="text">A. ${escapeHtml(f.a)}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>`;
+    }
+
+    // ── renderJobDetail: FAQ 포함 (STEP 5) ──────────────────────
     function renderJobDetail(item, country) {
       const el = document.getElementById('jobDetailContent');
 
-      const jobName    = toText(item['추천직업']);
+      const jobName     = toText(item['추천직업']);
       const description = toText(item['직업해설']);
-      const riasecCode  = toText(item['RIASEC']);   // ← 추가
+      const riasecCode  = toText(item['RIASEC']);
 
-      updateMeta(jobName, country, description, riasecCode); // ← riasecCode 전달
+      updateMeta(jobName, country, description, riasecCode);
 
       el.innerHTML = `
         <div class="job-card">
@@ -204,6 +242,8 @@
           <div class="section-title">준비 기간</div>
           <p class="section-text">${escapeHtml(toText(item['준비기간']) || '정보 없음')}</p>
         </div>
+
+        ${buildFaq(item, country, jobName)}
 
         <a href="javascript:history.back()" class="back-btn">← 이전 페이지로 돌아가기</a>
         <a href="index.html" class="back-btn" style="margin-top:10px;">← 다시 입력하기</a>
