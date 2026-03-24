@@ -39,11 +39,37 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+<style>
+  .gold-divider {
+    position: relative;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent 0%, #b8860b 20%, #ffd700 50%, #b8860b 80%, transparent 100%);
+    margin: 12px 0;
+    overflow: hidden;
+  }
+  .gold-divider::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+    animation: goldShimmer 1.8s ease-in-out infinite;
+  }
+  @keyframes goldShimmer {
+    0%   { left: -60%; }
+    100% { left: 160%; }
+  }
+</style>
+
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1 style="font-size:1.1rem; font-weight:700; margin:0;">미래 직업 추천</h1>
+      <div class="gold-divider"></div>
     </div>
 
     <div class="card">
@@ -122,6 +148,7 @@
           </select>
         </div>
 
+        <div class="gold-divider"></div>
         <button type="submit" class="submit-btn">추천 직업 보기 →</button>
         
       </form>
