@@ -32,6 +32,11 @@
     }
   </script>
 
+  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+  <script>
+      Kakao.init('1d496a6dc1fc8f8e88bafb5f36db7ca6');
+  </script>
+
 </head>
 <body>
 
@@ -458,6 +463,14 @@
   </button>
   -->
 
+  <div style="margin-top:20px; text-align:center;">
+     <button onclick="shareKakao()" 
+         style="padding:12px 20px; background:#FEE500; border:none; border-radius:8px; font-weight:bold;">
+        👉 카카오톡으로 결과 공유하기
+     </button>
+  </div>
+
+
   <div id="qrSection" style="margin-top:18px; padding:16px; background:#1e293b;
        border-radius:12px; border:1px solid #334155; text-align:center;">
     <p style="font-size:0.82rem; color:#94a3b8; margin:0 0 10px 0;">
@@ -667,5 +680,33 @@
 
     window.addEventListener('DOMContentLoaded', loadAndDisplayResult);
   </script>
+
+<script>
+function shareKakao() {
+  Kakao.Share.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: 'AI 미래 직업 추천 결과',
+      description: '내 미래 직업 결과 확인해보기 (무료)',
+      imageUrl: 'https://futurejob.site/kdsimage.png',
+      link: {
+        mobileWebUrl: window.location.href,
+        webUrl: window.location.href,
+      },
+    },
+    buttons: [
+      {
+        title: '결과 보러가기',
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href,
+        },
+      },
+    ],
+  });
+}
+</script>
+
+
 </body>
 </html>
