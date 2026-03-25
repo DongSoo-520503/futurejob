@@ -18,4 +18,10 @@
     <lastmod>2026-03-22</lastmod>
   </sitemap>
 
+  <!-- 취업비자 안내 페이지 sitemap -->
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_visa.xml</loc>
+    <lastmod>2026-03-25</lastmod>
+  </sitemap>
+
 </sitemapindex>

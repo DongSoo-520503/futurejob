@@ -202,8 +202,101 @@
         </div>`;
     }
 
-    // ── renderJobDetail: FAQ 포함 (STEP 5) ──────────────────────
-    function renderJobDetail(item, country) {
+    // ── 취업비자 섹션 생성 함수 ──────────────────────────────────
+    async function buildVisaSection(country) {
+      const FLAG = {
+        '대한민국':'🇰🇷','미국':'🇺🇸','일본':'🇯🇵','독일':'🇩🇪','캐나다':'🇨🇦',
+        '호주':'🇦🇺','싱가포르':'🇸🇬','영국':'🇬🇧','중국':'🇨🇳','인도':'🇮🇳',
+        '베트남':'🇻🇳','태국':'🇹🇭','인도네시아':'🇮🇩','아랍에미리트':'🇦🇪',
+        '사우디아라비아':'🇸🇦','이스라엘':'🇮🇱','프랑스':'🇫🇷','이탈리아':'🇮🇹',
+        '스위스':'🇨🇭','튀르키예':'🇹🇷','폴란드':'🇵🇱','멕시코':'🇲🇽',
+        '브라질':'🇧🇷','남아프리카공화국':'🇿🇦','나이지리아':'🇳🇬','러시아':'🇷🇺'
+      };
+
+      try {
+        const res = await fetch('./data/visa_data.json');
+        if (!res.ok) throw new Error('비자 데이터 없음');
+        const data = await res.json();
+        const info = data[country];
+        if (!info) return '';
+
+        const steps = (info['절차'] || []).map((s, i) => `
+          <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#b8860b,#ffd700);
+                        color:#0f172a;font-size:0.72rem;font-weight:700;display:flex;align-items:center;
+                        justify-content:center;flex-shrink:0;margin-top:1px;">${i+1}</div>
+            <div style="color:#94a3b8;font-size:0.87rem;line-height:1.5;">${escapeHtml(s)}</div>
+          </div>`).join('');
+
+        const docs = (info['필요서류'] || []).map(d =>
+          `<span style="padding:3px 9px;background:rgba(15,23,42,0.6);border:1px solid rgba(148,163,184,0.2);
+                        border-radius:6px;color:#94a3b8;font-size:0.78rem;">📄 ${escapeHtml(d)}</span>`
+        ).join('');
+
+        return `
+          <div class="section-card" style="margin-top:12px;">
+            <div class="section-title">${FLAG[country]||''} ${escapeHtml(country)} 취업비자 안내</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+              <div style="background:rgba(15,23,42,0.5);border-radius:8px;padding:10px;
+                          border:1px solid rgba(148,163,184,0.1);">
+                <div style="font-size:0.72rem;color:#64748b;font-weight:600;margin-bottom:3px;">비자 종류</div>
+                <div style="font-size:0.85rem;color:#e2e8f0;">${escapeHtml(info['비자종류']||'-')}</div>
+              </div>
+              <div style="background:rgba(15,23,42,0.5);border-radius:8px;padding:10px;
+                          border:1px solid rgba(148,163,184,0.1);">
+                <div style="font-size:0.72rem;color:#64748b;font-weight:600;margin-bottom:3px;">처리 기간</div>
+                <div style="font-size:0.85rem;color:#e2e8f0;">⏱ ${escapeHtml(info['처리기간']||'-')}</div>
+              </div>
+              <div style="background:rgba(15,23,42,0.5);border-radius:8px;padding:10px;
+                          border:1px solid rgba(148,163,184,0.1);">
+                <div style="font-size:0.72rem;color:#64748b;font-weight:600;margin-bottom:3px;">비용</div>
+                <div style="font-size:0.85rem;color:#e2e8f0;">💰 ${escapeHtml(info['비용']||'-')}</div>
+              </div>
+              <div style="background:rgba(15,23,42,0.5);border-radius:8px;padding:10px;
+                          border:1px solid rgba(148,163,184,0.1);">
+                <div style="font-size:0.72rem;color:#64748b;font-weight:600;margin-bottom:3px;">유효 기간</div>
+                <div style="font-size:0.85rem;color:#e2e8f0;">📅 ${escapeHtml(info['유효기간']||'-')}</div>
+              </div>
+            </div>
+
+            <div style="font-size:0.85rem;font-weight:700;color:#cbd5e1;margin-bottom:8px;">📌 취득 절차</div>
+            ${steps}
+
+            <div style="font-size:0.85rem;font-weight:700;color:#cbd5e1;margin:12px 0 8px 0;">📂 필요 서류</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px;">${docs}</div>
+
+            ${info['팁'] ? `
+              <div style="margin-top:12px;padding:10px 12px;background:rgba(184,134,11,0.1);
+                          border:1px solid rgba(255,215,0,0.2);border-radius:8px;
+                          color:#fbbf24;font-size:0.85rem;line-height:1.5;">
+                💡 ${escapeHtml(info['팁'])}
+              </div>` : ''}
+
+            <a href="visa.html?country=${encodeURIComponent(country)}"
+               style="display:block;margin-top:12px;padding:14px;text-align:center;
+                      background:linear-gradient(135deg,#b8860b,#ffd700);
+                      color:#0f172a;border-radius:8px;font-size:0.82rem;font-weight:700;
+                      text-decoration:none;">
+              🌏 ${escapeHtml(country)} 비자 상세 보기 →
+            </a>
+          </div>`;
+      } catch(e) {
+        console.warn('비자 정보 로드 실패:', e.message);
+        return `
+          <div class="section-card" style="margin-top:12px;">
+            <div class="section-title">🌏 취업비자 안내</div>
+            <p class="section-text">
+              <a href="visa.html?country=${encodeURIComponent(country)}"
+                 style="color:#ffd700;text-decoration:none;">
+                ${escapeHtml(country)} 취업비자 절차 확인하기 →
+              </a>
+            </p>
+          </div>`;
+      }
+    }
+
+    // ── renderJobDetail: FAQ + 비자 섹션 포함 ────────────────────
+    async function renderJobDetail(item, country) {
       const el = document.getElementById('jobDetailContent');
 
       const jobName     = toText(item['추천직업']);
@@ -211,6 +304,8 @@
       const riasecCode  = toText(item['RIASEC']);
 
       updateMeta(jobName, country, description, riasecCode);
+
+      const visaHtml = await buildVisaSection(country);
 
       el.innerHTML = `
         <div class="job-card">
@@ -244,6 +339,8 @@
         </div>
 
         ${buildFaq(item, country, jobName)}
+
+        ${visaHtml}
 
         <a href="javascript:history.back()" class="back-btn">← 이전 페이지로 돌아가기</a>
         <a href="index.html" class="back-btn" style="margin-top:10px;">← 다시 입력하기</a>
