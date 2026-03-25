@@ -43,22 +43,27 @@
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
 
     .country-selector {
-      display: flex; flex-wrap: wrap; gap: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
       margin: 16px 0; padding: 16px;
       background: rgba(30,41,59,0.6);
       border-radius: 12px;
       border: 1px solid rgba(148,163,184,0.15);
     }
     .country-btn {
-      padding: 6px 14px;
+      padding: 10px 8px;
       border: 1px solid rgba(148,163,184,0.3);
-      border-radius: 20px;
+      border-radius: 12px;
       background: rgba(30,41,59,0.8);
       color: #94a3b8;
-      font-size: 0.82rem;
+      font-size: 0.88rem;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
       font-family: 'Noto Sans KR', sans-serif;
+      text-align: center;
+      width: 100%;
     }
     .country-btn:hover { border-color: #ffd700; color: #ffd700; }
     .country-btn.active {
@@ -87,7 +92,7 @@
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 12px; margin-bottom: 16px;
     }
-    @media (max-width: 480px) { .info-grid { grid-template-columns: 1fr; } }
+    /* info-grid: 항상 2열 유지 */
     .info-item {
       background: rgba(15,23,42,0.5);
       border-radius: 10px; padding: 12px;
@@ -121,13 +126,18 @@
     .step-text { color: #94a3b8; font-size: 0.88rem; line-height: 1.5; }
 
     .docs-section { margin-top: 16px; }
-    .doc-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .doc-tags {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px; margin-top: 8px;
+    }
     .doc-tag {
-      padding: 4px 10px;
+      padding: 8px 10px;
       background: rgba(15,23,42,0.6);
       border: 1px solid rgba(148,163,184,0.2);
-      border-radius: 6px;
-      color: #94a3b8; font-size: 0.8rem;
+      border-radius: 8px;
+      color: #94a3b8; font-size: 0.82rem;
+      text-align: center;
     }
 
     .tip-box {
