@@ -149,18 +149,7 @@
     }
     .tip-box::before { content: '💡 '; }
 
-    .search-box {
-      width: 100%; padding: 10px 14px;
-      background: rgba(15,23,42,0.6);
-      border: 1px solid rgba(148,163,184,0.2);
-      border-radius: 10px;
-      color: #e2e8f0; font-size: 0.9rem;
-      font-family: 'Noto Sans KR', sans-serif;
-      outline: none; box-sizing: border-box;
-      margin-bottom: 8px;
-    }
-    .search-box:focus { border-color: #ffd700; }
-    .search-box::placeholder { color: #475569; }
+
 
     .back-btn {
       display: inline-block; margin-top: 20px;
@@ -188,13 +177,7 @@
     </div>
 
     <div class="card" style="padding:16px;">
-      <input
-        class="search-box"
-        id="searchInput"
-        type="text"
-        placeholder="🔍 국가명 검색 (예: 미국, 일본, 독일...)"
-        oninput="filterCountries()"
-      >
+
       <div class="country-selector" id="countrySelector"></div>
     </div>
 
@@ -242,14 +225,11 @@
         </button>`).join('');
     }
 
-    function filterCountries() {
-      const q = document.getElementById('searchInput').value.trim();
-      buildCountryButtons(q);
-    }
+
 
     function selectCountry(country) {
       currentCountry = country;
-      buildCountryButtons(document.getElementById('searchInput').value.trim());
+      buildCountryButtons();
 
       // GA4 이벤트
       if (typeof gtag !== 'undefined') {
