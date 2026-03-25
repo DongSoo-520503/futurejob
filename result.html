@@ -336,7 +336,8 @@
     function displayResult(data, secondCandidates) {
       updateResultMeta(data);
 
-      gtag('event', 'view_result', { job: data.job, country: data.country, period: data.period, riasec: data.riasec, big5: data.big5 });
+      loadCountryInfo(data.country);
+        gtag('event', 'view_result', { job: data.job, country: data.country, period: data.period, riasec: data.riasec, big5: data.big5 });
 
       const el = document.getElementById('resultContent');
       const hasCandidates = secondCandidates?.length > 0;
@@ -425,6 +426,20 @@
           </div>`).join('')
       : '후보 데이터가 없습니다.'}
   </div>
+</div>
+
+
+<div class="section-card" id="countryInfoSection" style="margin-top:12px; display:none;">
+  <div class="section-title" id="countryInfoTitle">🌐 국가 특성</div>
+
+  <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">🏭 핵심 산업 키워드</div>
+  <div id="countryTags" style="margin-bottom:14px;"></div>
+
+  <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">📈 최근 경제·정치 상황</div>
+  <p id="countryRecent" style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin:0 0 12px 0;"></p>
+
+  <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">🎯 향후 정책·전략 방향</div>
+  <p id="countryPolicy" style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin:0;"></p>
 </div>
 
 <a href="index.html" class="back-btn">← 다시 입력하기</a>
@@ -670,6 +685,52 @@
       } catch (err) {
         console.error(err);
         el.innerHTML = `<div class="empty-box"><p>${escapeHtml(err.message)}</p><a href="index.html" class="back-btn">← 다시 입력하기</a></div>`;
+      }
+    }
+
+
+    // ── 국가 특성 로딩 ──────────────────────────────────────────
+    async function loadCountryInfo(country) {
+      try {
+        const res = await fetch('./data/country_data.json');
+        if (!res.ok) return;
+        const cdata = await res.json();
+        const info = cdata[country];
+        if (!info) return;
+
+        const keywords = (info['핵심산업'] || '')
+          .split(/[,·]/)
+          .map(k => k.trim())
+          .filter(k => k.length > 1 && k.length < 30)
+          .slice(0, 8);
+
+        const tagHtml = keywords.map(k =>
+          `<span style="display:inline-block;padding:3px 9px;margin:3px 3px 3px 0;
+            background:rgba(30,41,59,0.8);border:1px solid rgba(148,163,184,0.2);
+            border-radius:6px;color:#94a3b8;font-size:0.78rem;">${k}</span>`
+        ).join('');
+
+        const flagMap = {'대한민국':'🇰🇷','미국':'🇺🇸','일본':'🇯🇵','독일':'🇩🇪','캐나다':'🇨🇦',
+          '호주':'🇦🇺','싱가포르':'🇸🇬','영국':'🇬🇧','중국':'🇨🇳','인도':'🇮🇳',
+          '베트남':'🇻🇳','태국':'🇹🇭','인도네시아':'🇮🇩','아랍에미리트':'🇦🇪',
+          '사우디아라비아':'🇸🇦','이스라엘':'🇮🇱','프랑스':'🇫🇷','이탈리아':'🇮🇹',
+          '스위스':'🇨🇭','튀르키예':'🇹🇷','폴란드':'🇵🇱','멕시코':'🇲🇽',
+          '브라질':'🇧🇷','남아프리카공화국':'🇿🇦','나이지리아':'🇳🇬','러시아':'🇷🇺'};
+
+        const el = document.getElementById('countryInfoSection');
+        const titleEl = document.getElementById('countryInfoTitle');
+        const tagsEl  = document.getElementById('countryTags');
+        const recentEl= document.getElementById('countryRecent');
+        const policyEl= document.getElementById('countryPolicy');
+
+        if (!el) return;
+        if (titleEl) titleEl.textContent = `${flagMap[country]||'🌐'} ${country} 국가 특성`;
+        if (tagsEl)  tagsEl.innerHTML = tagHtml;
+        if (recentEl) recentEl.textContent = info['최근상황'] || '-';
+        if (policyEl) policyEl.textContent = info['정책방향'] || '-';
+        el.style.display = 'block';
+      } catch(e) {
+        console.warn('국가 특성 로드 실패:', e.message);
       }
     }
 

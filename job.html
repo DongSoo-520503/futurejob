@@ -295,6 +295,52 @@
       }
     }
 
+
+    // ── 국가 특성 섹션 생성 함수 ─────────────────────────────────
+    async function buildCountrySection(country) {
+      try {
+        const res = await fetch('./data/country_data.json');
+        if (!res.ok) throw new Error('국가 데이터 없음');
+        const data = await res.json();
+        const info = data[country];
+        if (!info) return '';
+
+        // 핵심 산업 키워드 태그화 (쉼표/마침표 분리)
+        const keywords = (info['핵심산업'] || '')
+          .split(/[,·]/)
+          .map(k => k.trim())
+          .filter(k => k.length > 1 && k.length < 30)
+          .slice(0, 8);
+
+        const tags = keywords.map(k =>
+          `<span style="display:inline-block;padding:3px 9px;margin:3px 3px 3px 0;
+                        background:rgba(30,41,59,0.8);border:1px solid rgba(148,163,184,0.2);
+                        border-radius:6px;color:#94a3b8;font-size:0.78rem;">${escapeHtml(k)}</span>`
+        ).join('');
+
+        return `
+          <div class="section-card" style="margin-top:12px;">
+            <div class="section-title">🌐 ${escapeHtml(country)} 국가 특성</div>
+
+            <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">🏭 핵심 산업 키워드</div>
+            <div style="margin-bottom:14px;">${tags}</div>
+
+            <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">📈 최근 경제·정치 상황</div>
+            <p style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin:0 0 12px 0;">
+              ${escapeHtml(info['최근상황'] || '-')}
+            </p>
+
+            <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">🎯 향후 정책·전략 방향</div>
+            <p style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin:0;">
+              ${escapeHtml(info['정책방향'] || '-')}
+            </p>
+          </div>`;
+      } catch(e) {
+        console.warn('국가 특성 로드 실패:', e.message);
+        return '';
+      }
+    }
+
     // ── renderJobDetail: FAQ + 비자 섹션 포함 ────────────────────
     async function renderJobDetail(item, country) {
       const el = document.getElementById('jobDetailContent');
@@ -305,7 +351,10 @@
 
       updateMeta(jobName, country, description, riasecCode);
 
-      const visaHtml = await buildVisaSection(country);
+      const [visaHtml, countryHtml] = await Promise.all([
+        buildVisaSection(country),
+        buildCountrySection(country)
+      ]);
 
       el.innerHTML = `
         <div class="job-card">
@@ -341,6 +390,8 @@
         ${buildFaq(item, country, jobName)}
 
         ${visaHtml}
+
+        ${countryHtml}
 
         <a href="javascript:history.back()" class="back-btn">← 이전 페이지로 돌아가기</a>
         <a href="index.html" class="back-btn" style="margin-top:10px;">← 다시 입력하기</a>
