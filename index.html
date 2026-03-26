@@ -1,120 +1,110 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="zh-CN">
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>미래 직업 추천</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>未来职业推荐 | AI职业规划</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
 
-<!-- 구글 검색 노출 -->
-<meta name="description" content="AI 기반으로 성향(RIASEC, Big5)과 학업 계획을 분석하여 미래 유망 직업을 추천해주는 서비스">
-<meta name="keywords" content="미래 직업, 미래 직업 추천, 직업 추천 사이트, AI 직업 추천, AI 직업 테스트, 적성 검사, 진로 추천, 학생 진로 탐색, 초등학생 직업 추천, 중학생 직업 추천, 고등학생 직업 추천, 미래 유망 직업, 2030 직업 전망, 2040 직업 전망, 고소득 직업 추천, 연봉 높은 직업, 해외 취업 직업 추천, 국가별 직업 추천, 직업 데이터 분석, RIASEC 검사, Big5 성격 검사, 진로 설계, 교육 플랫폼">
-<meta name="author" content="FutureJob">
-<meta name="robots" content="index, follow">
+  <meta name="description" content="AI根据您的性格特征（RIASEC和Big5）及学习计划，免费为您推荐26个国家最具前景的未来职业。">
+  <meta name="keywords" content="未来职业, 职业推荐, AI职业规划, 职业测试, RIASEC测试, Big5性格, 职业适性, 职业规划, 2030职业, 2040职业, 高薪职业, 海外就业, 学生职业规划, 职业方向">
+  <meta name="author" content="FutureJob">
+  <meta name="robots" content="index, follow">
 
-<!-- Open Graph (카톡, SNS 공유) -->
-<meta property="og:title" content="Future Job Recommendation">
-<meta property="og:description" content="AI 기반 미래 직업 추천 서비스">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.futurejob.site/">
-<meta property="og:image" content="https://www.futurejob.site/frontimage.png">
-<meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="未来职业推荐 | AI职业规划">
+  <meta property="og:description" content="AI根据RIASEC和Big5性格分析，为您推荐26个国家最具前景的未来职业。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.futurejob.site/zh/">
+  <meta property="og:image" content="https://www.futurejob.site/frontimage.png">
+  <meta property="og:locale" content="zh_CN">
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Future Job Recommendation">
-<meta name="twitter:description" content="AI 기반 미래 직업 추천 서비스">
-<meta name="twitter:image" content="https://www.futurejob.site/frontimage.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="未来职业推荐 | AI职业规划">
+  <meta name="twitter:description" content="AI根据RIASEC和Big5性格分析，为您推荐26个国家最具前景的未来职业。">
+  <meta name="twitter:image" content="https://www.futurejob.site/frontimage.png">
 
-<!-- ✅ Canonical + hreflang 14개 전체 -->
-<link rel="canonical" href="https://www.futurejob.site/">
-<link rel="alternate" hreflang="ko" href="https://www.futurejob.site/">
-<link rel="alternate" hreflang="en" href="https://www.futurejob.site/en/">
-<link rel="alternate" hreflang="ja" href="https://www.futurejob.site/ja/">
-<link rel="alternate" hreflang="de" href="https://www.futurejob.site/de/">
-<link rel="alternate" hreflang="fr" href="https://www.futurejob.site/fr/">
-<link rel="alternate" hreflang="es" href="https://www.futurejob.site/es/">
-<link rel="alternate" hreflang="pt" href="https://www.futurejob.site/pt/">
-<link rel="alternate" hreflang="ru" href="https://www.futurejob.site/ru/">
-<link rel="alternate" hreflang="it" href="https://www.futurejob.site/it/">
-<link rel="alternate" hreflang="pl" href="https://www.futurejob.site/pl/">
-<link rel="alternate" hreflang="tr" href="https://www.futurejob.site/tr/">
-<link rel="alternate" hreflang="vi" href="https://www.futurejob.site/vi/">
-<link rel="alternate" hreflang="id" href="https://www.futurejob.site/id/">
-<link rel="alternate" hreflang="th" href="https://www.futurejob.site/th/">
-<link rel="alternate" hreflang="x-default" href="https://www.futurejob.site/en/">
-<!-- 구글 검색 노출 끝 -->
+  <link rel="canonical" href="https://www.futurejob.site/zh/">
+  <link rel="alternate" hreflang="ko" href="https://www.futurejob.site/">
+  <link rel="alternate" hreflang="en" href="https://www.futurejob.site/en/">
+  <link rel="alternate" hreflang="ja" href="https://www.futurejob.site/ja/">
+  <link rel="alternate" hreflang="de" href="https://www.futurejob.site/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.futurejob.site/fr/">
+  <link rel="alternate" hreflang="es" href="https://www.futurejob.site/es/">
+  <link rel="alternate" hreflang="pt" href="https://www.futurejob.site/pt/">
+  <link rel="alternate" hreflang="ru" href="https://www.futurejob.site/ru/">
+  <link rel="alternate" hreflang="it" href="https://www.futurejob.site/it/">
+  <link rel="alternate" hreflang="pl" href="https://www.futurejob.site/pl/">
+  <link rel="alternate" hreflang="tr" href="https://www.futurejob.site/tr/">
+  <link rel="alternate" hreflang="vi" href="https://www.futurejob.site/vi/">
+  <link rel="alternate" hreflang="id" href="https://www.futurejob.site/id/">
+  <link rel="alternate" hreflang="th" href="https://www.futurejob.site/th/">
+  <link rel="alternate" hreflang="ar" href="https://www.futurejob.site/ar/">
+  <link rel="alternate" hreflang="zh" href="https://www.futurejob.site/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.futurejob.site/en/">
 
-<!-- Google Search Console -->
-<meta name="google-site-verification" content="pUQZD3iOFcU8lV2yrRhR96065eqW3iqYfB7qYglr8XY" />
+  <meta name="google-site-verification" content="pUQZD3iOFcU8lV2yrRhR96065eqW3iqYfB7qYglr8XY">
 
-<!-- 네이버 서치어드바이저 소유확인 -->
-<meta name="naver-site-verification" content="07ce5864598e24b61ddf76b40b1bc302ed8e2e2e" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3V0P1S9DZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J3V0P1S9DZ');
+  </script>
 
-<!-- Google tag (gtag.js) 방문자 분석 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J3V0P1S9DZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-J3V0P1S9DZ');
-</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<style>
-  .gold-divider {
-    position: relative;
-    height: 1px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, transparent 0%, #b8860b 20%, #ffd700 50%, #b8860b 80%, transparent 100%);
-    margin: 12px 0;
-    overflow: hidden;
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FutureJob - AI职业推荐",
+    "url": "https://www.futurejob.site/zh/",
+    "description": "基于RIASEC和Big5性格分析，AI为您免费推荐26个国家最具前景的未来职业。",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "publisher": { "@type": "Organization", "name": "FutureJob", "url": "https://www.futurejob.site" }
   }
-  .gold-divider::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -60%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
-    animation: goldShimmer 1.8s ease-in-out infinite;
-  }
-  @keyframes goldShimmer {
-    0%   { left: -60%; }
-    100% { left: 160%; }
-  }
-  .lang-switcher {
-    display: flex;
-    justify-content: flex-end;
-    gap: 6px;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
-  }
-  .lang-btn {
-    font-size: 0.72rem;
-    color: #64748b;
-    text-decoration: none;
-    padding: 3px 7px;
-    border: 1px solid rgba(148,163,184,0.2);
-    border-radius: 6px;
-    transition: all 0.2s;
-  }
-  .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
-  .lang-btn.active { color: #ffd700; border-color: #ffd700; }
-</style>
+  </script>
 
+  <style>
+    body, input, select, button, label, p, h1, span, option {
+      font-family: 'Noto Sans SC', sans-serif;
+    }
+    .gold-divider {
+      position: relative; height: 1px; border-radius: 2px;
+      background: linear-gradient(90deg, transparent 0%, #b8860b 20%, #ffd700 50%, #b8860b 80%, transparent 100%);
+      margin: 12px 0; overflow: hidden;
+    }
+    .gold-divider::after {
+      content: ''; position: absolute; top: 0; left: -60%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+      animation: goldShimmer 1.8s ease-in-out infinite;
+    }
+    @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
+    .lang-switcher {
+      display: flex; justify-content: flex-end;
+      gap: 6px; margin-bottom: 8px; flex-wrap: wrap;
+    }
+    .lang-btn {
+      font-size: 0.72rem; color: #64748b; text-decoration: none;
+      padding: 3px 7px; border: 1px solid rgba(148,163,184,0.2);
+      border-radius: 6px; transition: all 0.2s;
+      font-family: 'Space Mono', monospace;
+    }
+    .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
+    .lang-btn.active { color: #ffd700; border-color: #ffd700; }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <!-- ✅ 언어 전환 버튼 14개 -->
       <div class="lang-switcher">
-        <a class="lang-btn active" href="https://www.futurejob.site/">🇰🇷 KO</a>
+        <a class="lang-btn" href="https://www.futurejob.site/">🇰🇷 KO</a>
         <a class="lang-btn" href="https://www.futurejob.site/en/">🇺🇸 EN</a>
         <a class="lang-btn" href="https://www.futurejob.site/ja/">🇯🇵 JA</a>
         <a class="lang-btn" href="https://www.futurejob.site/de/">🇩🇪 DE</a>
@@ -128,126 +118,115 @@
         <a class="lang-btn" href="https://www.futurejob.site/vi/">🇻🇳 VI</a>
         <a class="lang-btn" href="https://www.futurejob.site/id/">🇮🇩 ID</a>
         <a class="lang-btn" href="https://www.futurejob.site/th/">🇹🇭 TH</a>
+        <a class="lang-btn" href="https://www.futurejob.site/ar/">🇦🇪 AR</a>
+        <a class="lang-btn active" href="https://www.futurejob.site/zh/">🇨🇳 ZH</a>
+      
       </div>
-      <h1 style="font-size:1.1rem; font-weight:700; margin:0;">미래 직업 추천</h1>
+      <h1 style="font-size:1.1rem; font-weight:700; margin:0;">未来职业推荐</h1>
       <div class="gold-divider"></div>
     </div>
 
     <div class="card">
       <form id="jobForm" class="form-grid">
         <div class="field">
-          <label for="name">성명</label>
-          <input id="name" name="name" type="text" placeholder="성명을 입력하세요" required>
+          <label for="name">姓名</label>
+          <input id="name" name="name" type="text" placeholder="请输入您的姓名" required>
         </div>
-
         <div class="field">
-          <label for="dob">출생연도 <span style="font-weight:400;color:#64748b">: 취업시기 결정</span></label>
-          <input id="dob" name="dob" type="number" inputmode="numeric" placeholder="예) 2010" required>
+          <label for="dob">出生年份 <span style="font-weight:400;color:#64748b">: 用于推算就业时间</span></label>
+          <input id="dob" name="dob" type="number" inputmode="numeric" placeholder="例：2005" required>
         </div>
-
         <div class="field">
-          <label for="country">취업 국가</label>
+          <label for="country">目标国家</label>
           <select id="country" name="country">
-            <option value="대한민국">대한민국</option>
-            <option value="미국">미국</option>
-            <option value="일본">일본</option>
-            <option value="독일">독일</option>
-            <option value="캐나다">캐나다</option>
-            <option value="호주">호주</option>
-            <option value="싱가포르">싱가포르</option>
-            <option value="영국">영국</option>
-            <option value="중국">중국</option>
-            <option value="인도">인도</option>
-            <option value="베트남">베트남</option>
-            <option value="태국">태국</option>
-            <option value="인도네시아">인도네시아</option>
-            <option value="아랍에미리트">아랍에미리트</option>
-            <option value="사우디아라비아">사우디아라비아</option>
-            <option value="이스라엘">이스라엘</option>
-            <option value="프랑스">프랑스</option>
-            <option value="이탈리아">이탈리아</option>
-            <option value="스위스">스위스</option>
-            <option value="튀르키예">튀르키예</option>
-            <option value="폴란드">폴란드</option>
-            <option value="멕시코">멕시코</option>
-            <option value="브라질">브라질</option>
-            <option value="남아프리카공화국">남아프리카공화국</option>
-            <option value="나이지리아">나이지리아</option>
-            <option value="러시아">러시아</option>
+            <option value="중국">🇨🇳 中国</option>
+            <option value="미국">🇺🇸 美国</option>
+            <option value="영국">🇬🇧 英国</option>
+            <option value="캐나다">🇨🇦 加拿大</option>
+            <option value="호주">🇦🇺 澳大利亚</option>
+            <option value="독일">🇩🇪 德国</option>
+            <option value="프랑스">🇫🇷 法国</option>
+            <option value="이탈리아">🇮🇹 意大利</option>
+            <option value="스위스">🇨🇭 瑞士</option>
+            <option value="폴란드">🇵🇱 波兰</option>
+            <option value="싱가포르">🇸🇬 新加坡</option>
+            <option value="일본">🇯🇵 日本</option>
+            <option value="인도">🇮🇳 印度</option>
+            <option value="베트남">🇻🇳 越南</option>
+            <option value="태국">🇹🇭 泰国</option>
+            <option value="인도네시아">🇮🇩 印度尼西亚</option>
+            <option value="아랍에미리트">🇦🇪 阿联酋</option>
+            <option value="사우디아라비아">🇸🇦 沙特阿拉伯</option>
+            <option value="이스라엘">🇮🇱 以色列</option>
+            <option value="튀르키예">🇹🇷 土耳其</option>
+            <option value="멕시코">🇲🇽 墨西哥</option>
+            <option value="브라질">🇧🇷 巴西</option>
+            <option value="남아프리카공화국">🇿🇦 南非</option>
+            <option value="나이지리아">🇳🇬 尼日利亚</option>
+            <option value="러시아">🇷🇺 俄罗斯</option>
+            <option value="대한민국">🇰🇷 韩国</option>
           </select>
         </div>
-
         <div class="field">
-          <label for="ability">학업 계획 <span style="font-weight:400;color:#64748b">: 지능/노력/성적 등 감안</span></label>
+          <label for="ability">学业计划 <span style="font-weight:400;color:#64748b">: 综合考虑智力、努力和成绩</span></label>
           <select id="ability" name="ability">
-            <option value="상">석박사 이상 예정 (출생연도 2000~2029년 사이)</option>
-            <option value="중">대학/대학원 예정 (출생연도 2004~2033년 사이)</option>
-            <option value="하">전문대/직업고 예정 (출생연도 2008~2037년 사이)</option>
+            <option value="상">硕士 / 博士计划（出生年份 2000–2029）</option>
+            <option value="중">本科 / 大学计划（出生年份 2004–2033）</option>
+            <option value="하">专科 / 职业学校计划（出生年份 2008–2037）</option>
           </select>
         </div>
-
         <div class="field">
-          <label for="riasec">직업 흥미 유형 (RIASEC)</label>
+          <label for="riasec">职业兴趣类型（RIASEC）</label>
           <select id="riasec" name="riasec">
-            <option value="R">🔧 만들고 조작 - 기계·도구를 직접 다루는 게 재미있어요</option>
-            <option value="I">🔬 파고들고 연구 - 원리 탐구, 데이터·과학을 좋아해요</option>
-            <option value="A">🎨 만들고 표현 - 그림·영상·디자인·창작을 즐겨요</option>
-            <option value="S">🤝 돕고 함께 - 사람들과 어울리고 돌보는 게 보람 있어요</option>
-            <option value="E">🚀 이끌고 도전 - 목표 설정, 설득·리더십이 잘 맞아요</option>
-            <option value="C">📋 정리하고 관리 - 규칙대로 꼼꼼하게 체계적으로 일해요</option>
+            <option value="R">🔧 实用型 — 喜欢使用机械和工具进行实际操作</option>
+            <option value="I">🔬 研究型 — 热爱数据、科学和解决问题</option>
+            <option value="A">🎨 艺术型 — 通过设计和创意来表达自我</option>
+            <option value="S">🤝 社会型 — 从帮助他人和团队合作中获得意义</option>
+            <option value="E">🚀 企业型 — 领导力和说服力是我的强项</option>
+            <option value="C">📋 常规型 — 偏好有条理、规范化的工作方式</option>
           </select>
         </div>
-
         <div class="field">
-          <label for="big5">개인 성향 (Big5)</label>
+          <label for="big5">性格类型（Big5）</label>
           <select id="big5" name="big5">
-            <option value="O">✨ 호기심 — 새 아이디어·변화를 즐기고 상상력이 풍부해요</option>
-            <option value="C">📌 계획적 — 목표를 세우고 책임감 있게 끝까지 해내요</option>
-            <option value="E">😊 외향적 — 사람들과 함께하는 환경에서 활발히 활동해요</option>
-            <option value="A">💛 배려심 — 타인을 돕고 협력하는 게 자연스러워요</option>
-            <option value="N">🛡 신중함 — 위험을 미리 감지하고 꼼꼼히 대비해요</option>
+            <option value="O">✨ 开放性 — 好奇、有创意，喜欢新想法和变化</option>
+            <option value="C">📌 尽责性 — 有条理、负责任、做事有始有终</option>
+            <option value="E">😊 外向性 — 在社交环境中充满活力</option>
+            <option value="A">💛 宜人性 — 乐于助人、善于合作、富有同理心</option>
+            <option value="N">🛡 神经质 — 谨慎、对风险敏感、注重细节</option>
           </select>
         </div>
-
         <div class="gold-divider"></div>
-        <button type="submit" class="submit-btn">추천 직업 보기 →</button>
-
+        <button type="submit" class="submit-btn">查看我的未来职业 →</button>
       </form>
       <p id="formMessage" class="form-message"></p>
+      <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:12px; line-height:1.8;
+                 background:linear-gradient(135deg,#b8860b,#ffd700);
+                 -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+        ※ 结果以韩语显示 — 请使用Chrome浏览器的自动翻译功能
+      </p>
     </div>
   </div>
 
   <script>
     document.getElementById('jobForm').addEventListener('submit', function(e) {
       e.preventDefault();
-
       const formData = new FormData(e.target);
       const userData = Object.fromEntries(formData.entries());
-
-      // 출생연도 검증
       const birthYear = parseInt(userData.dob, 10);
       if (Number.isNaN(birthYear) || birthYear < 1900 || birthYear > 2100) {
-        document.getElementById('formMessage').textContent = '출생연도 형식이 올바르지 않습니다. 예) 2010 형식으로 입력해 주세요.';
+        document.getElementById('formMessage').textContent = '请输入有效的出生年份（例：2005）。';
         return;
       }
-
-      // GA4: 폼 제출 이벤트
       gtag('event', 'submit_form', {
-        country: userData.country,
-        ability: userData.ability,
-        riasec:  userData.riasec,
-        big5:    userData.big5
+        country: userData.country, ability: userData.ability,
+        riasec: userData.riasec, big5: userData.big5, lang: 'zh'
       });
-
       const params = new URLSearchParams({
-        name:    userData.name,
-        dob:     userData.dob,
-        country: userData.country,
-        ability: userData.ability,
-        riasec:  userData.riasec,
-        big5:    userData.big5
+        name: userData.name, dob: userData.dob, country: userData.country,
+        ability: userData.ability, riasec: userData.riasec, big5: userData.big5
       });
-      window.location.href = `result.html?${params.toString()}`;
+      window.location.href = `../result.html?${params.toString()}`;
     });
   </script>
 </body>
