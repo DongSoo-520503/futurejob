@@ -222,9 +222,9 @@
 
         const steps = (info['절차'] || []).map((s, i) => `
           <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
-            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#b8860b,#ffd700);
-                        color:#0f172a;font-size:0.72rem;font-weight:700;display:flex;align-items:center;
-                        justify-content:center;flex-shrink:0;margin-top:1px;">${i+1}</div>
+            <div style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.15);
+                        color:#e2e8f0;font-size:0.70rem;font-weight:600;display:flex;align-items:center;
+                        justify-content:center;flex-shrink:0;margin-top:2px;">${i+1}</div>
             <div style="color:#94a3b8;font-size:0.87rem;line-height:1.5;">${escapeHtml(s)}</div>
           </div>`).join('');
 
