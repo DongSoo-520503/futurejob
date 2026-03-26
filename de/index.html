@@ -1,30 +1,31 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="de">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Empleos del Futuro | Recomendación IA de Carrera</title>
+  <title>Zukunftsberufe Empfehlung | KI-Karrieretest</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
 
-  <meta name="description" content="La IA analiza tu personalidad (RIASEC y Big5) y tu plan académico para recomendarte los empleos más prometedores del futuro en 26 países, de forma gratuita.">
-  <meta name="keywords" content="empleos del futuro, test de carrera, orientación vocacional, recomendación IA, RIASEC, Big5, empleos 2030, empleos 2040, trabajo en el extranjero, carreras bien pagadas, orientación estudiantil, aptitud profesional">
+  <meta name="description" content="KI analysiert dein Persönlichkeitsprofil (RIASEC & Big5) und empfiehlt dir die besten Zukunftsberufe aus 26 Ländern – kostenlos und sofort.">
+  <meta name="keywords" content="Zukunftsberufe, Karrieretest, KI Berufswahl, RIASEC Test, Big5 Persönlichkeit, Berufsempfehlung, Berufsorientierung, Jobs 2030, Jobs 2040, Berufe mit Zukunft, Auslandsarbeit, Schüler Berufswahl, Studienberatung, Karriereplanung, gut bezahlte Berufe">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
 
-  <meta property="og:title" content="Empleos del Futuro | Recomendación IA de Carrera">
-  <meta property="og:description" content="La IA analiza tu personalidad (RIASEC y Big5) y tu plan académico para recomendarte los empleos más prometedores del futuro en 26 países, de forma gratuita.">
+  <meta property="og:title" content="Zukunftsberufe Empfehlung | KI-Karrieretest">
+  <meta property="og:description" content="KI empfiehlt dir die besten Zukunftsberufe aus 26 Ländern – basierend auf RIASEC & Big5.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.futurejob.site/es/">
+  <meta property="og:url" content="https://www.futurejob.site/de/">
   <meta property="og:image" content="https://www.futurejob.site/frontimage.png">
-  <meta property="og:locale" content="es_MX">
+  <meta property="og:locale" content="de_DE">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Empleos del Futuro | Recomendación IA de Carrera">
-  <meta name="twitter:description" content="La IA analiza tu personalidad (RIASEC y Big5) y tu plan académico para recomendarte los empleos más prometedores del futuro en 26 países, de forma gratuita.">
+  <meta name="twitter:title" content="Zukunftsberufe Empfehlung | KI-Karrieretest">
+  <meta name="twitter:description" content="KI empfiehlt dir die besten Zukunftsberufe aus 26 Ländern – basierend auf RIASEC & Big5.">
   <meta name="twitter:image" content="https://www.futurejob.site/frontimage.png">
 
-  <link rel="canonical" href="https://www.futurejob.site/es/">
+  <link rel="canonical" href="https://www.futurejob.site/de/">
   <link rel="alternate" hreflang="ko" href="https://www.futurejob.site/">
   <link rel="alternate" hreflang="en" href="https://www.futurejob.site/en/">
   <link rel="alternate" hreflang="ja" href="https://www.futurejob.site/ja/">
@@ -60,12 +61,12 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "FutureJob",
-    "url": "https://www.futurejob.site/es/",
-    "description": "La IA analiza tu personalidad (RIASEC y Big5) y tu plan académico para recomendarte los empleos más prometedores del futuro en 26 países, de forma gratuita.",
+    "name": "FutureJob - KI-Karriereempfehlung",
+    "url": "https://www.futurejob.site/de/",
+    "description": "KI-basierte Zukunftsberufe-Empfehlung auf Grundlage von RIASEC und Big5 Persönlichkeitsanalyse für 26 Länder.",
     "applicationCategory": "EducationalApplication",
     "operatingSystem": "All",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
     "publisher": { "@type": "Organization", "name": "FutureJob", "url": "https://www.futurejob.site" }
   }
   </script>
@@ -85,13 +86,15 @@
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
       display: flex; justify-content: flex-end;
-      gap: 6px; margin-bottom: 8px; flex-wrap: wrap;
+      gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
     }
     .lang-btn {
-      font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 3px 7px; border: 1px solid rgba(148,163,184,0.2);
+      font-size: 0.75rem; color: #64748b; text-decoration: none;
+      padding: 3px 8px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-    }
+        white-space: nowrap;
+    flex-shrink: 0;
+  }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
   </style>
@@ -103,9 +106,9 @@
         <a class="lang-btn" href="https://www.futurejob.site/">🇰🇷 KO</a>
         <a class="lang-btn" href="https://www.futurejob.site/en/">🇺🇸 EN</a>
         <a class="lang-btn" href="https://www.futurejob.site/ja/">🇯🇵 JA</a>
-        <a class="lang-btn" href="https://www.futurejob.site/de/">🇩🇪 DE</a>
+        <a class="lang-btn active" href="https://www.futurejob.site/de/">🇩🇪 DE</a>
         <a class="lang-btn" href="https://www.futurejob.site/fr/">🇫🇷 FR</a>
-        <a class="lang-btn active" href="https://www.futurejob.site/es/">🇲🇽 ES</a>
+        <a class="lang-btn" href="https://www.futurejob.site/es/">🇲🇽 ES</a>
         <a class="lang-btn" href="https://www.futurejob.site/pt/">🇧🇷 PT</a>
         <a class="lang-btn" href="https://www.futurejob.site/ru/">🇷🇺 RU</a>
         <a class="lang-btn" href="https://www.futurejob.site/it/">🇮🇹 IT</a>
@@ -118,7 +121,7 @@
         <a class="lang-btn" href="https://www.futurejob.site/zh/">🇨🇳 ZH</a>
       
       </div>
-      <h1 style="font-size:1.1rem; font-weight:700; margin:0;">Empleos del Futuro</h1>
+      <h1 style="font-size:1.1rem; font-weight:700; margin:0;">Zukunftsberufe Empfehlung</h1>
       <div class="gold-divider"></div>
     </div>
 
@@ -126,88 +129,88 @@
       <form id="jobForm" class="form-grid">
 
         <div class="field">
-          <label for="name">Nombre completo</label>
-          <input id="name" name="name" type="text" placeholder="Ingresa tu nombre" required>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Deinen Namen eingeben" required>
         </div>
 
         <div class="field">
-          <label for="dob">Año de nacimiento <span style="font-weight:400;color:#64748b">: determina el período de incorporación laboral</span></label>
-          <input id="dob" name="dob" type="number" inputmode="numeric" placeholder="ej. 2005" required>
+          <label for="dob">Geburtsjahr <span style="font-weight:400;color:#64748b">: bestimmt den Berufseinstiegszeitraum</span></label>
+          <input id="dob" name="dob" type="number" inputmode="numeric" placeholder="z. B. 2005" required>
         </div>
 
         <div class="field">
-          <label for="country">País objetivo</label>
+          <label for="country">Zielland</label>
           <select id="country" name="country">
-            <option value="멕시코">🇲🇽 México</option>
-            <option value="미국">🇺🇸 미국</option>
-            <option value="영국">🇬🇧 영국</option>
-            <option value="캐나다">🇨🇦 캐나다</option>
-            <option value="호주">🇦🇺 호주</option>
-            <option value="독일">🇩🇪 독일</option>
-            <option value="프랑스">🇫🇷 프랑스</option>
-            <option value="이탈리아">🇮🇹 이탈리아</option>
-            <option value="스위스">🇨🇭 스위스</option>
-            <option value="폴란드">🇵🇱 폴란드</option>
-            <option value="싱가포르">🇸🇬 싱가포르</option>
-            <option value="일본">🇯🇵 일본</option>
-            <option value="중국">🇨🇳 중국</option>
-            <option value="인도">🇮🇳 인도</option>
-            <option value="베트남">🇻🇳 베트남</option>
-            <option value="태국">🇹🇭 태국</option>
-            <option value="인도네시아">🇮🇩 인도네시아</option>
-            <option value="아랍에미리트">🇦🇪 아랍에미리트</option>
-            <option value="사우디아라비아">🇸🇦 사우디아라비아</option>
-            <option value="이스라엘">🇮🇱 이스라엘</option>
-            <option value="튀르키예">🇹🇷 튀르키예</option>
-            <option value="브라질">🇧🇷 브라질</option>
-            <option value="남아프리카공화국">🇿🇦 남아프리카공화국</option>
-            <option value="나이지리아">🇳🇬 나이지리아</option>
-            <option value="러시아">🇷🇺 러시아</option>
-            <option value="대한민국">🇰🇷 대한민국</option>
+            <option value="독일">🇩🇪 Deutschland</option>
+            <option value="미국">🇺🇸 USA</option>
+            <option value="영국">🇬🇧 Vereinigtes Königreich</option>
+            <option value="캐나다">🇨🇦 Kanada</option>
+            <option value="호주">🇦🇺 Australien</option>
+            <option value="프랑스">🇫🇷 Frankreich</option>
+            <option value="이탈리아">🇮🇹 Italien</option>
+            <option value="스위스">🇨🇭 Schweiz</option>
+            <option value="폴란드">🇵🇱 Polen</option>
+            <option value="싱가포르">🇸🇬 Singapur</option>
+            <option value="일본">🇯🇵 Japan</option>
+            <option value="중국">🇨🇳 China</option>
+            <option value="인도">🇮🇳 Indien</option>
+            <option value="베트남">🇻🇳 Vietnam</option>
+            <option value="태국">🇹🇭 Thailand</option>
+            <option value="인도네시아">🇮🇩 Indonesien</option>
+            <option value="아랍에미리트">🇦🇪 Vereinigte Arabische Emirate</option>
+            <option value="사우디아라비아">🇸🇦 Saudi-Arabien</option>
+            <option value="이스라엘">🇮🇱 Israel</option>
+            <option value="튀르키예">🇹🇷 Türkei</option>
+            <option value="멕시코">🇲🇽 Mexiko</option>
+            <option value="브라질">🇧🇷 Brasilien</option>
+            <option value="남아프리카공화국">🇿🇦 Südafrika</option>
+            <option value="나이지리아">🇳🇬 Nigeria</option>
+            <option value="러시아">🇷🇺 Russland</option>
+            <option value="대한민국">🇰🇷 Südkorea</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="ability">Plan académico <span style="font-weight:400;color:#64748b">: considera inteligencia, esfuerzo y notas</span></label>
+          <label for="ability">Bildungsplan <span style="font-weight:400;color:#64748b">: Intelligenz, Fleiß & Noten berücksichtigen</span></label>
           <select id="ability" name="ability">
-            <option value="상">Maestría / Doctorado planeado (nacidos 2000–2029)</option>
-            <option value="중">Licenciatura / Universidad planeada (nacidos 2004–2033)</option>
-            <option value="하">Técnico / Vocacional planeado (nacidos 2008–2037)</option>
+            <option value="상">Master / Promotion geplant (Jg. 2000–2029)</option>
+            <option value="중">Bachelor / Hochschule geplant (Jg. 2004–2033)</option>
+            <option value="하">Berufsschule / Ausbildung geplant (Jg. 2008–2037)</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="riasec">Tipo de interés profesional (RIASEC)</label>
+          <label for="riasec">Berufsinteresse (RIASEC)</label>
           <select id="riasec" name="riasec">
-            <option value="R">🔧 Realista — Me gusta trabajar con máquinas y herramientas</option>
-            <option value="I">🔬 Investigador — Amo los datos, la ciencia y resolver problemas</option>
-            <option value="A">🎨 Artístico — Me expreso a través del diseño y la creatividad</option>
-            <option value="S">🤝 Social — Me realiza ayudar y trabajar con personas</option>
-            <option value="E">🚀 Emprendedor — El liderazgo y la persuasión me definen</option>
-            <option value="C">📋 Convencional — Prefiero trabajo estructurado y ordenado</option>
+            <option value="R">🔧 Praktisch — Ich arbeite gerne mit Maschinen und Werkzeug</option>
+            <option value="I">🔬 Forschend — Ich liebe Daten, Wissenschaft & Problemlösung</option>
+            <option value="A">🎨 Künstlerisch — Ich drücke mich durch Design & Kreativität aus</option>
+            <option value="S">🤝 Sozial — Ich helfe gerne und arbeite mit Menschen zusammen</option>
+            <option value="E">🚀 Unternehmerisch — Führung, Überzeugung & Ziele liegen mir</option>
+            <option value="C">📋 Ordnend — Ich arbeite strukturiert, genau und regelkonform</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="big5">Tipo de personalidad (Big5)</label>
+          <label for="big5">Persönlichkeitstyp (Big5)</label>
           <select id="big5" name="big5">
-            <option value="O">✨ Abierto — Curioso, imaginativo, ama nuevas ideas</option>
-            <option value="C">📌 Responsable — Organizado, cumplidor y confiable</option>
-            <option value="E">😊 Extrovertido — Se energiza en entornos sociales</option>
-            <option value="A">💛 Amable — Servicial, cooperativo y empático</option>
-            <option value="N">🛡 Neurótico — Precavido, sensible al riesgo, detallista</option>
+            <option value="O">✨ Offen — Neugierig, kreativ, liebt neue Ideen & Veränderungen</option>
+            <option value="C">📌 Gewissenhaft — Zielorientiert, verantwortungsbewusst, zuverlässig</option>
+            <option value="E">😊 Extravertiert — Gewinnt Energie aus sozialen Situationen</option>
+            <option value="A">💛 Verträglich — Hilfsbereit, kooperativ und einfühlsam</option>
+            <option value="N">🛡 Neurotisch — Vorsichtig, risikoempfindlich, detailbewusst</option>
           </select>
         </div>
 
         <div class="gold-divider"></div>
-        <button type="submit" class="submit-btn">Ver mi carrera del futuro →</button>
+        <button type="submit" class="submit-btn">Meinen Zukunftsberuf entdecken →</button>
 
       </form>
       <p id="formMessage" class="form-message"></p>
-      <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:12px; line-height:1.6;
+      <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:10px; line-height:1.6;
                  background:linear-gradient(135deg,#b8860b,#ffd700);
                  -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
-        ※ Los resultados están en coreano — usa la traducción automática de Chrome.
+        ※ Ergebnisse auf Koreanisch — bitte Chrome-Übersetzung verwenden.
       </p>
     </div>
   </div>
@@ -220,13 +223,13 @@
 
       const birthYear = parseInt(userData.dob, 10);
       if (Number.isNaN(birthYear) || birthYear < 1900 || birthYear > 2100) {
-        document.getElementById('formMessage').textContent = 'Por favor ingresa un año de nacimiento válido (ej. 2005).';
+        document.getElementById('formMessage').textContent = 'Bitte gib ein gültiges Geburtsjahr ein (z. B. 2005).';
         return;
       }
 
       gtag('event', 'submit_form', {
         country: userData.country, ability: userData.ability,
-        riasec: userData.riasec, big5: userData.big5, lang: 'es'
+        riasec: userData.riasec, big5: userData.big5, lang: 'de'
       });
 
       const params = new URLSearchParams({
