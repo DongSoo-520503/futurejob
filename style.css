@@ -352,18 +352,13 @@ input:focus, select:focus {
 .lang-switcher {
   display: flex !important;
   flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  justify-content: flex-start !important;
-  overflow-x: scroll !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  margin-bottom: 10px;
   width: 100%;
-  gap: 6px;
-  margin-bottom: 8px;
-  padding-bottom: 2px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
   box-sizing: border-box;
 }
-.lang-switcher::-webkit-scrollbar { display: none; }
 .lang-btn {
   display: inline-block;
   flex-shrink: 0 !important;
@@ -371,7 +366,7 @@ input:focus, select:focus {
   font-size: 0.72rem;
   color: #64748b;
   text-decoration: none;
-  padding: 5px 9px;
+  padding: 4px 8px;
   border: 1px solid rgba(148,163,184,0.2);
   border-radius: 6px;
   transition: all 0.2s;
