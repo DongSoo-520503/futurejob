@@ -89,6 +89,7 @@
     .lang-switcher {
       display: flex;
       flex-direction: row;
+      direction: ltr;
       overflow-x: auto;
       gap: 6px;
       margin-bottom: 8px;
@@ -99,9 +100,10 @@
     .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
       font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 3px 7px; border: 1px solid rgba(148,163,184,0.2);
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
       font-family: 'Space Mono', monospace; direction: ltr;
+      white-space: nowrap; flex-shrink: 0;
     }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
