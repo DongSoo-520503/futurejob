@@ -93,7 +93,8 @@
   .lang-switcher {
     display: flex;
     flex-direction: row;
-    overflow-x: auto;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
     gap: 6px;
     margin-bottom: 8px;
     padding-bottom: 4px;
@@ -119,9 +120,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <!-- ✅ 언어 전환 버튼 14개 -->
-      <div class="lang-switcher">
+    <div class="lang-switcher">
         <a class="lang-btn active" href="https://www.futurejob.site/">🇰🇷 KO</a>
         <a class="lang-btn" href="https://www.futurejob.site/en/">🇺🇸 EN</a>
         <a class="lang-btn" href="https://www.futurejob.site/ja/">🇯🇵 JA</a>
@@ -140,6 +139,8 @@
         <a class="lang-btn" href="https://www.futurejob.site/zh/">🇨🇳 ZH</a>
       
       </div>
+    <div class="header">
+      <!-- ✅ 언어 전환 버튼 14개 -->
       <h1 style="font-size:1.1rem; font-weight:700; margin:0;">미래 직업 추천</h1>
       <div class="gold-divider"></div>
     </div>
