@@ -92,19 +92,25 @@
   }
   .lang-switcher {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: row;
+    overflow-x: auto;
     gap: 6px;
     margin-bottom: 8px;
-    flex-wrap: wrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .lang-switcher::-webkit-scrollbar { display: none; }
   .lang-btn {
     font-size: 0.72rem;
     color: #64748b;
     text-decoration: none;
-    padding: 3px 7px;
+    padding: 5px 9px;
     border: 1px solid rgba(148,163,184,0.2);
     border-radius: 6px;
     transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
   .lang-btn.active { color: #ffd700; border-color: #ffd700; }
