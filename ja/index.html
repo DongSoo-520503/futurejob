@@ -1,1 +1,213 @@
-rr
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>未来の仕事診断 | AIキャリア推薦</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+
+  <meta name="description" content="AIがあなたの性格（RIASEC・Big5）と学習計画をもとに、26カ国の将来有望な仕事を無料で診断・提案します。">
+  <meta name="keywords" content="未来の仕事, 職業診断, AIキャリア, 将来の職業, RIASEC診断, Big5性格, 適職診断, 進路相談, 高収入職業, 海外就職, 2030年職業, 2040年職業, 学生進路, キャリアテスト, 職業適性">
+  <meta name="author" content="FutureJob">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:title" content="未来の仕事診断 | AIキャリア推薦">
+  <meta property="og:description" content="AIがあなたの性格と学習計画から26カ国の将来有望な職業を無料で提案します。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.futurejob.site/ja/">
+  <meta property="og:image" content="https://www.futurejob.site/frontimage.png">
+  <meta property="og:locale" content="ja_JP">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="未来の仕事診断 | AIキャリア推薦">
+  <meta name="twitter:description" content="AIがあなたの性格と学習計画から26カ国の将来有望な職業を提案します。">
+  <meta name="twitter:image" content="https://www.futurejob.site/frontimage.png">
+
+  <link rel="canonical" href="https://www.futurejob.site/ja/">
+  <link rel="alternate" hreflang="ko"        href="https://www.futurejob.site/">
+  <link rel="alternate" hreflang="en"        href="https://www.futurejob.site/en/">
+  <link rel="alternate" hreflang="ja"        href="https://www.futurejob.site/ja/">
+  <link rel="alternate" hreflang="de"        href="https://www.futurejob.site/de/">
+  <link rel="alternate" hreflang="fr"        href="https://www.futurejob.site/fr/">
+  <link rel="alternate" hreflang="x-default" href="https://www.futurejob.site/en/">
+
+  <meta name="google-site-verification" content="pUQZD3iOFcU8lV2yrRhR96065eqW3iqYfB7qYglr8XY">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3V0P1S9DZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J3V0P1S9DZ');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FutureJob - AIキャリア診断",
+    "url": "https://www.futurejob.site/ja/",
+    "description": "RIASECとBig5性格分析をもとに26カ国の将来有望な職業をAIが提案する無料サービス。",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "publisher": { "@type": "Organization", "name": "FutureJob", "url": "https://www.futurejob.site" }
+  }
+  </script>
+
+  <style>
+    .gold-divider {
+      position: relative; height: 1px; border-radius: 2px;
+      background: linear-gradient(90deg, transparent 0%, #b8860b 20%, #ffd700 50%, #b8860b 80%, transparent 100%);
+      margin: 12px 0; overflow: hidden;
+    }
+    .gold-divider::after {
+      content: ''; position: absolute; top: 0; left: -60%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+      animation: goldShimmer 1.8s ease-in-out infinite;
+    }
+    @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
+    .lang-switcher {
+      display: flex; justify-content: flex-end;
+      gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
+    }
+    .lang-btn {
+      font-size: 0.75rem; color: #64748b; text-decoration: none;
+      padding: 3px 8px; border: 1px solid rgba(148,163,184,0.2);
+      border-radius: 6px; transition: all 0.2s;
+    }
+    .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
+    .lang-btn.active { color: #ffd700; border-color: #ffd700; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="lang-switcher">
+        <a class="lang-btn" href="https://www.futurejob.site/">🇰🇷 KO</a>
+        <a class="lang-btn" href="https://www.futurejob.site/en/">🇺🇸 EN</a>
+        <a class="lang-btn active" href="https://www.futurejob.site/ja/">🇯🇵 JA</a>
+        <a class="lang-btn" href="https://www.futurejob.site/de/">🇩🇪 DE</a>
+        <a class="lang-btn" href="https://www.futurejob.site/fr/">🇫🇷 FR</a>
+      </div>
+      <h1 style="font-size:1.1rem; font-weight:700; margin:0;">未来の仕事診断</h1>
+      <div class="gold-divider"></div>
+    </div>
+
+    <div class="card">
+      <form id="jobForm" class="form-grid">
+
+        <div class="field">
+          <label for="name">お名前</label>
+          <input id="name" name="name" type="text" placeholder="お名前を入力してください" required>
+        </div>
+
+        <div class="field">
+          <label for="dob">生まれた年 <span style="font-weight:400;color:#64748b">: 就職時期の算出に使用</span></label>
+          <input id="dob" name="dob" type="number" inputmode="numeric" placeholder="例）2005" required>
+        </div>
+
+        <div class="field">
+          <label for="country">就職希望国</label>
+          <select id="country" name="country">
+            <option value="일본">🇯🇵 日本</option>
+            <option value="미국">🇺🇸 アメリカ</option>
+            <option value="영국">🇬🇧 イギリス</option>
+            <option value="캐나다">🇨🇦 カナダ</option>
+            <option value="호주">🇦🇺 オーストラリア</option>
+            <option value="독일">🇩🇪 ドイツ</option>
+            <option value="프랑스">🇫🇷 フランス</option>
+            <option value="이탈리아">🇮🇹 イタリア</option>
+            <option value="스위스">🇨🇭 スイス</option>
+            <option value="폴란드">🇵🇱 ポーランド</option>
+            <option value="싱가포르">🇸🇬 シンガポール</option>
+            <option value="중국">🇨🇳 中国</option>
+            <option value="인도">🇮🇳 インド</option>
+            <option value="베트남">🇻🇳 ベトナム</option>
+            <option value="태국">🇹🇭 タイ</option>
+            <option value="인도네시아">🇮🇩 インドネシア</option>
+            <option value="아랍에미리트">🇦🇪 アラブ首長国連邦</option>
+            <option value="사우디아라비아">🇸🇦 サウジアラビア</option>
+            <option value="이스라엘">🇮🇱 イスラエル</option>
+            <option value="튀르키예">🇹🇷 トルコ</option>
+            <option value="멕시코">🇲🇽 メキシコ</option>
+            <option value="브라질">🇧🇷 ブラジル</option>
+            <option value="남아프리카공화국">🇿🇦 南アフリカ</option>
+            <option value="나이지리아">🇳🇬 ナイジェリア</option>
+            <option value="러시아">🇷🇺 ロシア</option>
+            <option value="대한민국">🇰🇷 韓国</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="ability">学習計画 <span style="font-weight:400;color:#64748b">: 学力・努力・成績を考慮</span></label>
+          <select id="ability" name="ability">
+            <option value="상">修士・博士以上予定（1999〜2029年生まれ）</option>
+            <option value="중">大学・大学院予定（2004〜2033年生まれ）</option>
+            <option value="하">専門学校・職業高校予定（2008〜2037年生まれ）</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="riasec">職業興味タイプ（RIASEC）</label>
+          <select id="riasec" name="riasec">
+            <option value="R">🔧 現実的 — 機械・道具を直接扱うのが好き</option>
+            <option value="I">🔬 研究的 — 原理探求・データ・科学が得意</option>
+            <option value="A">🎨 芸術的 — デザイン・映像・創作を楽しむ</option>
+            <option value="S">🤝 社会的 — 人を助け、共に働くのがやりがい</option>
+            <option value="E">🚀 企業的 — 目標設定・リーダーシップが得意</option>
+            <option value="C">📋 慣習的 — ルールに従い、几帳面に整理するのが好き</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="big5">性格タイプ（Big5）</label>
+          <select id="big5" name="big5">
+            <option value="O">✨ 開放的 — 新しいアイデアや変化が好き、想像力豊か</option>
+            <option value="C">📌 誠実性 — 目標を立て、責任感をもってやり遂げる</option>
+            <option value="E">😊 外向的 — 人と一緒にいる環境で活発に行動できる</option>
+            <option value="A">💛 協調的 — 他者を助け、協力することが自然にできる</option>
+            <option value="N">🛡 神経質 — リスクを事前に察知し、慎重に備える</option>
+          </select>
+        </div>
+
+        <div class="gold-divider"></div>
+        <button type="submit" class="submit-btn">おすすめ職業を見る →</button>
+
+      </form>
+      <p id="formMessage" class="form-message"></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('jobForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const userData = Object.fromEntries(formData.entries());
+
+      const birthYear = parseInt(userData.dob, 10);
+      if (Number.isNaN(birthYear) || birthYear < 1900 || birthYear > 2100) {
+        document.getElementById('formMessage').textContent = '生まれた年を正しく入力してください（例: 2005）';
+        return;
+      }
+
+      gtag('event', 'submit_form', {
+        country: userData.country, ability: userData.ability,
+        riasec: userData.riasec, big5: userData.big5, lang: 'ja'
+      });
+
+      const params = new URLSearchParams({
+        name: userData.name, dob: userData.dob, country: userData.country,
+        ability: userData.ability, riasec: userData.riasec, big5: userData.big5
+      });
+      window.location.href = `../result.html?${params.toString()}`;
+    });
+  </script>
+</body>
+</html>
