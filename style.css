@@ -353,6 +353,7 @@ input:focus, select:focus {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
   overflow-x: scroll !important;
   width: 100%;
   gap: 6px;
