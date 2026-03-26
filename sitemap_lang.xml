@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- 한국어 메인 -->
+  <url>
+    <loc>https://www.futurejob.site/</loc>
+    <lastmod>2026-03-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.futurejob.site/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.futurejob.site/en/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.futurejob.site/ja/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.futurejob.site/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.futurejob.site/fr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.futurejob.site/en/"/>
+  </url>
+
+  <!-- 영어 -->
+  <url>
+    <loc>https://www.futurejob.site/en/</loc>
+    <lastmod>2026-03-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.futurejob.site/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.futurejob.site/en/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.futurejob.site/ja/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.futurejob.site/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.futurejob.site/fr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.futurejob.site/en/"/>
+  </url>
+
+  <!-- 일본어 (준비중) -->
+  <url>
+    <loc>https://www.futurejob.site/ja/</loc>
+    <lastmod>2026-03-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 독일어 (준비중) -->
+  <url>
+    <loc>https://www.futurejob.site/de/</loc>
+    <lastmod>2026-03-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 프랑스어 (준비중) -->
+  <url>
+    <loc>https://www.futurejob.site/fr/</loc>
+    <lastmod>2026-03-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- visa 페이지 -->
+  <url>
+    <loc>https://www.futurejob.site/visa.html</loc>
+    <lastmod>2026-03-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

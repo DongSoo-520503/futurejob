@@ -1,27 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- 직업 상세 페이지 sitemap -->
-
+  <!-- 직업 상세 페이지 sitemap (26개국 전체, 총 56,088개 URL) -->
   <sitemap>
     <loc>https://www.futurejob.site/sitemap_jobs_1.xml</loc>
-    <lastmod>2026-03-22</lastmod>
+    <lastmod>2026-03-26</lastmod>
   </sitemap>
-
   <sitemap>
     <loc>https://www.futurejob.site/sitemap_jobs_2.xml</loc>
-    <lastmod>2026-03-22</lastmod>
+    <lastmod>2026-03-26</lastmod>
   </sitemap>
-
   <sitemap>
     <loc>https://www.futurejob.site/sitemap_jobs_3.xml</loc>
-    <lastmod>2026-03-22</lastmod>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_4.xml</loc>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_5.xml</loc>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_6.xml</loc>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_7.xml</loc>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_8.xml</loc>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_9.xml</loc>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_10.xml</loc>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_11.xml</loc>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_jobs_12.xml</loc>
+    <lastmod>2026-03-26</lastmod>
   </sitemap>
 
   <!-- 취업비자 안내 페이지 sitemap -->
   <sitemap>
     <loc>https://www.futurejob.site/sitemap_visa.xml</loc>
-    <lastmod>2026-03-25</lastmod>
+    <lastmod>2026-03-26</lastmod>
+  </sitemap>
+
+  <!-- 다국어 랜딩 페이지 sitemap -->
+  <sitemap>
+    <loc>https://www.futurejob.site/sitemap_lang.xml</loc>
+    <lastmod>2026-03-26</lastmod>
   </sitemap>
 
 </sitemapindex>

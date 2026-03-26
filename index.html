@@ -11,7 +11,6 @@
 <!-- 구글 검색 노출 -->
 <meta name="description" content="AI 기반으로 성향(RIASEC, Big5)과 학업 계획을 분석하여 미래 유망 직업을 추천해주는 서비스">
 <meta name="keywords" content="미래 직업, 미래 직업 추천, 직업 추천 사이트, AI 직업 추천, AI 직업 테스트, 적성 검사, 진로 추천, 학생 진로 탐색, 초등학생 직업 추천, 중학생 직업 추천, 고등학생 직업 추천, 미래 유망 직업, 2030 직업 전망, 2040 직업 전망, 고소득 직업 추천, 연봉 높은 직업, 해외 취업 직업 추천, 국가별 직업 추천, 직업 데이터 분석, RIASEC 검사, Big5 성격 검사, 진로 설계, 교육 플랫폼">
-
 <meta name="author" content="FutureJob">
 <meta name="robots" content="index, follow">
 
@@ -20,11 +19,26 @@
 <meta property="og:description" content="AI 기반 미래 직업 추천 서비스">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.futurejob.site/">
-<meta property="og:image" content="https://www.futurejob.site/frontimage.png?v=2">
-<link rel="canonical" href="https://www.futurejob.site/"> 
+<meta property="og:image" content="https://www.futurejob.site/frontimage.png"><!-- ✅ fix1: ?v=2 제거 -->
+<meta property="og:locale" content="ko_KR"><!-- ✅ fix2: 한국어 로케일 추가 -->
+
+<!-- ✅ fix3: X(트위터) 카드 추가 -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Future Job Recommendation">
+<meta name="twitter:description" content="AI 기반 미래 직업 추천 서비스">
+<meta name="twitter:image" content="https://www.futurejob.site/frontimage.png">
+
+<!-- ✅ Canonical + hreflang (다국어 연결) -->
+<link rel="canonical" href="https://www.futurejob.site/">
+<link rel="alternate" hreflang="ko"        href="https://www.futurejob.site/">
+<link rel="alternate" hreflang="en"        href="https://www.futurejob.site/en/">
+<link rel="alternate" hreflang="ja"        href="https://www.futurejob.site/ja/">
+<link rel="alternate" hreflang="de"        href="https://www.futurejob.site/de/">
+<link rel="alternate" hreflang="fr"        href="https://www.futurejob.site/fr/">
+<link rel="alternate" hreflang="x-default" href="https://www.futurejob.site/en/">
 <!-- 구글 검색 노출 끝 -->
 
-<!-- Google Search Console 한줄  -->
+<!-- Google Search Console -->
 <meta name="google-site-verification" content="pUQZD3iOFcU8lV2yrRhR96065eqW3iqYfB7qYglr8XY" />
 
 <!-- 네이버 서치어드바이저 소유확인 -->
@@ -39,6 +53,7 @@
   gtag('config', 'G-J3V0P1S9DZ');
 </script>
 
+<!-- ✅ fix4: 중복 preconnect 제거, 1쌍만 유지 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -65,12 +80,38 @@
     0%   { left: -60%; }
     100% { left: 160%; }
   }
+  .lang-switcher {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .lang-btn {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-decoration: none;
+    padding: 3px 8px;
+    border: 1px solid rgba(148,163,184,0.2);
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
+  .lang-btn.active { color: #ffd700; border-color: #ffd700; }
 </style>
 
 </head>
 <body>
   <div class="container">
     <div class="header">
+      <!-- ✅ 언어 전환 버튼 -->
+      <div class="lang-switcher">
+        <a class="lang-btn active" href="https://www.futurejob.site/">🇰🇷 KO</a>
+        <a class="lang-btn" href="https://www.futurejob.site/en/">🇺🇸 EN</a>
+        <a class="lang-btn" href="https://www.futurejob.site/ja/">🇯🇵 JA</a>
+        <a class="lang-btn" href="https://www.futurejob.site/de/">🇩🇪 DE</a>
+        <a class="lang-btn" href="https://www.futurejob.site/fr/">🇫🇷 FR</a>
+      </div>
       <h1 style="font-size:1.1rem; font-weight:700; margin:0;">미래 직업 추천</h1>
       <div class="gold-divider"></div>
     </div>
@@ -98,12 +139,12 @@
             <option value="호주">호주</option>
             <option value="싱가포르">싱가포르</option>
             <option value="영국">영국</option>
-            <option value="중국">중국</option> 
+            <option value="중국">중국</option>
             <option value="인도">인도</option>
-            <option value="베트남">베트남</option> 
-            <option value="태국">태국</option> 
-            <option value="인도네시아">인도네시아</option> 
-            <option value="아랍에미리트">아랍에미리트</option> 
+            <option value="베트남">베트남</option>
+            <option value="태국">태국</option>
+            <option value="인도네시아">인도네시아</option>
+            <option value="아랍에미리트">아랍에미리트</option>
             <option value="사우디아라비아">사우디아라비아</option>
             <option value="이스라엘">이스라엘</option>
             <option value="프랑스">프랑스</option>
@@ -111,11 +152,11 @@
             <option value="스위스">스위스</option>
             <option value="튀르키예">튀르키예</option>
             <option value="폴란드">폴란드</option>
-            <option value="멕시코">멕시코</option> 
-            <option value="브라질">브라질</option> 
-            <option value="남아프리카공화국">남아프리카공화국</option> 
-            <option value="나이지리아">나이지리아</option> 
-            <option value="러시아">러시아</option> 
+            <option value="멕시코">멕시코</option>
+            <option value="브라질">브라질</option>
+            <option value="남아프리카공화국">남아프리카공화국</option>
+            <option value="나이지리아">나이지리아</option>
+            <option value="러시아">러시아</option>
           </select>
         </div>
 
@@ -153,7 +194,7 @@
 
         <div class="gold-divider"></div>
         <button type="submit" class="submit-btn">추천 직업 보기 →</button>
-        
+
       </form>
       <p id="formMessage" class="form-message"></p>
     </div>
@@ -162,10 +203,10 @@
   <script>
     document.getElementById('jobForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      
+
       const formData = new FormData(e.target);
       const userData = Object.fromEntries(formData.entries());
-      
+
       // 출생연도 검증
       const birthYear = parseInt(userData.dob, 10);
       if (Number.isNaN(birthYear) || birthYear < 1900 || birthYear > 2100) {
@@ -173,7 +214,7 @@
         return;
       }
 
-      // ── GA4: 폼 제출 이벤트 ─────────────────────────────────
+      // GA4: 폼 제출 이벤트
       gtag('event', 'submit_form', {
         country: userData.country,
         ability: userData.ability,
@@ -181,7 +222,6 @@
         big5:    userData.big5
       });
 
-      // STEP 8: localStorage 완전 제거 → URL 파라미터로 전달
       const params = new URLSearchParams({
         name:    userData.name,
         dob:     userData.dob,
