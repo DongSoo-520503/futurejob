@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../style.css">
 
   <meta name="description" content="AIがあなたの性格（RIASEC・Big5）と学習計画をもとに、26カ国の将来有望な仕事を無料で診断・提案します。">
-  <meta name="keywords" content="未来の仕事, 職業診断, AIキャリア, 将来の職業, RIASEC診断, Big5性格, 適職診断, 進路相談, 高収入職業, 海外就職, 2030年職業, 2040年職業, 学生進路, キャリアテスト, 職業適性">
+  <meta name="keywords" content="将来の仕事, 未来の職業, おすすめ職業診断, AIキャリア診断, 適職テスト, RIASEC診断, 将来有望な仕事, 高収入職業, 2030年職業ランキング, 進路相談, 職業適性テスト, キャリアテスト無料, 就活適職診断, 将来の職業ランキング, 2040年有望職業, 学生進路, 海外就職おすすめ職業, 小学生 将来の仕事, 中学生 進路, 高校生 職業選択, 国別おすすめ職業, 年収高い職業, 職業データ分析, Big5性格診断 職業, 進路設計, 教育プラットフォーム, AI職業テスト, 大学専攻おすすめ, 職業探索, 将来の仕事 AI予測">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
 
@@ -85,16 +85,24 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: flex; justify-content: flex-end;
-      gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
-      font-size: 0.75rem; color: #64748b; text-decoration: none;
-      padding: 3px 8px; border: 1px solid rgba(148,163,184,0.2);
+      font-size: 0.72rem; color: #64748b; text-decoration: none;
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-        white-space: nowrap;
-    flex-shrink: 0;
-  }
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap; flex-shrink: 0;
+    }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
   </style>
@@ -239,5 +247,13 @@
       window.location.href = `../result.html?${params.toString()}`;
     });
   </script>
+
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
