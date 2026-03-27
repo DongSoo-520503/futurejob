@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../style.css">
 
   <meta name="description" content="L'IA analizza la tua personalità (RIASEC e Big5) e il piano accademico per consigliarti i lavori più promettenti del futuro in 26 paesi, gratuitamente.">
-  <meta name="keywords" content="lavori del futuro, test di carriera, orientamento professionale, raccomandazione IA, RIASEC, Big5, lavori 2030, lavori 2040, lavoro all estero, carriere ben pagate, orientamento studenti">
+  <meta name="keywords" content="lavori del futuro 2030, migliori carriere del futuro, test di orientamento professionale, quale carriera fa per me, RIASEC test, orientamento scolastico, lavori ben pagati, professioni con futuro, test personalità carriera, intelligenza artificiale carriera, lavori del futuro 2040, orientamento universitario, professioni emergenti, orientamento bambini, orientamento scuola media, professioni per paese, stipendio alto, Big5 personalità carriera, pianificazione carriera studente, previsione lavoro IA, carriera internazionale, test attitudinale gratuito">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
 
@@ -84,16 +84,24 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: flex; justify-content: flex-end;
-      gap: 6px; margin-bottom: 8px; flex-wrap: wrap;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
       font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 3px 7px; border: 1px solid rgba(148,163,184,0.2);
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-        white-space: nowrap;
-    flex-shrink: 0;
-  }
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap; flex-shrink: 0;
+    }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
   </style>
@@ -238,5 +246,13 @@
       window.location.href = `../result.html?${params.toString()}`;
     });
   </script>
+
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
