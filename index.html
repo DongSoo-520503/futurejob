@@ -262,5 +262,13 @@
       window.location.href = `result.html?${params.toString()}`;
     });
   </script>
+
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
