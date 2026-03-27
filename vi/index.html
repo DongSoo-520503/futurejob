@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../style.css">
 
   <meta name="description" content="AI phân tích tính cách (RIASEC và Big5) và kế hoạch học tập của bạn để gợi ý những nghề nghiệp tiềm năng nhất tại 26 quốc gia, hoàn toàn miễn phí.">
-  <meta name="keywords" content="nghề nghiệp tương lai, kiểm tra nghề nghiệp, hướng nghiệp AI, RIASEC, Big5, việc làm 2030, việc làm 2040, làm việc nước ngoài, nghề lương cao, hướng nghiệp học sinh">
+  <meta name="keywords" content="nghề nghiệp tương lai 2030, nghề nghiệp tốt nhất tương lai, kiểm tra hướng nghiệp miễn phí, nghề nào phù hợp với tôi, RIASEC test, hướng nghiệp học sinh, nghề lương cao, nghề có tương lai, kiểm tra tính cách nghề nghiệp, AI hướng nghiệp, việc làm tương lai 2040, hướng nghiệp học sinh tiểu học, hướng nghiệp học sinh THCS, hướng nghiệp học sinh THPT, nghề nghiệp theo quốc gia, thu nhập cao, Big5 tính cách nghề nghiệp, lập kế hoạch nghề nghiệp, dự đoán nghề nghiệp AI, nghề quốc tế">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
 
@@ -84,16 +84,24 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: flex; justify-content: flex-end;
-      gap: 6px; margin-bottom: 8px; flex-wrap: wrap;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
       font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 3px 7px; border: 1px solid rgba(148,163,184,0.2);
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-        white-space: nowrap;
-    flex-shrink: 0;
-  }
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap; flex-shrink: 0;
+    }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
   </style>
@@ -238,5 +246,13 @@
       window.location.href = `../result.html?${params.toString()}`;
     });
   </script>
+
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
