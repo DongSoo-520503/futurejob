@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../style.css">
 
   <meta name="description" content="AI根据您的性格特征（RIASEC和Big5）及学习计划，免费为您推荐26个国家最具前景的未来职业。">
-  <meta name="keywords" content="未来职业, 职业推荐, AI职业规划, 职业测试, RIASEC测试, Big5性格, 职业适性, 职业规划, 2030职业, 2040职业, 高薪职业, 海外就业, 学生职业规划, 职业方向">
+  <meta name="keywords" content="未来职业 2030, 最好的未来职业, 职业测试免费, 哪个职业适合我, RIASEC测试, 职业规划, 高薪职业, 有未来的职业, 性格测试职业, AI职业推荐, 2040职业, 学生职业规划, 职业方向测试, 最有前途的职业, 小学生职业推荐, 初中生职业规划, 高中生职业选择, 各国职业推荐, 高收入职业, Big5性格职业, 学生职业设计, AI预测职业, 国际职业规划, 免费职业测试, 大学专业推荐">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
 
@@ -87,17 +87,24 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: flex; justify-content: flex-end;
-      gap: 6px; margin-bottom: 8px; flex-wrap: wrap;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
       font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 3px 7px; border: 1px solid rgba(148,163,184,0.2);
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
       font-family: 'Space Mono', monospace;
-        white-space: nowrap;
-    flex-shrink: 0;
-  }
+      white-space: nowrap; flex-shrink: 0;
+    }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
   </style>
@@ -231,5 +238,13 @@
       window.location.href = `../result.html?${params.toString()}`;
     });
   </script>
+
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
