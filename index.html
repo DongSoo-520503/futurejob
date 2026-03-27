@@ -90,31 +90,38 @@
     0%   { left: -60%; }
     100% { left: 160%; }
   }
+  /* PC/모바일 공통: 4열 4줄 고정 */
   .lang-switcher {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: scroll;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
     margin-bottom: 8px;
-    padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
   }
-  .lang-switcher::-webkit-scrollbar { display: none; }
   .lang-btn {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     color: #64748b;
     text-decoration: none;
-    padding: 5px 9px;
+    padding: 7px 4px;
     border: 1px solid rgba(148,163,184,0.2);
     border-radius: 6px;
     transition: all 0.2s;
     white-space: nowrap;
-    flex-shrink: 0;
+    text-align: center;
   }
   .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
   .lang-btn.active { color: #ffd700; border-color: #ffd700; }
+
+  /* 스마트폰(480px 이하): 4열 4줄 */
+  @media (max-width: 480px) {
+    .lang-switcher {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+    .lang-btn {
+      font-size: 0.70rem;
+      padding: 6px 4px;
+    }
+  }
 </style>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" crossorigin>
