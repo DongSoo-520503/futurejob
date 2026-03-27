@@ -92,10 +92,11 @@
   }
   /* PC/모바일 공통: 4열 4줄 고정 */
   .lang-switcher {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-    margin-bottom: 8px;
+    display: grid !important;
+    grid-template-columns: repeat(8, 1fr) !important;
+    gap: 5px !important;
+    margin-bottom: 8px !important;
+    overflow: visible !important;
   }
   .lang-btn {
     font-size: 0.75rem;
@@ -105,8 +106,9 @@
     border: 1px solid rgba(148,163,184,0.2);
     border-radius: 6px;
     transition: all 0.2s;
-    white-space: nowrap;
-    text-align: center;
+    white-space: nowrap !important;
+    text-align: center !important;
+    flex-shrink: unset !important;
   }
   .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
   .lang-btn.active { color: #ffd700; border-color: #ffd700; }
