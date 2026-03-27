@@ -26,6 +26,10 @@
           integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
           crossorigin="anonymous"></script>
   <script>
+    // ⚠️ 카카오 JS SDK 키는 프론트엔드에 노출되는 구조입니다.
+    // 보안 조치: 카카오 개발자 콘솔 → 앱 설정 → 플랫폼 →
+    // 사이트 도메인을 https://futurejob.site 로만 제한하세요.
+    // 그러면 다른 사이트에서 이 키를 복사해도 작동하지 않습니다.
     const KAKAO_APP_KEY = '1d496a6dc1fc8f8e88bafb5f36db7ca6';
     if (window.Kakao && !Kakao.isInitialized()) {
       Kakao.init(KAKAO_APP_KEY);
@@ -607,6 +611,17 @@
         return;
       }
 
+      // XSS 방어: 허용된 값 목록으로 검증
+      const VALID_ABILITY = ['\uc0c1', '\uc911', '\ud558'];
+      const VALID_RIASEC  = ['R', 'I', 'A', 'S', 'E', 'C'];
+      const VALID_BIG5    = ['O', 'C', 'E', 'A', 'N'];
+      const invalidMsg    = '<div class="empty-box"><p>\uc62c\ubc14\ub974\uc9c0 \uc54a\uc740 \uc785\ub825\uac12\uc785\ub2c8\ub2e4.</p><a href="index.html" class="back-btn">\u2190 \ub2e4\uc2dc \uc785\ub825\ud558\uae30</a></div>';
+
+      if (!VALID_ABILITY.includes(userInput.ability)) { el.innerHTML = invalidMsg; return; }
+      if (!VALID_RIASEC.includes(userInput.riasec))   { el.innerHTML = invalidMsg; return; }
+      if (!VALID_BIG5.includes(userInput.big5))        { el.innerHTML = invalidMsg; return; }
+      userInput.name = String(userInput.name).slice(0, 100);
+
       try {
         const countryFileMap = {
           '대한민국': 'KR.json', '미국': 'US.json', '일본': 'JP.json',
@@ -716,7 +731,7 @@
         const tagHtml = keywords.map(k =>
           `<span style="display:inline-block;padding:3px 9px;margin:3px 3px 3px 0;
             background:rgba(30,41,59,0.8);border:1px solid rgba(148,163,184,0.2);
-            border-radius:6px;color:#94a3b8;font-size:0.78rem;">${k}</span>`
+            border-radius:6px;color:#94a3b8;font-size:0.78rem;">${escapeHtml(k)}</span>`
         ).join('');
 
         const flagMap = {'대한민국':'🇰🇷','미국':'🇺🇸','일본':'🇯🇵','독일':'🇩🇪','캐나다':'🇨🇦',
@@ -771,6 +786,14 @@ function shareKakao() {
 }
 </script>
 
+  window.addEventListener('load', () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(err =>
+        console.warn('Service Worker 등록 실패:', err)
+      );
+    }
+  });
+</script>
 
 </body>
 </html>

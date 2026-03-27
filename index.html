@@ -270,6 +270,15 @@
     var sw = document.querySelector('.lang-switcher');
     if (sw) { sw.scrollLeft = 0; }
   });
+
+  // 서비스 워커 등록 (data/*.json 캐싱)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(err =>
+        console.warn('Service Worker 등록 실패:', err)
+      );
+    });
+  }
 </script>
 </body>
 </html>
