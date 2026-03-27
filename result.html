@@ -242,7 +242,11 @@
       return workbook;
     }
 
-    // ==================== 개발자 다운로드 비밀번호 ====================
+    /* ==================== 개발자 전용 기능 (필요시 주석 해제) ====================
+       ※ 비밀번호는 base64 인코딩된 값 "a2RzczUy" = atob("a2RzczUy") 로 확인
+       ※ 사용법: 아래 주석 전체(/* ~ */)를 제거하면 엑셀 다운로드 기능 활성화
+       ==================== 개발자 전용 기능 (필요시 주석 해제) ====================
+
     function checkDeveloperPassword() {
       const encoded = "a2RzczUy";
       const password = atob(encoded);
@@ -288,6 +292,8 @@
         alert('엑셀 파일 생성 중 오류가 발생했습니다. 콘솔을 확인해 주세요.');
       }
     }
+
+    */ // ==================== 개발자 전용 기능 끝 ====================
 
     // ==================== 결과 이미지 카드 저장 (STEP 4) ====================
     function fillShareCard(result) {
@@ -516,11 +522,13 @@
   </div>
 </div>`;
 
+      /* 개발자 전용 — 위 함수 주석 해제 시 함께 해제
       if (hasCandidates) {
         document.getElementById('downloadBtn')?.addEventListener('click', () => {
           downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
         });
       }
+      */
 
       document.getElementById('shareCardBtn')?.addEventListener('click', () => {
         downloadShareCard(data);
