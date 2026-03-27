@@ -10,7 +10,7 @@
 
   <!-- ✅ SEO: English -->
   <meta name="description" content="Discover your ideal future career with AI. Based on your personality (RIASEC, Big5) and academic background, we recommend top future-proof jobs across 26 countries.">
-  <meta name="keywords" content="future career recommendation, AI job recommendation, career test, RIASEC test, Big5 personality, future jobs 2030, future jobs 2040, best jobs by country, career guidance, job aptitude test, high income careers, overseas jobs, international careers, student career planning, career exploration">
+  <meta name="keywords" content="future careers 2030, best careers for the future, AI career recommendation, career aptitude test, RIASEC test, Big5 personality career, what career suits me, best jobs for the future, high paying jobs 2030, career quiz, future proof careers, jobs of the future, career guidance test, best career for my personality, future job prediction, career exploration, in-demand jobs 2040, career planning for students, top future careers, job recommendation AI, career ideas for kids, career test for middle school students, high school career guidance, best careers by country, international career planning, career data analysis, college major recommendation, career design, education career platform, AI job test, career aptitude for elementary students, career aptitude for teenagers, high income careers, overseas job recommendation, country specific careers">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
 
@@ -111,22 +111,23 @@
     }
     .lang-switcher {
       display: flex;
-      justify-content: flex-end;
-      gap: 8px;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
       margin-bottom: 8px;
-      flex-wrap: wrap;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
-      font-size: 0.75rem;
-      color: #64748b;
-      text-decoration: none;
-      padding: 3px 8px;
-      border: 1px solid rgba(148,163,184,0.2);
-      border-radius: 6px;
-      transition: all 0.2s;
-        white-space: nowrap;
-    flex-shrink: 0;
-  }
+      font-size: 0.72rem; color: #64748b; text-decoration: none;
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
+      border-radius: 6px; transition: all 0.2s;
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap; flex-shrink: 0;
+    }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
   </style>
@@ -282,5 +283,13 @@
       window.location.href = `../result.html?${params.toString()}`;
     });
   </script>
+
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
