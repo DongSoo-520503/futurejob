@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../style.css">
 
   <meta name="description" content="Yapay zeka, kişiliğini (RIASEC ve Big5) ve akademik planını analiz ederek 26 ülkedeki en umut verici gelecek mesleklerini ücretsiz önerir.">
-  <meta name="keywords" content="geleceğin meslekleri, kariyer testi, mesleki rehberlik, yapay zeka tavsiye, RIASEC, Big5, işler 2030, işler 2040, yurt dışında çalışma, yüksek maaşlı meslekler, öğrenci rehberliği">
+  <meta name="keywords" content="geleceğin meslekleri 2030, en iyi gelecek meslekler, meslek seçimi testi, hangi meslek bana uygun, RIASEC testi, meslek rehberliği, iyi maaşlı meslekler, geleceği olan meslekler, kişilik testi kariyer, yapay zeka kariyer, gelecekteki işler 2040, öğrenci meslek rehberliği, çocuklar için meslek rehberliği, ortaokul meslek seçimi, lise meslek seçimi, ülkelere göre meslekler, yüksek maaş meslek, Big5 kişilik kariyer, öğrenci kariyer planlaması, yapay zeka meslek tahmini, uluslararası kariyer">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
 
@@ -84,16 +84,24 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: flex; justify-content: flex-end;
-      gap: 6px; margin-bottom: 8px; flex-wrap: wrap;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
       font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 3px 7px; border: 1px solid rgba(148,163,184,0.2);
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-        white-space: nowrap;
-    flex-shrink: 0;
-  }
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap; flex-shrink: 0;
+    }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
   </style>
@@ -238,5 +246,13 @@
       window.location.href = `../result.html?${params.toString()}`;
     });
   </script>
+
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
