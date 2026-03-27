@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../style.css">
 
   <meta name="description" content="L'IA analyse votre personnalité (RIASEC & Big5) et votre parcours scolaire pour vous recommander les métiers d'avenir les plus prometteurs dans 26 pays – gratuitement.">
-  <meta name="keywords" content="métiers d'avenir, test de carrière, orientation professionnelle, recommandation IA, RIASEC, Big5 personnalité, emploi futur, emploi 2030, emploi 2040, carrière internationale, travail à l'étranger, métiers bien payés, orientation lycéen, test d'aptitude, carrière étudiante">
+  <meta name="keywords" content="métiers d'avenir, meilleurs métiers 2030, test d'orientation professionnelle, quel métier me correspond, RIASEC test gratuit, test de personnalité carrière, emploi futur, orientation lycéen, métiers bien payés, carrière IA, test aptitude professionnelle, métiers 2040, orientation scolaire, meilleure carrière pour moi, métiers porteurs, test orientation gratuit, orientation collégien, orientation primaire, métiers par pays, salaires élevés, conseiller d'orientation, Big5 personnalité métier, planification de carrière étudiant, prédiction métier IA, formation professionnelle, carrière internationale">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
 
@@ -85,16 +85,24 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: flex; justify-content: flex-end;
-      gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
-      font-size: 0.75rem; color: #64748b; text-decoration: none;
-      padding: 3px 8px; border: 1px solid rgba(148,163,184,0.2);
+      font-size: 0.72rem; color: #64748b; text-decoration: none;
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-        white-space: nowrap;
-    flex-shrink: 0;
-  }
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap; flex-shrink: 0;
+    }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
   </style>
@@ -239,5 +247,13 @@
       window.location.href = `../result.html?${params.toString()}`;
     });
   </script>
+
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
