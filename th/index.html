@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../style.css">
 
   <meta name="description" content="AI วิเคราะห์บุคลิกภาพ (RIASEC และ Big5) และแผนการเรียนของคุณ เพื่อแนะนำอาชีพที่มีอนาคตสดใสใน 26 ประเทศ ฟรีโดยไม่มีค่าใช้จ่าย">
-  <meta name="keywords" content="อาชีพแห่งอนาคต, ทดสอบอาชีพ, แนะแนวอาชีพ AI, RIASEC, Big5, งาน 2030, งาน 2040, ทำงานต่างประเทศ, อาชีพเงินเดือนสูง, แนะแนวนักเรียน">
+  <meta name="keywords" content="อาชีพแห่งอนาคต 2030, อาชีพที่ดีที่สุดในอนาคต, ทดสอบอาชีพฟรี, อาชีพที่เหมาะกับฉัน, RIASEC test, แนะแนวอาชีพ, อาชีพเงินเดือนสูง, อาชีพมีอนาคต, ทดสอบบุคลิกภาพอาชีพ, AI แนะแนว, งานอนาคต 2040, แนะแนวนักเรียนประถม, แนะแนวนักเรียนมัธยม, อาชีพตามประเทศ, รายได้สูง, Big5 บุคลิกภาพอาชีพ, วางแผนอาชีพนักเรียน, ทำนายอาชีพ AI, อาชีพนานาชาติ, แนะแนวอาชีพฟรี">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
 
@@ -84,16 +84,24 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: flex; justify-content: flex-end;
-      gap: 6px; margin-bottom: 8px; flex-wrap: wrap;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
       font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 3px 7px; border: 1px solid rgba(148,163,184,0.2);
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-        white-space: nowrap;
-    flex-shrink: 0;
-  }
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap; flex-shrink: 0;
+    }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
   </style>
@@ -238,5 +246,13 @@
       window.location.href = `../result.html?${params.toString()}`;
     });
   </script>
+
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
