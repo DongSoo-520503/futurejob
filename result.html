@@ -630,7 +630,7 @@
             });
           } else if (isJapan) {
             resultBtn.textContent = '👉 LINEで結果をシェア';
-            resultBtn.style.background = '#06C755';
+            resultBtn.style.background = '#0f766e';
             resultBtn.style.color = '#fff';
             resultBtn.addEventListener('click', () => {
               gtag('event', 'share_result', { country, method: 'line' });
@@ -638,7 +638,7 @@
             });
           } else if (isChina) {
             resultBtn.textContent = '🔗 结果链接复制 (微信分享用)';
-            resultBtn.style.background = '#07C160';
+            resultBtn.style.background = '#0f766e';
             resultBtn.style.color = '#fff';
             resultBtn.addEventListener('click', () => {
               gtag('event', 'share_result', { country, method: 'wechat_copy' });
@@ -648,7 +648,7 @@
             });
           } else {
             resultBtn.textContent = '👉 Share Result via WhatsApp';
-            resultBtn.style.background = '#25D366';
+            resultBtn.style.background = '#0f766e';
             resultBtn.style.color = '#fff';
             resultBtn.addEventListener('click', () => {
               gtag('event', 'share_result', { country, method: 'whatsapp' });
