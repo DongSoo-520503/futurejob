@@ -465,10 +465,8 @@
 <a href="index.html" class="back-btn">← 다시 입력하기</a>
 
 <div class="download-wrap">
-  <button id="kakaoShareBtn" class="download-btn"
-    style="margin-top:10px; background:#fee500; color:#000; font-weight:700;">
-    💬 카카오로 이 사이트 공유하기
-  </button>
+  <!-- 국가별 공유 버튼 (displayResult에서 동적 생성) -->
+  <div id="countryShareBtns" style="margin-top:10px;"></div>
 
   <button id="shareCardBtn" class="download-btn"
     style="margin-top:10px; background:#0f766e; color:#fff;">
@@ -495,10 +493,8 @@
   </button>
   -->
 
-  <button onclick="shareKakao()" class="download-btn"
-    style="margin-top:10px; background:#0f766e; color:#fff; font-weight:700;">
-    👉 카카오로 위 추천직업 공유하기
-  </button>
+  <!-- 결과 공유 버튼 (국가별 동적 생성) -->
+  <div id="resultShareBtn" style="margin-top:10px;"></div>
 
 
   <div id="qrSection" style="margin-top:18px; padding:16px; background:#1e293b;
@@ -535,37 +531,133 @@
         downloadShareCard(data);
       });
 
-      // STEP 8: 카카오 공유
-      document.getElementById('kakaoShareBtn')?.addEventListener('click', () => {
-        gtag('event', 'kakao_share', { job: data.job, country: data.country });
+      // STEP 8: 국가별 공유 버튼 동적 생성
+      (function setupShareButtons(country, shareUrl) {
+        const siteUrl = 'https://www.futurejob.site/?utm_source=share&utm_medium=social&utm_campaign=site';
+        const resultUtm = shareUrl + (shareUrl.includes('?') ? '&' : '?') + 'utm_source=share&utm_medium=social&utm_campaign=result';
 
-        if (window.Kakao && Kakao.isInitialized()) {
-          Kakao.Share.sendDefault({
-            objectType: 'feed',
-            content: {
-              title:       'AI 미래 직업 추천 — FutureJob',
-              description: '나의 성향(RIASEC·Big5)과 학업 계획으로 미래 유망 직업을 추천해드립니다. 무료로 바로 확인하세요!',
-              link: {
-                mobileWebUrl: 'https://www.futurejob.site/?utm_source=kakao&utm_medium=social&utm_campaign=share',
-                webUrl:       'https://www.futurejob.site/?utm_source=kakao&utm_medium=social&utm_campaign=share'
+        // 국가별 설정
+        const isKorea  = country === '대한민국';
+        const isJapan  = country === '일본';
+        const isChina  = country === '중국';
+        // 나머지는 WhatsApp
+
+        // ── 사이트 공유 버튼 ──────────────────────────────────────
+        const siteDiv = document.getElementById('countryShareBtns');
+        if (siteDiv) {
+          const siteBtn = document.createElement('button');
+          siteBtn.className = 'download-btn';
+          siteBtn.style.cssText = 'width:100%;background:#fee500;color:#000;font-weight:700;';
+
+          if (isKorea) {
+            siteBtn.textContent = '💬 카카오로 이 사이트 공유하기';
+            siteBtn.addEventListener('click', () => {
+              gtag('event', 'share_site', { country, method: 'kakao' });
+              if (window.Kakao && Kakao.isInitialized()) {
+                Kakao.Share.sendDefault({
+                  objectType: 'feed',
+                  content: {
+                    title: 'AI 미래 직업 추천 — FutureJob',
+                    description: '나의 성향(RIASEC·Big5)과 학업 계획으로 미래 유망 직업을 추천해드립니다. 무료로 바로 확인하세요!',
+                    link: { mobileWebUrl: siteUrl, webUrl: siteUrl }
+                  },
+                  buttons: [{ title: '무료로 내 직업 추천받기', link: { mobileWebUrl: siteUrl, webUrl: siteUrl } }]
+                });
+              } else {
+                navigator.clipboard.writeText('https://www.futurejob.site/').then(() =>
+                  alert('링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요 😊')
+                ).catch(() => prompt('링크를 복사해서 공유하세요:', 'https://www.futurejob.site/'));
               }
-            },
-            buttons: [{
-              title: '무료로 내 직업 추천받기',
-              link: {
-                mobileWebUrl: 'https://www.futurejob.site/?utm_source=kakao&utm_medium=social&utm_campaign=share',
-                webUrl:       'https://www.futurejob.site/?utm_source=kakao&utm_medium=social&utm_campaign=share'
-              }
-            }]
-          });
-        } else {
-          navigator.clipboard.writeText(shareUrl).then(() => {
-            alert('공유 링크가 클립보드에 복사되었습니다!\n카카오톡에 붙여넣기해서 공유하세요 😊');
-          }).catch(() => {
-            prompt('아래 링크를 복사해서 공유하세요:', shareUrl);
-          });
+            });
+          } else if (isJapan) {
+            siteBtn.textContent = '💚 LINEでこのサイトをシェア';
+            siteBtn.style.background = '#06C755';
+            siteBtn.style.color = '#fff';
+            siteBtn.addEventListener('click', () => {
+              gtag('event', 'share_site', { country, method: 'line' });
+              window.open('https://line.me/R/msg/text/?' + encodeURIComponent('AI未来職業推薦 — FutureJob\nhttps://www.futurejob.site/'), '_blank');
+            });
+          } else if (isChina) {
+            siteBtn.textContent = '🔗 链接复制 (微信分享用)';
+            siteBtn.style.background = '#07C160';
+            siteBtn.style.color = '#fff';
+            siteBtn.addEventListener('click', () => {
+              gtag('event', 'share_site', { country, method: 'wechat_copy' });
+              navigator.clipboard.writeText('https://www.futurejob.site/').then(() =>
+                alert('链接已复制！请粘贴到微信分享 😊')
+              ).catch(() => prompt('请复制此链接并在微信中分享：', 'https://www.futurejob.site/'));
+            });
+          } else {
+            siteBtn.textContent = '💚 Share via WhatsApp';
+            siteBtn.style.background = '#25D366';
+            siteBtn.style.color = '#fff';
+            siteBtn.addEventListener('click', () => {
+              gtag('event', 'share_site', { country, method: 'whatsapp' });
+              window.open('https://wa.me/?text=' + encodeURIComponent('AI Future Job Recommendation — FutureJob\nhttps://www.futurejob.site/'), '_blank');
+            });
+          }
+          siteDiv.appendChild(siteBtn);
         }
-      });
+
+        // ── 결과 공유 버튼 ──────────────────────────────────────
+        const resultDiv = document.getElementById('resultShareBtn');
+        if (resultDiv) {
+          const resultBtn = document.createElement('button');
+          resultBtn.className = 'download-btn';
+          resultBtn.style.cssText = 'width:100%;font-weight:700;';
+
+          if (isKorea) {
+            resultBtn.textContent = '👉 카카오로 위 추천직업 공유하기';
+            resultBtn.style.background = '#0f766e';
+            resultBtn.style.color = '#fff';
+            resultBtn.addEventListener('click', () => {
+              gtag('event', 'share_result', { country, method: 'kakao' });
+              if (window.Kakao && Kakao.isInitialized()) {
+                Kakao.Share.sendDefault({
+                  objectType: 'feed',
+                  content: {
+                    title: 'AI 미래 직업 추천 결과',
+                    description: '내 미래 직업 결과 확인해보기 (무료)',
+                    link: { mobileWebUrl: resultUtm, webUrl: resultUtm }
+                  },
+                  buttons: [{ title: '결과 보러가기', link: { mobileWebUrl: resultUtm, webUrl: resultUtm } }]
+                });
+              } else {
+                navigator.clipboard.writeText(shareUrl).then(() =>
+                  alert('링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요 😊')
+                ).catch(() => prompt('링크를 복사해서 공유하세요:', shareUrl));
+              }
+            });
+          } else if (isJapan) {
+            resultBtn.textContent = '👉 LINEで結果をシェア';
+            resultBtn.style.background = '#06C755';
+            resultBtn.style.color = '#fff';
+            resultBtn.addEventListener('click', () => {
+              gtag('event', 'share_result', { country, method: 'line' });
+              window.open('https://line.me/R/msg/text/?' + encodeURIComponent('AI未来職業推薦の結果\n' + resultUtm), '_blank');
+            });
+          } else if (isChina) {
+            resultBtn.textContent = '🔗 结果链接复制 (微信分享用)';
+            resultBtn.style.background = '#07C160';
+            resultBtn.style.color = '#fff';
+            resultBtn.addEventListener('click', () => {
+              gtag('event', 'share_result', { country, method: 'wechat_copy' });
+              navigator.clipboard.writeText(resultUtm).then(() =>
+                alert('链接已复制！请粘贴到微信分享 😊')
+              ).catch(() => prompt('请复制此链接并在微信中分享：', resultUtm));
+            });
+          } else {
+            resultBtn.textContent = '👉 Share Result via WhatsApp';
+            resultBtn.style.background = '#25D366';
+            resultBtn.style.color = '#fff';
+            resultBtn.addEventListener('click', () => {
+              gtag('event', 'share_result', { country, method: 'whatsapp' });
+              window.open('https://wa.me/?text=' + encodeURIComponent('Check my AI Future Job Result!\n' + resultUtm), '_blank');
+            });
+          }
+          resultDiv.appendChild(resultBtn);
+        }
+      })(data.country, shareUrl);
       document.getElementById('qrBtn')?.addEventListener('click', () => {
         const url      = encodeURIComponent(window.location.href);
         const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${url}&format=png`;
@@ -770,28 +862,9 @@
   </script>
 
 <script>
-function shareKakao() {
-  Kakao.Share.sendDefault({
-    objectType: 'feed',
-    content: {
-      title: 'AI 미래 직업 추천 결과',
-      description: '내 미래 직업 결과 확인해보기 (무료)',
-      link: {
-        mobileWebUrl: window.location.href + (window.location.href.includes('?') ? '&' : '?') + 'utm_source=kakao&utm_medium=social&utm_campaign=result_share',
-        webUrl: window.location.href + (window.location.href.includes('?') ? '&' : '?') + 'utm_source=kakao&utm_medium=social&utm_campaign=result_share',
-      },
-    },
-    buttons: [
-      {
-        title: '결과 보러가기',
-        link: {
-          mobileWebUrl: window.location.href + (window.location.href.includes('?') ? '&' : '?') + 'utm_source=kakao&utm_medium=social&utm_campaign=result_share',
-          webUrl: window.location.href + (window.location.href.includes('?') ? '&' : '?') + 'utm_source=kakao&utm_medium=social&utm_campaign=result_share',
-        },
-      },
-    ],
-  });
-}
+/* 국가별 공유 버튼으로 대체됨 — 미사용
+function shareKakao() { ... }
+*/
 </script>
 
 <script>
