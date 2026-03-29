@@ -40,48 +40,7 @@
 
 <script src="./data/countryMap.js"></script>
 
-<script>
-  /* ── 언어 감지 → Chrome 내장 번역 안내 배너 ── */
-  document.addEventListener('DOMContentLoaded', function() {
-    var lang = new URLSearchParams(window.location.search).get('lang');
-    if (!lang || lang === 'ko') return;
 
-    var langNames = {
-      en:'English', ja:'日本語', de:'Deutsch', fr:'Français',
-      es:'Español', pt:'Português', ru:'Русский', it:'Italiano',
-      pl:'Polski', tr:'Türkçe', vi:'Tiếng Việt', id:'Bahasa Indonesia',
-      th:'ภาษาไทย', ar:'العربية', zh:'中文'
-    };
-    var langName = langNames[lang] || lang.toUpperCase();
-
-    var banner = document.createElement('div');
-    banner.id = 'lang-banner';
-    banner.style.cssText = [
-      'position:fixed','top:0','left:0','right:0','z-index:9999',
-      'background:linear-gradient(135deg,#b8860b,#ffd700)',
-      'color:#0f172a','font-weight:700',
-      'padding:10px 16px','text-align:center',
-      'font-size:0.85rem','display:flex',
-      'align-items:center','justify-content:center',
-      'gap:10px','flex-wrap:wrap'
-    ].join(';');
-
-    // Chrome 주소창 번역 아이콘 or 우클릭 번역 안내
-    banner.innerHTML = [
-      '<span>🌐 Page is in Korean.</span>',
-      '<span style="background:#0f172a;color:#ffd700;padding:5px 12px;',
-      '             border-radius:6px;font-size:0.80rem;">',
-      '👉 Click the translate icon (🌐) in Chrome address bar → Translate to ' + langName,
-      '</span>',
-      '<button onclick="document.getElementById('lang-banner').remove()"',
-      '        style="background:none;border:none;cursor:pointer;',
-      '               font-size:1rem;color:#0f172a;padding:2px 6px;">✕</button>'
-    ].join('');
-
-    document.body.insertBefore(banner, document.body.firstChild);
-    document.body.style.paddingTop = '50px';
-  });
-</script>
 </head>
 <body>
 
@@ -921,16 +880,72 @@ function shareKakao() { ... }
 </script>
 
 
+
+
+
 <script>
-  /* ── "다시 입력하기" 링크에 lang 파라미터 유지 ── */
-  document.addEventListener('DOMContentLoaded', function() {
+/* ── 언어 배너: Chrome 내장 번역 안내 ── */
+(function() {
+  function showLangBanner() {
     var lang = new URLSearchParams(window.location.search).get('lang');
     if (!lang || lang === 'ko') return;
-    // 정적 href="index.html" 링크 업데이트
+
+    var names = {en:'English',ja:'日本語',de:'Deutsch',fr:'Français',
+      es:'Español',pt:'Português',ru:'Русский',it:'Italiano',
+      pl:'Polski',tr:'Türkçe',vi:'Tiếng Việt',id:'Bahasa Indonesia',
+      th:'ภาษาไทย',ar:'العربية',zh:'中文'};
+    var name = names[lang] || lang.toUpperCase();
+
+    var d = document.createElement('div');
+    d.setAttribute('id','lang-banner');
+    d.setAttribute('style',
+      'position:fixed;top:0;left:0;right:0;z-index:9999;' +
+      'background:linear-gradient(135deg,#b8860b,#ffd700);' +
+      'color:#0f172a;font-weight:700;font-size:0.82rem;' +
+      'padding:9px 12px;display:flex;align-items:center;' +
+      'justify-content:center;gap:10px;flex-wrap:wrap;'
+    );
+
+    var msg = document.createElement('span');
+    msg.textContent = '🌐 Page is in Korean.';
+
+    var tip = document.createElement('span');
+    tip.setAttribute('style',
+      'background:#0f172a;color:#ffd700;padding:4px 12px;' +
+      'border-radius:6px;font-size:0.78rem;'
+    );
+    tip.textContent = '👉 Click 🌐 in Chrome address bar → Translate to ' + name;
+
+    var btn = document.createElement('button');
+    btn.textContent = '✕';
+    btn.setAttribute('style',
+      'background:none;border:none;cursor:pointer;' +
+      'font-size:1rem;color:#0f172a;padding:2px 6px;'
+    );
+    btn.addEventListener('click', function() {
+      var b = document.getElementById('lang-banner');
+      if (b) b.parentNode.removeChild(b);
+      document.body.style.paddingTop = '';
+    });
+
+    d.appendChild(msg);
+    d.appendChild(tip);
+    d.appendChild(btn);
+    document.body.insertBefore(d, document.body.firstChild);
+    document.body.style.paddingTop = '50px';
+
+    // "다시 입력하기" 링크 → 해당 언어 index로
     document.querySelectorAll('a[href="index.html"]').forEach(function(a) {
       a.href = 'https://www.futurejob.site/' + lang + '/';
     });
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showLangBanner);
+  } else {
+    showLangBanner();
+  }
+})();
 </script>
 
 </body>
