@@ -41,49 +41,45 @@
 <script src="./data/countryMap.js"></script>
 
 <script>
-  /* ── 언어 감지 → 번역 안내 배너 표시 ── */
+  /* ── 언어 감지 → Chrome 내장 번역 안내 배너 ── */
   document.addEventListener('DOMContentLoaded', function() {
     var lang = new URLSearchParams(window.location.search).get('lang');
     if (!lang || lang === 'ko') return;
 
     var langNames = {
-      en:'English', ja:'Japanese', de:'Deutsch', fr:'Français',
-      es:'Español', pt:'Português', ru:'Russian', it:'Italiano',
-      pl:'Polski', tr:'Türkçe', vi:'Vietnamese', id:'Indonesian',
-      th:'Thai', ar:'Arabic', zh:'Chinese'
+      en:'English', ja:'日本語', de:'Deutsch', fr:'Français',
+      es:'Español', pt:'Português', ru:'Русский', it:'Italiano',
+      pl:'Polski', tr:'Türkçe', vi:'Tiếng Việt', id:'Bahasa Indonesia',
+      th:'ภาษาไทย', ar:'العربية', zh:'中文'
     };
     var langName = langNames[lang] || lang.toUpperCase();
-    var translateUrl = 'https://translate.google.com/translate?sl=ko&tl='
-      + encodeURIComponent(lang) + '&u=' + encodeURIComponent(location.href);
 
     var banner = document.createElement('div');
     banner.id = 'lang-banner';
-    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;'
-      + 'background:linear-gradient(135deg,#b8860b,#ffd700);'
-      + 'color:#0f172a;font-weight:700;padding:10px 16px;text-align:center;'
-      + 'font-size:0.88rem;display:flex;align-items:center;justify-content:center;gap:12px;';
+    banner.style.cssText = [
+      'position:fixed','top:0','left:0','right:0','z-index:9999',
+      'background:linear-gradient(135deg,#b8860b,#ffd700)',
+      'color:#0f172a','font-weight:700',
+      'padding:10px 16px','text-align:center',
+      'font-size:0.85rem','display:flex',
+      'align-items:center','justify-content:center',
+      'gap:10px','flex-wrap:wrap'
+    ].join(';');
 
-    var text = document.createElement('span');
-    text.textContent = 'Results are in Korean.';
+    // Chrome 주소창 번역 아이콘 or 우클릭 번역 안내
+    banner.innerHTML = [
+      '<span>🌐 Page is in Korean.</span>',
+      '<span style="background:#0f172a;color:#ffd700;padding:5px 12px;',
+      '             border-radius:6px;font-size:0.80rem;">',
+      '👉 Click the translate icon (🌐) in Chrome address bar → Translate to ' + langName,
+      '</span>',
+      '<button onclick="document.getElementById('lang-banner').remove()"',
+      '        style="background:none;border:none;cursor:pointer;',
+      '               font-size:1rem;color:#0f172a;padding:2px 6px;">✕</button>'
+    ].join('');
 
-    var link = document.createElement('a');
-    link.href = translateUrl;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.textContent = 'Translate to ' + langName + ' →';
-    link.style.cssText = 'background:#0f172a;color:#ffd700;padding:5px 14px;'
-      + 'border-radius:6px;text-decoration:none;font-size:0.82rem;';
-
-    var closeBtn = document.createElement('button');
-    closeBtn.textContent = 'X';
-    closeBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:1rem;color:#0f172a;padding:2px 6px;';
-    closeBtn.onclick = function() { banner.remove(); document.body.style.paddingTop = ''; };
-
-    banner.appendChild(text);
-    banner.appendChild(link);
-    banner.appendChild(closeBtn);
     document.body.insertBefore(banner, document.body.firstChild);
-    document.body.style.paddingTop = '44px';
+    document.body.style.paddingTop = '50px';
   });
 </script>
 </head>
