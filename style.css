@@ -350,13 +350,11 @@ input:focus, select:focus {
 }
 /* ── 언어 선택 버튼 공통 ── */
 .lang-switcher {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
-  justify-content: flex-start !important;
-  gap: 5px;
-  margin-bottom: 8px;
-  padding-bottom: 2px;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 5px !important;
+  margin-bottom: 8px !important;
+  overflow: visible !important;
   width: 100%;
   box-sizing: border-box;
 }
