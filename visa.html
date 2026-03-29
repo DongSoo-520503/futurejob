@@ -169,16 +169,42 @@
   </style>
 
 <script>
-  /* ── 언어 자동번역: lang 파라미터 감지 → Google 번역 리디렉션 ── */
-  (function() {
-    var p    = new URLSearchParams(window.location.search);
-    var lang = p.get('lang');
-    if (!lang || lang === 'ko' || location.hostname.indexOf('.goog') !== -1) return;
-    var url = 'https://translate.google.com/translate?sl=ko&tl='
-              + encodeURIComponent(lang)
-              + '&u=' + encodeURIComponent(location.href);
-    location.replace(url);
-  })();
+  /* ── 언어 감지 → 번역 안내 배너 표시 ── */
+  document.addEventListener('DOMContentLoaded', function() {
+    var lang = new URLSearchParams(window.location.search).get('lang');
+    if (!lang || lang === 'ko') return;
+    var langNames = {
+      en:'English', ja:'日本語', de:'Deutsch', fr:'Français',
+      es:'Español', pt:'Português', ru:'Русский', it:'Italiano',
+      pl:'Polski', tr:'Türkçe', vi:'Tiếng Việt', id:'Bahasa Indonesia',
+      th:'ภาษาไทย', ar:'العربية', zh:'中文'
+    };
+    var langName = langNames[lang] || lang.toUpperCase();
+    var translateUrl = 'https://translate.google.com/translate?sl=ko&tl='
+      + encodeURIComponent(lang) + '&u=' + encodeURIComponent(location.href);
+    var banner = document.createElement('div');
+    banner.id = 'lang-banner';
+    banner.style.cssText = [
+      'position:fixed','top:0','left:0','right:0','z-index:9999',
+      'background:linear-gradient(135deg,#b8860b,#ffd700)',
+      'color:#0f172a','font-weight:700',
+      'padding:10px 16px','text-align:center',
+      'font-size:0.88rem','display:flex',
+      'align-items:center','justify-content:center','gap:12px'
+    ].join(';');
+    banner.innerHTML = [
+      '<span>🌐 This page is in Korean.</span>',
+      '<a href="' + translateUrl + '" target="_blank" rel="noopener"',
+      '   style="background:#0f172a;color:#ffd700;padding:5px 14px;',
+      '          border-radius:6px;text-decoration:none;font-size:0.82rem;">',
+      'Translate to ' + langName + ' →</a>',
+      '<button onclick="document.getElementById('lang-banner').remove()"',
+      '        style="background:none;border:none;cursor:pointer;',
+      '               font-size:1rem;color:#0f172a;padding:2px 6px;">✕</button>'
+    ].join('');
+    document.body.insertBefore(banner, document.body.firstChild);
+    document.body.style.paddingTop = '44px';
+  });
 </script>
 </head>
 <body>
