@@ -87,23 +87,20 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      overflow-x: scroll;
-      gap: 6px;
-      margin-bottom: 8px;
-      padding-bottom: 4px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 5px !important;
+      margin-bottom: 8px !important;
+      overflow: visible !important;
     }
-    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
       font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
+      padding: 5px 4px !important;
+      border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-      font-family: 'Space Mono', monospace;
-      white-space: nowrap; flex-shrink: 0;
+      white-space: nowrap !important;
+      text-align: center !important;
+      flex-shrink: unset !important;
     }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
