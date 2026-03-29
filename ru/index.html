@@ -84,20 +84,23 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: grid !important;
-      grid-template-columns: repeat(4, 1fr) !important;
-      gap: 5px !important;
-      margin-bottom: 8px !important;
-      overflow: visible !important;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
       font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 5px 4px !important;
-      border: 1px solid rgba(148,163,184,0.2);
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-      white-space: nowrap !important;
-      text-align: center !important;
-      flex-shrink: unset !important;
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap; flex-shrink: 0;
     }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
@@ -207,16 +210,17 @@
           </select>
         </div>
 
-        <div class="gold-divider"></div>
-        <button type="submit" class="submit-btn">Узнать мою профессию будущего →</button>
-
-      </form>
-      <p id="formMessage" class="form-message"></p>
+        
       <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:12px; line-height:1.6;
                  background:linear-gradient(135deg,#b8860b,#ffd700);
                  -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
         ※ Результаты на корейском — используйте автоперевод Chrome.
       </p>
+        <div class="gold-divider"></div>
+        <button type="submit" class="submit-btn">Узнать мою профессию будущего →</button>
+
+      </form>
+      <p id="formMessage" class="form-message"></p>
     </div>
   </div>
 
@@ -234,7 +238,7 @@
 
       gtag('event', 'submit_form', {
         country: userData.country, ability: userData.ability,
-        riasec: userData.riasec, big5: userData.big5, lang: 'ru'
+        riasec: userData.riasec, big5: userData.big5
       });
 
       const params = new URLSearchParams({
@@ -245,6 +249,12 @@
     });
   </script>
 
-
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
