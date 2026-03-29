@@ -84,20 +84,23 @@
     }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
     .lang-switcher {
-      display: grid !important;
-      grid-template-columns: repeat(4, 1fr) !important;
-      gap: 5px !important;
-      margin-bottom: 8px !important;
-      overflow: visible !important;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .lang-switcher::-webkit-scrollbar { display: none; }
     .lang-btn {
       font-size: 0.72rem; color: #64748b; text-decoration: none;
-      padding: 5px 4px !important;
-      border: 1px solid rgba(148,163,184,0.2);
+      padding: 5px 9px; border: 1px solid rgba(148,163,184,0.2);
       border-radius: 6px; transition: all 0.2s;
-      white-space: nowrap !important;
-      text-align: center !important;
-      flex-shrink: unset !important;
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap; flex-shrink: 0;
     }
     .lang-btn:hover { color: #ffd700; border-color: #ffd700; }
     .lang-btn.active { color: #ffd700; border-color: #ffd700; }
@@ -147,31 +150,31 @@
           <label for="country">Docelowy kraj</label>
           <select id="country" name="country">
             <option value="폴란드">🇵🇱 Polska</option>
-            <option value="미국">🇺🇸 미국</option>
-            <option value="영국">🇬🇧 영국</option>
-            <option value="캐나다">🇨🇦 캐나다</option>
-            <option value="호주">🇦🇺 호주</option>
-            <option value="독일">🇩🇪 독일</option>
-            <option value="프랑스">🇫🇷 프랑스</option>
-            <option value="이탈리아">🇮🇹 이탈리아</option>
-            <option value="스위스">🇨🇭 스위스</option>
-            <option value="싱가포르">🇸🇬 싱가포르</option>
-            <option value="일본">🇯🇵 일본</option>
-            <option value="중국">🇨🇳 중국</option>
-            <option value="인도">🇮🇳 인도</option>
-            <option value="베트남">🇻🇳 베트남</option>
-            <option value="태국">🇹🇭 태국</option>
-            <option value="인도네시아">🇮🇩 인도네시아</option>
-            <option value="아랍에미리트">🇦🇪 아랍에미리트</option>
-            <option value="사우디아라비아">🇸🇦 사우디아라비아</option>
-            <option value="이스라엘">🇮🇱 이스라엘</option>
-            <option value="튀르키예">🇹🇷 튀르키예</option>
-            <option value="멕시코">🇲🇽 멕시코</option>
-            <option value="브라질">🇧🇷 브라질</option>
-            <option value="남아프리카공화국">🇿🇦 남아프리카공화국</option>
-            <option value="나이지리아">🇳🇬 나이지리아</option>
-            <option value="러시아">🇷🇺 러시아</option>
-            <option value="대한민국">🇰🇷 대한민국</option>
+            <option value="태국">🇹🇭 Tajlandia</option>
+            <option value="미국">🇺🇸 Stany Zjednoczone</option>
+            <option value="영국">🇬🇧 Wielka Brytania</option>
+            <option value="캐나다">🇨🇦 Kanada</option>
+            <option value="호주">🇦🇺 Australia</option>
+            <option value="독일">🇩🇪 Niemcy</option>
+            <option value="프랑스">🇫🇷 Francja</option>
+            <option value="이탈리아">🇮🇹 Włochy</option>
+            <option value="스위스">🇨🇭 Szwajcaria</option>
+            <option value="싱가포르">🇸🇬 Singapur</option>
+            <option value="일본">🇯🇵 Japonia</option>
+            <option value="중국">🇨🇳 Chiny</option>
+            <option value="인도">🇮🇳 Indie</option>
+            <option value="베트남">🇻🇳 Wietnam</option>
+            <option value="인도네시아">🇮🇩 Indonezja</option>
+            <option value="아랍에미리트">🇦🇪 Zjednoczone Emiraty Arabskie</option>
+            <option value="사우디아라비아">🇸🇦 Arabia Saudyjska</option>
+            <option value="이스라엘">🇮🇱 Izrael</option>
+            <option value="튀르키예">🇹🇷 Turcja</option>
+            <option value="멕시코">🇲🇽 Meksyk</option>
+            <option value="브라질">🇧🇷 Brazylia</option>
+            <option value="남아프리카공화국">🇿🇦 Republika Południowej Afryki</option>
+            <option value="나이지리아">🇳🇬 Nigeria</option>
+            <option value="러시아">🇷🇺 Rosja</option>
+            <option value="대한민국">🇰🇷 Korea Południowa</option>
           </select>
         </div>
 
@@ -234,7 +237,7 @@
 
       gtag('event', 'submit_form', {
         country: userData.country, ability: userData.ability,
-        riasec: userData.riasec, big5: userData.big5, lang: 'pl'
+        riasec: userData.riasec, big5: userData.big5
       });
 
       const params = new URLSearchParams({
@@ -245,6 +248,12 @@
     });
   </script>
 
-
+<script>
+  // 언어 버튼 스크롤 항상 맨 왼쪽 고정
+  document.addEventListener('DOMContentLoaded', function() {
+    var sw = document.querySelector('.lang-switcher');
+    if (sw) { sw.scrollLeft = 0; }
+  });
+</script>
 </body>
 </html>
