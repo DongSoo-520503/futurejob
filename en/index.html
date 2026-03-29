@@ -269,8 +269,7 @@
         country: userData.country,
         ability: userData.ability,
         riasec:  userData.riasec,
-        big5:    userData.big5,
-        lang:    'en'
+        big5:    userData.big5
       });
 
       const params = new URLSearchParams({
@@ -279,8 +278,7 @@
         country: userData.country,
         ability: userData.ability,
         riasec:  userData.riasec,
-        big5:    userData.big5,
-        lang:    'en'
+        big5:    userData.big5
       });
       window.location.href = `../result.html?${params.toString()}`;
     });
