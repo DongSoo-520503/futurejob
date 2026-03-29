@@ -39,6 +39,21 @@
 
 
 <script src="./data/countryMap.js"></script>
+
+<script>
+  /* ── 언어 자동번역: lang 파라미터 감지 → Google 번역 리디렉션 ── */
+  (function() {
+    var p   = new URLSearchParams(window.location.search);
+    var lang = p.get('lang');
+    // ko이거나 이미 translate.goog 안에 있으면 스킵
+    if (!lang || lang === 'ko' || location.hostname.indexOf('.goog') !== -1) return;
+    // 번역 URL로 리디렉션
+    var url = 'https://translate.google.com/translate?sl=ko&tl='
+              + encodeURIComponent(lang)
+              + '&u=' + encodeURIComponent(location.href);
+    location.replace(url);
+  })();
+</script>
 </head>
 <body>
 
@@ -875,6 +890,19 @@ function shareKakao() { ... }
         console.warn('Service Worker 등록 실패:', err)
       );
     }
+  });
+</script>
+
+
+<script>
+  /* ── "다시 입력하기" 링크에 lang 파라미터 유지 ── */
+  document.addEventListener('DOMContentLoaded', function() {
+    var lang = new URLSearchParams(window.location.search).get('lang');
+    if (!lang || lang === 'ko') return;
+    // 정적 href="index.html" 링크 업데이트
+    document.querySelectorAll('a[href="index.html"]').forEach(function(a) {
+      a.href = 'https://www.futurejob.site/' + lang + '/';
+    });
   });
 </script>
 

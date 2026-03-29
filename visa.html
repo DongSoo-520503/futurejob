@@ -167,6 +167,19 @@
       color: #475569; font-size: 0.9rem;
     }
   </style>
+
+<script>
+  /* ── 언어 자동번역: lang 파라미터 감지 → Google 번역 리디렉션 ── */
+  (function() {
+    var p    = new URLSearchParams(window.location.search);
+    var lang = p.get('lang');
+    if (!lang || lang === 'ko' || location.hostname.indexOf('.goog') !== -1) return;
+    var url = 'https://translate.google.com/translate?sl=ko&tl='
+              + encodeURIComponent(lang)
+              + '&u=' + encodeURIComponent(location.href);
+    location.replace(url);
+  })();
+</script>
 </head>
 <body>
   <div class="container">
