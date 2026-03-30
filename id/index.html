@@ -209,6 +209,7 @@
             <option value="N">🛡 Neurotis — Hati-hati, sensitif terhadap risiko, cermat</option>
           </select>
         </div>
+        <div class="gold-divider"></div>
 
         
       <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:12px; line-height:1.6;
@@ -216,7 +217,6 @@
                  -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
         ※ Hasil ditampilkan dalam bahasa Korea — gunakan fitur terjemahan otomatis Chrome.
       </p>
-        <div class="gold-divider"></div>
         <button type="submit" class="submit-btn">Lihat karier masa depan saya →</button>
 
       </form>
@@ -238,7 +238,8 @@
 
       gtag('event', 'submit_form', {
         country: userData.country, ability: userData.ability,
-        riasec: userData.riasec, big5: userData.big5
+        riasec: userData.riasec, big5: userData.big5,
+        lang:    'id'
       });
 
       const params = new URLSearchParams({
