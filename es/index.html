@@ -209,6 +209,7 @@
             <option value="N">🛡 Neurótico — Precavido, sensible al riesgo, detallista</option>
           </select>
         </div>
+        <div class="gold-divider"></div>
 
         
       <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:12px; line-height:1.6;
@@ -216,7 +217,6 @@
                  -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
         ※ Los resultados están en coreano — usa la traducción automática de Chrome.
       </p>
-        <div class="gold-divider"></div>
         <button type="submit" class="submit-btn">Ver mi carrera del futuro →</button>
 
       </form>
@@ -238,7 +238,8 @@
 
       gtag('event', 'submit_form', {
         country: userData.country, ability: userData.ability,
-        riasec: userData.riasec, big5: userData.big5
+        riasec: userData.riasec, big5: userData.big5,
+        lang:    'es'
       });
 
       const params = new URLSearchParams({
