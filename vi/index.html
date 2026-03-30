@@ -209,6 +209,7 @@
             <option value="N">🛡 Nhạy cảm — Thận trọng, nhạy cảm với rủi ro, chú ý chi tiết</option>
           </select>
         </div>
+        <div class="gold-divider"></div>
 
         
       <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:12px; line-height:1.6;
@@ -216,7 +217,6 @@
                  -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
         ※ Kết quả bằng tiếng Hàn — hãy dùng tính năng dịch tự động của Chrome.
       </p>
-        <div class="gold-divider"></div>
         <button type="submit" class="submit-btn">Xem nghề nghiệp tương lai của tôi →</button>
 
       </form>
@@ -238,7 +238,8 @@
 
       gtag('event', 'submit_form', {
         country: userData.country, ability: userData.ability,
-        riasec: userData.riasec, big5: userData.big5
+        riasec: userData.riasec, big5: userData.big5,
+        lang:    'vi'
       });
 
       const params = new URLSearchParams({
