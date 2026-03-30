@@ -244,7 +244,8 @@
 
       const params = new URLSearchParams({
         name: userData.name, dob: userData.dob, country: userData.country,
-        ability: userData.ability, riasec: userData.riasec, big5: userData.big5
+        ability: userData.ability, riasec: userData.riasec, big5: userData.big5,
+        lang: 'tr'
       });
       window.location.href = `../result.html?${params.toString()}`;
     });
