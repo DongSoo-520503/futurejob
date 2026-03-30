@@ -211,13 +211,13 @@
             <option value="N">🛡 العصابية — حذر، حساس للمخاطر، منتبه للتفاصيل</option>
           </select>
         </div>
+        <div class="gold-divider"></div>
         
       <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:12px; line-height:1.8;
                  background:linear-gradient(135deg,#b8860b,#ffd700);
                  -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
         ※ النتائج باللغة الكورية — استخدم ميزة الترجمة التلقائية في Chrome
       </p>
-        <div class="gold-divider"></div>
         <button type="submit" class="submit-btn">اكتشف مهنتي المستقبلية ←</button>
       </form>
       <p id="formMessage" class="form-message" style="text-align:right;"></p>
@@ -236,7 +236,8 @@
       }
       gtag('event', 'submit_form', {
         country: userData.country, ability: userData.ability,
-        riasec: userData.riasec, big5: userData.big5
+        riasec: userData.riasec, big5: userData.big5,
+        lang:    'ar'
       });
       const params = new URLSearchParams({
         name: userData.name, dob: userData.dob, country: userData.country,
