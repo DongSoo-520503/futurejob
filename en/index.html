@@ -236,6 +236,7 @@
             <option value="N">🛡 Neurotic — Cautious, sensitive to risk, detail-aware</option>
           </select>
         </div>
+        <div class="gold-divider"></div>
 
         
       <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:12px; line-height:1.6;
@@ -243,7 +244,6 @@
                  -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
         ※ Results are in Korean — use Chrome's auto-translate for your language.
       </p>
-        <div class="gold-divider"></div>
         <button type="submit" class="submit-btn">See My Future Career →</button>
 
       </form>
@@ -270,7 +270,8 @@
         country: userData.country,
         ability: userData.ability,
         riasec:  userData.riasec,
-        big5:    userData.big5
+        big5:    userData.big5,
+        lang:    'en'
       });
 
       const params = new URLSearchParams({
