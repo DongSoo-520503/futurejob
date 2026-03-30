@@ -206,13 +206,13 @@
             <option value="N">🛡 神经质 — 谨慎、对风险敏感、注重细节</option>
           </select>
         </div>
+        <div class="gold-divider"></div>
         
       <p style="font-size:0.82rem; font-weight:700; text-align:center; margin-top:12px; line-height:1.8;
                  background:linear-gradient(135deg,#b8860b,#ffd700);
                  -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
         ※ 结果以韩语显示 — 请使用Chrome浏览器的自动翻译功能
       </p>
-        <div class="gold-divider"></div>
         <button type="submit" class="submit-btn">查看我的未来职业 →</button>
       </form>
       <p id="formMessage" class="form-message"></p>
@@ -231,7 +231,8 @@
       }
       gtag('event', 'submit_form', {
         country: userData.country, ability: userData.ability,
-        riasec: userData.riasec, big5: userData.big5
+        riasec: userData.riasec, big5: userData.big5,
+        lang:    'zh'
       });
       const params = new URLSearchParams({
         name: userData.name, dob: userData.dob, country: userData.country,
