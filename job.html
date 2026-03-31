@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>직업 상세 | FutureJob</title>
+  <title>취업비자 안내 | FutureJob</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
-  <meta name="description" content="미래 직업 상세 정보">
+  <meta name="description" content="26개국 취업비자 절차 안내 - 필요서류, 처리기간, 비용 한눈에 확인">
+  <meta name="keywords" content="취업비자, 해외취업, 비자절차, 미국취업비자, 일본취업비자, 해외취업준비">
   <meta name="author" content="FutureJob">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="직업 상세 | FutureJob">
-  <meta property="og:description" content="미래 직업 상세 정보">
-  <meta property="og:type" content="article">
+  <meta property="og:title" content="26개국 취업비자 안내 | FutureJob">
+  <meta property="og:description" content="26개국 취업비자 절차, 필요서류, 처리기간, 비용을 한눈에 확인하세요">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.futurejob.site/visa.html">
   <meta property="og:image" content="https://www.futurejob.site/frontimage.png">
-  <meta property="og:url" content="https://www.futurejob.site/job.html">
-  <link rel="canonical" href="https://www.futurejob.site/job.html">
+  <link rel="canonical" href="https://www.futurejob.site/visa.html">
 
-  <!-- Google tag (gtag.js) 방문자 분석 -->
+  <!-- Google tag -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3V0P1S9DZ"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -27,408 +28,368 @@
     gtag('config', 'G-J3V0P1S9DZ');
   </script>
 
-  <!-- JSON-LD 구조화 데이터 (동적으로 교체됨) -->
-  <script id="jsonld-schema" type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "직업 상세 | FutureJob",
-    "url": "https://www.futurejob.site/job.html",
-    "description": "미래 직업 상세 정보",
-    "publisher": {
-      "@type": "Organization",
-      "name": "FutureJob",
-      "url": "https://www.futurejob.site"
+  <!-- ✅ [추가된 부분: 바로 아래에만 삽입] -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const country = params.get('country') || '';
+    const job = params.get('job') || '';
+
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'view_job_page', {
+        country: country,
+        job: job
+      });
     }
-  }
-  </script>
-<script src="./data/countryMap.js"></script>
+  });
+</script>
+
+<style>
+    .gold-divider {
+      position: relative; height: 1px; border-radius: 2px;
+      background: linear-gradient(90deg, transparent 0%, #b8860b 20%, #ffd700 50%, #b8860b 80%, transparent 100%);
+      margin: 12px 0; overflow: hidden;
+    }
+    .gold-divider::after {
+      content: ''; position: absolute; top: 0; left: -60%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+      animation: goldShimmer 1.8s ease-in-out infinite;
+    }
+    @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
+
+    .country-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 16px 0; padding: 16px;
+      background: rgba(30,41,59,0.6);
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .country-btn {
+      padding: 10px 8px;
+      border: 1px solid rgba(148,163,184,0.3);
+      border-radius: 12px;
+      background: rgba(30,41,59,0.8);
+      color: #94a3b8;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Noto Sans KR', sans-serif;
+      text-align: center;
+      width: 100%;
+    }
+    .country-btn:hover { border-color: #ffd700; color: #ffd700; }
+    .country-btn.active {
+      background: linear-gradient(135deg, #b8860b, #ffd700);
+      color: #0f172a; font-weight: 700;
+      border-color: #ffd700;
+    }
+
+    .visa-card {
+      background: rgba(30,41,59,0.7);
+      border: 1px solid rgba(148,163,184,0.15);
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+    .visa-title {
+      font-size: 1.2rem; font-weight: 700;
+      background: linear-gradient(135deg, #b8860b, #ffd700);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    .visa-type {
+      color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px;
+    }
+    .info-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-bottom: 16px;
+    }
+    /* info-grid: 항상 2열 유지 */
+    .info-item {
+      background: rgba(15,23,42,0.5);
+      border-radius: 10px; padding: 12px;
+      border: 1px solid rgba(148,163,184,0.1);
+    }
+    .info-label {
+      font-size: 0.75rem; color: #64748b;
+      font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 4px;
+    }
+    .info-value {
+      font-size: 0.9rem; color: #e2e8f0; font-weight: 500;
+    }
+
+    .steps-section { margin-top: 16px; }
+    .steps-title {
+      font-size: 0.9rem; font-weight: 700;
+      color: #cbd5e1; margin-bottom: 10px;
+    }
+    .step-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 8px;
+    }
+    .step-num {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      color: #e2e8f0; font-size: 0.70rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .step-text { color: #94a3b8; font-size: 0.88rem; line-height: 1.5; }
+
+    .docs-section { margin-top: 16px; }
+    .doc-tags {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px; margin-top: 8px;
+    }
+    .doc-tag {
+      padding: 8px 10px;
+      background: rgba(15,23,42,0.6);
+      border: 1px solid rgba(148,163,184,0.2);
+      border-radius: 8px;
+      color: #94a3b8; font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .tip-box {
+      margin-top: 16px; padding: 12px 14px;
+      background: rgba(184,134,11,0.1);
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 10px;
+      color: #fbbf24; font-size: 0.87rem; line-height: 1.5;
+    }
+    .tip-box::before { content: '💡 '; }
+
+
+
+    .back-btn {
+      display: inline-block; margin-top: 20px;
+      padding: 10px 18px;
+      background: rgba(30,41,59,0.8);
+      border: 1px solid rgba(148,163,184,0.2);
+      border-radius: 8px;
+      color: #94a3b8; text-decoration: none;
+      font-size: 0.85rem; transition: all 0.2s;
+    }
+    .back-btn:hover { border-color: #ffd700; color: #ffd700; }
+
+    .empty-state {
+      text-align: center; padding: 40px 20px;
+      color: #475569; font-size: 0.9rem;
+    }
+  </style>
+
+<script>
+  /* ── 언어 감지 → 번역 안내 배너 표시 ── */
+  document.addEventListener('DOMContentLoaded', function() {
+    var lang = new URLSearchParams(window.location.search).get('lang');
+    if (!lang || lang === 'ko') return;
+    var langNames = {
+      en:'English', ja:'日本語', de:'Deutsch', fr:'Français',
+      es:'Español', pt:'Português', ru:'Русский', it:'Italiano',
+      pl:'Polski', tr:'Türkçe', vi:'Tiếng Việt', id:'Bahasa Indonesia',
+      th:'ภาษาไทย', ar:'العربية', zh:'中文'
+    };
+    var langName = langNames[lang] || lang.toUpperCase();
+    var translateUrl = 'https://translate.google.com/translate?sl=ko&tl='
+      + encodeURIComponent(lang) + '&u=' + encodeURIComponent(location.href);
+    var banner = document.createElement('div');
+    banner.id = 'lang-banner';
+    banner.style.cssText = [
+      'position:fixed','top:0','left:0','right:0','z-index:9999',
+      'background:linear-gradient(135deg,#b8860b,#ffd700)',
+      'color:#0f172a','font-weight:700',
+      'padding:10px 16px','text-align:center',
+      'font-size:0.88rem','display:flex',
+      'align-items:center','justify-content:center','gap:12px'
+    ].join(';');
+    banner.innerHTML = [
+      '<span>🌐 This page is in Korean.</span>',
+      '<a href="' + translateUrl + '" target="_blank" rel="noopener"',
+      '   style="background:#0f172a;color:#ffd700;padding:5px 14px;',
+      '          border-radius:6px;text-decoration:none;font-size:0.82rem;">',
+      'Translate to ' + langName + ' →</a>',
+      '<button onclick="document.getElementById('lang-banner').remove()"',
+      '        style="background:none;border:none;cursor:pointer;',
+      '               font-size:1rem;color:#0f172a;padding:2px 6px;">✕</button>'
+    ].join('');
+    document.body.insertBefore(banner, document.body.firstChild);
+    document.body.style.paddingTop = '44px';
+  });
+</script>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1 style="font-size:1.1rem; font-weight:700; margin:0;">직업 상세 정보</h1>
+      <h1 style="font-size:1.1rem; font-weight:700; margin:0;">🌏 취업비자 안내</h1>
+      <div class="gold-divider"></div>
+      <p style="font-size:0.82rem; color:#64748b; margin:4px 0 0 0;">26개국 취업비자 절차를 한눈에 확인하세요</p>
     </div>
 
-    <div id="jobDetailContent">
-      <div class="empty-box">
-        <p>직업 정보를 불러오는 중입니다...</p>
+    <div class="card" style="padding:16px;">
+
+      <div class="country-selector" id="countrySelector"></div>
+    </div>
+
+    <div id="visaContent">
+      <div class="empty-state">
+        위에서 국가를 선택하면 취업비자 절차가 표시됩니다.
       </div>
     </div>
+
+    <a href="javascript:history.back()" class="back-btn">← 이전 페이지로 돌아가기</a>
+    <a href="index.html" class="back-btn" style="margin-top:10px;">← 다시 입력하기</a>
   </div>
 
   <script>
-    function escapeHtml(value) {
-      return String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
+    let visaData = {};
+    let currentCountry = null;
 
-    function getQueryParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return (params.get(name) || '').trim();
-    }
+    const COUNTRIES = [
+      '대한민국','미국','일본','독일','캐나다','호주','싱가포르','영국',
+      '중국','인도','베트남','태국','인도네시아','아랍에미리트','사우디아라비아',
+      '이스라엘','프랑스','이탈리아','스위스','튀르키예','폴란드','멕시코',
+      '브라질','남아프리카공화국','나이지리아','러시아'
+    ];
 
-    function toText(value) {
-      if (Array.isArray(value)) return value.join(', ');
-      if (value === null || value === undefined) return '';
-      return String(value);
-    }
-
-    // ── RIASEC별 OG 이미지 매핑 (STEP 3) ────────────────────────
-    const riasecImageMap = {
-      R: 'https://www.futurejob.site/og_R.png',
-      I: 'https://www.futurejob.site/og_I.png',
-      A: 'https://www.futurejob.site/og_A.png',
-      S: 'https://www.futurejob.site/og_S.png',
-      E: 'https://www.futurejob.site/og_E.png',
-      C: 'https://www.futurejob.site/og_C.png',
-      default: 'https://www.futurejob.site/frontimage.png'
+    const FLAG = {
+      '대한민국':'🇰🇷','미국':'🇺🇸','일본':'🇯🇵','독일':'🇩🇪','캐나다':'🇨🇦',
+      '호주':'🇦🇺','싱가포르':'🇸🇬','영국':'🇬🇧','중국':'🇨🇳','인도':'🇮🇳',
+      '베트남':'🇻🇳','태국':'🇹🇭','인도네시아':'🇮🇩','아랍에미리트':'🇦🇪',
+      '사우디아라비아':'🇸🇦','이스라엘':'🇮🇱','프랑스':'🇫🇷','이탈리아':'🇮🇹',
+      '스위스':'🇨🇭','튀르키예':'🇹🇷','폴란드':'🇵🇱','멕시코':'🇲🇽',
+      '브라질':'🇧🇷','남아프리카공화국':'🇿🇦','나이지리아':'🇳🇬','러시아':'🇷🇺'
     };
 
-    // countryFileMap → data/countryMap.js 공용 파일에서 로드
+    function escapeHtml(v) {
+      return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
 
-    // ── updateMeta: riasecCode → OG 이미지 동적 교체 (STEP 3) ───
-    function updateMeta(jobName, country, description, riasecCode) {
-      const title = `${jobName} | ${country} | FutureJob`;
-      document.title = title;
+    function buildCountryButtons(filter = '') {
+      const sel = document.getElementById('countrySelector');
+      const filtered = COUNTRIES.filter(c => c.includes(filter));
+      sel.innerHTML = filtered.map(c => `
+        <button class="country-btn ${currentCountry === c ? 'active' : ''}"
+                onclick="selectCountry('${c}')">
+          ${FLAG[c] || ''} ${c}
+        </button>`).join('');
+    }
 
-      const descText = description && description.trim()
-        ? description.trim().slice(0, 140)
-        : `${country} 기준 ${jobName} 직업 상세 정보`;
 
-      const canonicalUrl = `${window.location.origin}/job.html?country=${encodeURIComponent(country)}&job=${encodeURIComponent(jobName)}`;
 
-      const firstRiasec = (riasecCode || '').split(',')[0].trim().toUpperCase();
-      const ogImage = riasecImageMap[firstRiasec] || riasecImageMap.default;
+    function selectCountry(country) {
+      currentCountry = country;
+      buildCountryButtons();
 
-      ['meta[name="description"]', 'meta[property="og:description"]']
-        .forEach(sel => document.querySelector(sel)?.setAttribute('content', descText));
-      ['meta[property="og:title"]']
-        .forEach(sel => document.querySelector(sel)?.setAttribute('content', title));
-      document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
-      document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl);
-
-      const ogImgMeta = document.querySelector('meta[property="og:image"]');
-      if (ogImgMeta) {
-        ogImgMeta.setAttribute('content', ogImage);
-      } else {
-        const newMeta = document.createElement('meta');
-        newMeta.setAttribute('property', 'og:image');
-        newMeta.setAttribute('content', ogImage);
-        document.head.appendChild(newMeta);
+      // GA4 이벤트
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'view_visa_info', { country });
       }
 
+      const info = visaData[country];
+      if (!info) {
+        document.getElementById('visaContent').innerHTML = `
+          <div class="empty-state">해당 국가의 비자 정보가 없습니다.</div>`;
+        return;
+      }
+
+      const steps = (info['절차'] || []).map((s, i) => `
+        <div class="step-item">
+          <div class="step-num">${i+1}</div>
+          <div class="step-text">${escapeHtml(s)}</div>
+        </div>`).join('');
+
+      const docs = (info['필요서류'] || []).map(d =>
+        `<span class="doc-tag">📄 ${escapeHtml(d)}</span>`).join('');
+
+      // JSON-LD 구조화 데이터
       const schema = {
         "@context": "https://schema.org",
-        "@type": "Occupation",
-        "name": jobName,
-        "description": descText,
-        "occupationLocation": { "@type": "Country", "name": country },
-        "url": canonicalUrl,
-        "image": ogImage,
-        "publisher": { "@type": "Organization", "name": "FutureJob", "url": "https://www.futurejob.site" }
+        "@type": "GovernmentService",
+        "name": `${country} 취업비자`,
+        "description": `${country} 취업비자 종류: ${info['비자종류']}. 처리기간: ${info['처리기간']}`,
+        "serviceType": "취업비자",
+        "areaServed": { "@type": "Country", "name": country },
+        "provider": { "@type": "GovernmentOrganization", "name": info['발급기관'] }
       };
-      const schemaEl = document.getElementById('jsonld-schema');
-      if (schemaEl) schemaEl.textContent = JSON.stringify(schema, null, 2);
-    }
+      let schemaEl = document.getElementById('visa-jsonld');
+      if (!schemaEl) {
+        schemaEl = document.createElement('script');
+        schemaEl.id = 'visa-jsonld';
+        schemaEl.type = 'application/ld+json';
+        document.head.appendChild(schemaEl);
+      }
+      schemaEl.textContent = JSON.stringify(schema, null, 2);
 
-    function renderError(message) {
-      const isNetworkError = message.includes('fetch') || message.includes('Failed') || message.includes('로드 실패');
-      document.getElementById('jobDetailContent').innerHTML = `
-        <div class="empty-box">
-          <p>${escapeHtml(isNetworkError
-            ? '데이터를 불러오는 데 실패했습니다. 인터넷 연결을 확인하고 새로고침 해주세요.'
-            : message)}</p>
-          ${isNetworkError
-            ? '<button onclick="location.reload()" class="back-btn" style="cursor:pointer;border:none;">🔄 새로고침</button>'
-            : ''}
-          <a href="index.html" class="back-btn">← 처음으로 돌아가기</a>
-        </div>`;
-    }
+      document.getElementById('visaContent').innerHTML = `
+        <div class="visa-card">
+          <div class="visa-title">${FLAG[country] || ''} ${escapeHtml(country)} 취업비자</div>
+          <div class="visa-type">📋 ${escapeHtml(info['비자종류'] || '')}</div>
 
-    // ── FAQ 생성 함수 — Schema.org FAQPage 마크업 포함 (STEP 5) ──
-    function buildFaq(item, country, jobName) {
-      const major     = toText(item['추천학과/전공'] || '');
-      const period    = toText(item['준비기간']      || '');
-      const knowledge = toText(item['핵심전문지식']  || '');
-      const category  = toText(item['직업분류']      || '');
-
-      const faqs = [
-        {
-          q: `${jobName}이 되려면 어떤 학과를 가야 하나요?`,
-          a: major || `${jobName}과 관련된 학과·전공을 통해 준비할 수 있습니다.`
-        },
-        {
-          q: `${jobName} 준비 기간은 얼마나 걸리나요?`,
-          a: period || `직업 특성과 개인 역량에 따라 다르지만 충분한 준비가 필요합니다.`
-        },
-        {
-          q: `${country}에서 ${jobName}에게 필요한 전문 지식은 무엇인가요?`,
-          a: knowledge || `해당 분야의 핵심 전문 지식과 실무 경험이 필요합니다.`
-        },
-        {
-          q: `${jobName}은 어떤 직업 분류에 속하나요?`,
-          a: category
-            ? `${jobName}은 '${category}' 분야에 속하는 직업입니다.`
-            : `미래 유망 직업군에 속합니다.`
-        }
-      ];
-
-      return `
-        <div class="section-card" style="margin-top:12px;"
-             itemscope itemtype="https://schema.org/FAQPage">
-          <div class="section-title">자주 묻는 질문 (FAQ)</div>
-          ${faqs.map(f => `
-            <div style="margin-bottom:14px; padding-bottom:14px;
-                        border-bottom:1px solid rgba(148,163,184,0.15);"
-                 itemscope itemprop="mainEntity"
-                 itemtype="https://schema.org/Question">
-              <p style="font-weight:600; color:#e2e8f0; margin:0 0 6px 0; font-size:0.92rem;"
-                 itemprop="name">Q. ${escapeHtml(f.q)}</p>
-              <div itemscope itemprop="acceptedAnswer"
-                   itemtype="https://schema.org/Answer">
-                <p style="color:#94a3b8; margin:0; font-size:0.88rem; line-height:1.6;"
-                   itemprop="text">A. ${escapeHtml(f.a)}</p>
-              </div>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">발급 기관</div>
+              <div class="info-value">${escapeHtml(info['발급기관'] || '-')}</div>
             </div>
-          `).join('')}
-        </div>`;
-    }
-
-    // ── 취업비자 섹션 생성 함수 ──────────────────────────────────
-    async function buildVisaSection(country) {
-      const FLAG = {
-        '대한민국':'🇰🇷','미국':'🇺🇸','일본':'🇯🇵','독일':'🇩🇪','캐나다':'🇨🇦',
-        '호주':'🇦🇺','싱가포르':'🇸🇬','영국':'🇬🇧','중국':'🇨🇳','인도':'🇮🇳',
-        '베트남':'🇻🇳','태국':'🇹🇭','인도네시아':'🇮🇩','아랍에미리트':'🇦🇪',
-        '사우디아라비아':'🇸🇦','이스라엘':'🇮🇱','프랑스':'🇫🇷','이탈리아':'🇮🇹',
-        '스위스':'🇨🇭','튀르키예':'🇹🇷','폴란드':'🇵🇱','멕시코':'🇲🇽',
-        '브라질':'🇧🇷','남아프리카공화국':'🇿🇦','나이지리아':'🇳🇬','러시아':'🇷🇺'
-      };
-
-      try {
-        const res = await fetch('./data/visa_data.json');
-        if (!res.ok) throw new Error('비자 데이터 없음');
-        const data = await res.json();
-        const info = data[country];
-        if (!info) return '';
-
-        const steps = (info['절차'] || []).map((s, i) => `
-          <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
-            <div style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.15);
-                        color:#e2e8f0;font-size:0.70rem;font-weight:600;display:flex;align-items:center;
-                        justify-content:center;flex-shrink:0;margin-top:2px;">${i+1}</div>
-            <div style="color:#94a3b8;font-size:0.87rem;line-height:1.5;">${escapeHtml(s)}</div>
-          </div>`).join('');
-
-        const docs = (info['필요서류'] || []).map(d =>
-          `<span style="padding:3px 9px;background:rgba(15,23,42,0.6);border:1px solid rgba(148,163,184,0.2);
-                        border-radius:6px;color:#94a3b8;font-size:0.78rem;">📄 ${escapeHtml(d)}</span>`
-        ).join('');
-
-        return `
-          <div class="section-card" style="margin-top:12px;">
-            <div class="section-title">${FLAG[country]||''} ${escapeHtml(country)} 취업비자 안내</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
-              <div style="background:rgba(15,23,42,0.5);border-radius:8px;padding:10px;
-                          border:1px solid rgba(148,163,184,0.1);">
-                <div style="font-size:0.72rem;color:#64748b;font-weight:600;margin-bottom:3px;">비자 종류</div>
-                <div style="font-size:0.85rem;color:#e2e8f0;">${escapeHtml(info['비자종류']||'-')}</div>
-              </div>
-              <div style="background:rgba(15,23,42,0.5);border-radius:8px;padding:10px;
-                          border:1px solid rgba(148,163,184,0.1);">
-                <div style="font-size:0.72rem;color:#64748b;font-weight:600;margin-bottom:3px;">처리 기간</div>
-                <div style="font-size:0.85rem;color:#e2e8f0;">⏱ ${escapeHtml(info['처리기간']||'-')}</div>
-              </div>
-              <div style="background:rgba(15,23,42,0.5);border-radius:8px;padding:10px;
-                          border:1px solid rgba(148,163,184,0.1);">
-                <div style="font-size:0.72rem;color:#64748b;font-weight:600;margin-bottom:3px;">비용</div>
-                <div style="font-size:0.85rem;color:#e2e8f0;">💰 ${escapeHtml(info['비용']||'-')}</div>
-              </div>
-              <div style="background:rgba(15,23,42,0.5);border-radius:8px;padding:10px;
-                          border:1px solid rgba(148,163,184,0.1);">
-                <div style="font-size:0.72rem;color:#64748b;font-weight:600;margin-bottom:3px;">유효 기간</div>
-                <div style="font-size:0.85rem;color:#e2e8f0;">📅 ${escapeHtml(info['유효기간']||'-')}</div>
-              </div>
+            <div class="info-item">
+              <div class="info-label">처리 기간</div>
+              <div class="info-value">⏱ ${escapeHtml(info['처리기간'] || '-')}</div>
             </div>
+            <div class="info-item">
+              <div class="info-label">비용</div>
+              <div class="info-value">💰 ${escapeHtml(info['비용'] || '-')}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">유효 기간</div>
+              <div class="info-value">📅 ${escapeHtml(info['유효기간'] || '-')}</div>
+            </div>
+          </div>
 
-            <div style="font-size:0.85rem;font-weight:700;color:#cbd5e1;margin-bottom:8px;">📌 취득 절차</div>
+          <div class="steps-section">
+            <div class="steps-title">📌 취업비자 취득 절차</div>
             ${steps}
+          </div>
 
-            <div style="font-size:0.85rem;font-weight:700;color:#cbd5e1;margin:12px 0 8px 0;">📂 필요 서류</div>
-            <div style="display:flex;flex-wrap:wrap;gap:5px;">${docs}</div>
+          <div class="docs-section">
+            <div class="steps-title">📂 필요 서류</div>
+            <div class="doc-tags">${docs}</div>
+          </div>
 
-            ${info['팁'] ? `
-              <div style="margin-top:12px;padding:10px 12px;background:rgba(184,134,11,0.1);
-                          border:1px solid rgba(255,215,0,0.2);border-radius:8px;
-                          color:#fbbf24;font-size:0.85rem;line-height:1.5;">
-                💡 ${escapeHtml(info['팁'])}
-              </div>` : ''}
-
-            <a href="visa.html?country=${encodeURIComponent(country)}"
-               style="display:block;margin-top:12px;padding:14px;text-align:center;
-                      background:linear-gradient(135deg,#b8860b,#ffd700);
-                      color:#0f172a;border-radius:8px;font-size:0.82rem;font-weight:700;
-                      text-decoration:none;">
-              🌏 다른나라 비자도 알아 보기 →
-            </a>
-          </div>`;
-      } catch(e) {
-        console.warn('비자 정보 로드 실패:', e.message);
-        return `
-          <div class="section-card" style="margin-top:12px;">
-            <div class="section-title">🌏 취업비자 안내</div>
-            <p class="section-text">
-              <a href="visa.html?country=${encodeURIComponent(country)}"
-                 style="color:#ffd700;text-decoration:none;">
-                ${escapeHtml(country)} 취업비자 절차 확인하기 →
-              </a>
-            </p>
-          </div>`;
-      }
-    }
-
-
-    // ── 국가 특성 섹션 생성 함수 ─────────────────────────────────
-    async function buildCountrySection(country) {
-      try {
-        const res = await fetch('./data/country_data.json');
-        if (!res.ok) throw new Error('국가 데이터 없음');
-        const data = await res.json();
-        const info = data[country];
-        if (!info) return '';
-
-        // 핵심 산업 키워드 태그화 (쉼표/마침표 분리)
-        const keywords = (info['핵심산업'] || '')
-          .split(/[,·]/)
-          .map(k => k.trim())
-          .filter(k => k.length > 1 && k.length < 30)
-          .slice(0, 8);
-
-        const tags = keywords.map(k =>
-          `<span style="display:inline-block;padding:3px 9px;margin:3px 3px 3px 0;
-                        background:rgba(30,41,59,0.8);border:1px solid rgba(148,163,184,0.2);
-                        border-radius:6px;color:#94a3b8;font-size:0.78rem;">${escapeHtml(k)}</span>`
-        ).join('');
-
-        return `
-          <div class="section-card" style="margin-top:12px;">
-            <div class="section-title">🌐 ${escapeHtml(country)} 국가 특성</div>
-
-            <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">🏭 핵심 산업 키워드</div>
-            <div style="margin-bottom:14px;">${tags}</div>
-
-            <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">📈 최근 경제·정치 상황</div>
-            <p style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin:0 0 12px 0;">
-              ${escapeHtml(info['최근상황'] || '-')}
-            </p>
-
-            <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">🎯 향후 정책·전략 방향</div>
-            <p style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin:0;">
-              ${escapeHtml(info['정책방향'] || '-')}
-            </p>
-          </div>`;
-      } catch(e) {
-        console.warn('국가 특성 로드 실패:', e.message);
-        return '';
-      }
-    }
-
-    // ── renderJobDetail: FAQ + 비자 섹션 포함 ────────────────────
-    async function renderJobDetail(item, country) {
-      const el = document.getElementById('jobDetailContent');
-
-      const jobName     = toText(item['추천직업']);
-      const description = toText(item['직업해설']);
-      const riasecCode  = toText(item['RIASEC']);
-
-      updateMeta(jobName, country, description, riasecCode);
-
-      const [visaHtml, countryHtml] = await Promise.all([
-        buildVisaSection(country),
-        buildCountrySection(country)
-      ]);
-
-      el.innerHTML = `
-        <div class="job-card">
-          <div class="section-title">직업명</div>
-          <div class="job-name">${escapeHtml(jobName)}</div>
+          ${info['팁'] ? `<div class="tip-box">${escapeHtml(info['팁'])}</div>` : ''}
         </div>
 
-        <div class="section-card">
-          <div class="section-title">직업 분류</div>
-          <p class="section-text">${escapeHtml(toText(item['직업분류']) || '정보 없음')}</p>
-        </div>
-
-        <div class="section-card">
-          <div class="section-title">직업 해설</div>
-          <p class="section-text">${escapeHtml(description || '정보 없음')}</p>
-        </div>
-
-        <div class="section-card">
-          <div class="section-title">핵심 전문 지식</div>
-          <p class="section-text">${escapeHtml(toText(item['핵심전문지식']) || '정보 없음')}</p>
-        </div>
-
-        <div class="section-card">
-          <div class="section-title">추천 학과 / 전공</div>
-          <p class="section-text">${escapeHtml(toText(item['추천학과/전공']) || '정보 없음')}</p>
-        </div>
-
-        <div class="section-card">
-          <div class="section-title">준비 기간</div>
-          <p class="section-text">${escapeHtml(toText(item['준비기간']) || '정보 없음')}</p>
-        </div>
-
-        ${buildFaq(item, country, jobName)}
-
-        ${visaHtml}
-
-        ${countryHtml}
-
-        <a href="javascript:history.back()" class="back-btn">← 이전 페이지로 돌아가기</a>
-        <a href="index.html" class="back-btn" style="margin-top:10px;">← 다시 입력하기</a>
+        <p style="font-size:0.75rem; color:#475569; margin-top:12px; text-align:center;">
+          ※ 위 정보는 2025년 기준이며, 각국 정책 변동에 따라 달라질 수 있습니다.<br>
+          반드시 해당국 대사관 또는 공식 이민기관에서 최신 정보를 확인하세요.
+        </p>
       `;
     }
 
-    async function loadJobDetail() {
-      const country = getQueryParam('country');
-      const job = getQueryParam('job');
-
-      if (!country || !job) { renderError('직업명 또는 국가 정보가 없습니다.'); return; }
-
-      const fileName = countryFileMap[country];
-      if (!fileName) { renderError('해당 국가 데이터 파일을 찾을 수 없습니다.'); return; }
-
+    async function loadVisaData() {
       try {
-        const res = await fetch(`./data/${fileName}`);
-        if (!res.ok) throw new Error(`데이터 로드 실패: ${res.status}`);
+        // ✅ 수정된 경로: ./data/visa_data.json
+        const res = await fetch('./data/visa_data.json');
+        if (!res.ok) throw new Error('비자 데이터 로드 실패');
+        visaData = await res.json();
+      } catch(e) {
+        console.warn('visa_data.json 로드 실패, 내장 데이터 사용:', e.message);
+      }
 
-        const rows = await res.json();
-        const item = rows.find(row => String(row['추천직업'] || '').trim() === job);
-
-        if (!item) { renderError('해당 직업 정보를 찾을 수 없습니다.'); return; }
-        renderJobDetail(item, country);
-      } catch (err) {
-        console.error(err);
-        renderError(err.message || '직업 정보를 불러오지 못했습니다.');
+      // URL 파라미터로 국가 자동 선택
+      const params = new URLSearchParams(window.location.search);
+      const urlCountry = params.get('country');
+      buildCountryButtons();
+      if (urlCountry && COUNTRIES.includes(urlCountry)) {
+        selectCountry(urlCountry);
       }
     }
 
-    window.addEventListener('DOMContentLoaded', loadJobDetail);
-
-    // 서비스 워커 등록 (data/*.json 캐싱)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(err =>
-          console.warn('Service Worker 등록 실패:', err)
-        );
-      });
-    }
+    window.addEventListener('DOMContentLoaded', loadVisaData);
   </script>
 </body>
 </html>

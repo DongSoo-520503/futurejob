@@ -959,5 +959,21 @@ function shareKakao() { ... }
   });
 </script>
 
+<script>
+  // ✅ [추가] job 클릭 이벤트 추적
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href*="job.html"]').forEach(link => {
+      link.addEventListener('click', function() {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'click_job', {
+            job: this.textContent.trim(),
+            location: 'result_page'
+          });
+        }
+      });
+    });
+  });
+</script>
+
 </body>
 </html>
