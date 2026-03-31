@@ -39,6 +39,54 @@
 
 
 <script src="./data/countryMap.js"></script>
+
+<script>
+  /* ── 언어 감지 → 번역 안내 배너 표시 ── */
+  document.addEventListener('DOMContentLoaded', function() {
+    var lang = new URLSearchParams(window.location.search).get('lang');
+    if (!lang || lang === 'ko') return;
+
+    // 언어 이름 매핑
+    var langNames = {
+      en:'English', ja:'日本語', de:'Deutsch', fr:'Français',
+      es:'Español', pt:'Português', ru:'Русский', it:'Italiano',
+      pl:'Polski', tr:'Türkçe', vi:'Tiếng Việt', id:'Bahasa Indonesia',
+      th:'ภาษาไทย', ar:'العربية', zh:'中文'
+    };
+    var langName = langNames[lang] || lang.toUpperCase();
+
+    // 번역 링크 생성
+    var translateUrl = 'https://translate.google.com/translate?sl=ko&tl='
+      + encodeURIComponent(lang) + '&u=' + encodeURIComponent(location.href);
+
+    // 배너 생성
+    var banner = document.createElement('div');
+    banner.id = 'lang-banner';
+    banner.style.cssText = [
+      'position:fixed', 'top:0', 'left:0', 'right:0', 'z-index:9999',
+      'background:linear-gradient(135deg,#b8860b,#ffd700)',
+      'color:#0f172a', 'font-weight:700',
+      'padding:10px 16px', 'text-align:center',
+      'font-size:0.88rem', 'display:flex',
+      'align-items:center', 'justify-content:center', 'gap:12px'
+    ].join(';');
+
+    banner.innerHTML = [
+      '<span>🌐 Results are in Korean.</span>',
+      '<a href="' + translateUrl + '" target="_blank" rel="noopener"',
+      '   style="background:#0f172a;color:#ffd700;padding:5px 14px;',
+      '          border-radius:6px;text-decoration:none;font-size:0.82rem;">',
+      'Translate to ' + langName + ' →</a>',
+      '<button onclick="document.getElementById('lang-banner').remove()"',
+      '        style="background:none;border:none;cursor:pointer;',
+      '               font-size:1rem;color:#0f172a;padding:2px 6px;">✕</button>'
+    ].join('');
+
+    // body 최상단에 삽입 + body에 상단 여백 추가
+    document.body.insertBefore(banner, document.body.firstChild);
+    document.body.style.paddingTop = '44px';
+  });
+</script>
 </head>
 <body>
 
@@ -533,13 +581,34 @@
 
       // STEP 8: 국가별 공유 버튼 동적 생성
       (function setupShareButtons(country, shareUrl) {
-        const siteUrl = 'https://www.futurejob.site/?utm_source=share&utm_medium=social&utm_campaign=site';
+        // ── 언어 기준으로 공유 버튼 결정 (취업 국가가 아닌 사용자 언어) ──
+        const lang = new URLSearchParams(window.location.search).get('lang') || 'ko';
+        const langSiteMap = {
+          ko: 'https://www.futurejob.site/',
+          ja: 'https://www.futurejob.site/ja/',
+          zh: 'https://www.futurejob.site/zh/',
+          en: 'https://www.futurejob.site/en/',
+          de: 'https://www.futurejob.site/de/',
+          fr: 'https://www.futurejob.site/fr/',
+          es: 'https://www.futurejob.site/es/',
+          pt: 'https://www.futurejob.site/pt/',
+          ru: 'https://www.futurejob.site/ru/',
+          it: 'https://www.futurejob.site/it/',
+          pl: 'https://www.futurejob.site/pl/',
+          tr: 'https://www.futurejob.site/tr/',
+          vi: 'https://www.futurejob.site/vi/',
+          id: 'https://www.futurejob.site/id/',
+          th: 'https://www.futurejob.site/th/',
+          ar: 'https://www.futurejob.site/ar/',
+        };
+        const baseSite = langSiteMap[lang] || 'https://www.futurejob.site/en/';
+        const siteUrl = baseSite + '?utm_source=share&utm_medium=social&utm_campaign=site';
         const resultUtm = shareUrl + (shareUrl.includes('?') ? '&' : '?') + 'utm_source=share&utm_medium=social&utm_campaign=result';
 
-        // 국가별 설정
-        const isKorea  = country === '대한민국';
-        const isJapan  = country === '일본';
-        const isChina  = country === '중국';
+        // 언어별 공유 플랫폼 설정
+        const isKorea  = lang === 'ko';
+        const isJapan  = lang === 'ja';
+        const isChina  = lang === 'zh';
         // 나머지는 WhatsApp
 
         // ── 사이트 공유 버튼 ──────────────────────────────────────
@@ -868,13 +937,25 @@ function shareKakao() { ... }
 </script>
 
 <script>
-<script>
   window.addEventListener('load', () => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch(err =>
         console.warn('Service Worker 등록 실패:', err)
       );
     }
+  });
+</script>
+
+
+<script>
+  /* ── "다시 입력하기" 링크에 lang 파라미터 유지 ── */
+  document.addEventListener('DOMContentLoaded', function() {
+    var lang = new URLSearchParams(window.location.search).get('lang');
+    if (!lang || lang === 'ko') return;
+    // 정적 href="index.html" 링크 업데이트
+    document.querySelectorAll('a[href="index.html"]').forEach(function(a) {
+      a.href = 'https://www.futurejob.site/' + lang + '/';
+    });
   });
 </script>
 
