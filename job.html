@@ -102,5 +102,155 @@
   <script>
     // job.html의 모든 기존 스크립트 (escapeHtml, updateMeta, renderJobDetail 등) 그대로 사용
   </script>
+
+<script>
+  // ==================== 유틸리티 함수 ====================
+  function escapeHtml(value) {
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // ==================== 국가-파일 매핑 ====================
+  const countryFileMap = {
+    '대한민국': 'korea.json', '미국': 'usa.json', '일본': 'japan.json',
+    '독일': 'germany.json', '캐나다': 'canada.json', '호주': 'australia.json',
+    '싱가포르': 'singapore.json', '영국': 'uk.json', '중국': 'china.json',
+    '인도': 'india.json', '베트남': 'vietnam.json', '태국': 'thailand.json',
+    '인도네시아': 'indonesia.json', '아랍에미리트': 'uae.json', '사우디아라비아': 'saudi.json',
+    '이스라엘': 'israel.json', '프랑스': 'france.json', '이탈리아': 'italy.json',
+    '스위스': 'switzerland.json', '튀르키예': 'turkey.json', '폴란드': 'poland.json',
+    '멕시코': 'mexico.json', '브라질': 'brazil.json', '남아프리카공화국': 'southafrica.json',
+    '나이지리아': 'nigeria.json', '러시아': 'russia.json'
+  };
+
+  // ==================== 메타 태그 업데이트 ====================
+  function updateMeta(jobName, description) {
+    document.title = `${jobName || '직업 상세'} | FutureJob`;
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', description ? description.slice(0, 150) : `${jobName} 직업 상세 정보 - 미래 유망 직업`);
+    }
+    let jsonldScript = document.getElementById('jsonld-schema');
+    if (jsonldScript && jobName) {
+      jsonldScript.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "name": `${jobName} 직업 상세`,
+        "description": description ? description.slice(0, 150) : `${jobName} 직업 정보`
+      });
+    }
+  }
+
+  // ==================== 직업 상세 렌더링 ====================
+  async function loadAndDisplayJob() {
+    const params = new URLSearchParams(window.location.search);
+    const country = params.get('country');
+    const jobName = params.get('job');
+
+    const contentDiv = document.getElementById('jobDetailContent');
+
+    if (!country || !jobName) {
+      contentDiv.innerHTML = `
+        <div class="empty-box">
+          <p>직업 정보가 없습니다.</p>
+          <a href="index.html" class="back-btn">← 다시 입력하기</a>
+        </div>`;
+      return;
+    }
+
+    try {
+      const fileName = countryFileMap[country];
+      if (!fileName) throw new Error('해당 국가의 데이터 파일이 없습니다.');
+
+      const res = await fetch(`./data/${fileName}`);
+      if (!res.ok) throw new Error(`데이터 로드 실패: ${res.status}`);
+      const jobData = await res.json();
+
+      const job = jobData.find(row => row['추천직업'] === jobName);
+
+      if (!job) {
+        contentDiv.innerHTML = `
+          <div class="empty-box">
+            <p>직업 정보를 찾을 수 없습니다.</p>
+            <a href="javascript:history.back()" class="back-btn">← 이전 페이지로 돌아가기</a>
+          </div>`;
+        return;
+      }
+
+      updateMeta(job['추천직업'], job['직업해설']);
+
+      // GA4 이벤트
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'view_job_detail', { country, job: jobName });
+      }
+
+      contentDiv.innerHTML = `
+        <div class="info-card">
+          <div class="info-item"><span class="info-label">취업 국가</span><span class="info-value">${escapeHtml(country)}</span></div>
+          <div class="info-item"><span class="info-label">취업 시기</span><span class="info-value">${escapeHtml(job['시기'] || '-')}</span></div>
+          <div class="info-item"><span class="info-label">연봉 순위</span><span class="info-value">${escapeHtml(job['연봉순위'] || '-')}위</span></div>
+          <div class="info-item"><span class="info-label">직업 등급</span><span class="info-value">${escapeHtml(job['직업등급'] === '상' ? '석박사 이상' : job['직업등급'] === '중' ? '대학/대학원' : '전문대/직업고')}</span></div>
+        </div>
+
+        <div class="job-card">
+          <div class="section-title">추천 직업</div>
+          <div class="job-name">${escapeHtml(job['추천직업'] || '')}</div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">직업 분류</div>
+          <p class="section-text">${escapeHtml(job['직업분류'] || '정보 없음')}</p>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">직업 해설</div>
+          <p class="section-text">${escapeHtml(job['직업해설'] || '')}</p>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">핵심 전문 지식</div>
+          <p class="section-text">${escapeHtml(job['핵심전문지식'] || '')}</p>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">추천 학과 / 전공</div>
+          <p class="section-text">${escapeHtml(job['추천학과/전공'] || '')}</p>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">준비 기간</div>
+          <p class="section-text">${escapeHtml(job['준비기간'] || '')}</p>
+        </div>
+
+        <div class="section-card" style="border:1px solid rgba(255,215,0,0.35);background:rgba(184,134,11,0.08);">
+          <div class="section-title" style="font-size:1rem;">🎯 RIASEC · Big5 매칭 정보</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px;">
+            <div><span style="color:#94a3b8;">RIASEC 유형:</span><br><span style="font-weight:700;color:#ffd700;">${escapeHtml(job['RIASEC'] || '-')}</span></div>
+            <div><span style="color:#94a3b8;">Big5 유형:</span><br><span style="font-weight:700;color:#ffd700;">${escapeHtml(job['BIG5'] || '-')}</span></div>
+          </div>
+        </div>
+
+        <a href="javascript:history.back()" class="back-btn">← 이전 페이지로 돌아가기</a>
+        <a href="index.html" class="back-btn" style="margin-top:10px;">← 다시 입력하기</a>
+      `;
+
+    } catch (err) {
+      console.error('직업 정보 로드 실패:', err);
+      contentDiv.innerHTML = `
+        <div class="empty-box">
+          <p>${escapeHtml(err.message || '직업 정보를 불러오는 중 오류가 발생했습니다.')}</p>
+          <button onclick="location.reload()" class="back-btn" style="cursor:pointer;border:none;">🔄 새로고침</button>
+          <a href="index.html" class="back-btn">← 다시 입력하기</a>
+        </div>`;
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', loadAndDisplayJob);
+</script>
+
 </body>
 </html>
