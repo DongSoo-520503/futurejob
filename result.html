@@ -18,10 +18,10 @@
     gtag('config', 'G-J3V0P1S9DZ');
   </script>
 
-  <!-- html2canvas: 결과 카드 이미지 저장 (STEP 4) -->
+  <!-- html2canvas: 결과 카드 이미지 저장 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-  <!-- 카카오 JavaScript SDK (STEP 8) -->
+  <!-- 카카오 JavaScript SDK -->
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
           integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
           crossorigin="anonymous"></script>
@@ -34,82 +34,77 @@
 
   <script src="./data/countryMap.js"></script>
 
-  <!-- 개선된 번역 안내 배너 -->
+  <!-- 개선된 다국어 번역 안내 배너 (Chrome 내장 번역 유도 + 언어별 안내) -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const params = new URLSearchParams(window.location.search);
-      const lang = params.get('lang');
+      let lang = params.get('lang') || 'ko';
+      lang = lang.toLowerCase();
 
-      if (!lang || lang.toLowerCase() === 'ko') return;
+      if (lang === 'ko') return;
 
-      const langNames = {
-        en: 'English', ja: '日本語', zh: '中文', de: 'Deutsch',
-        fr: 'Français', es: 'Español', pt: 'Português', ru: 'Русский',
-        it: 'Italiano', pl: 'Polski', tr: 'Türkçe', vi: 'Tiếng Việt',
-        id: 'Bahasa Indonesia', th: 'ภาษาไทย', ar: 'العربية'
+      const messages = {
+        en: "🌐 This page is written in Korean. To translate, click the Translate icon (top right) in the Chrome address bar.",
+        ja: "🌐 このページは韓国語で書かれています。翻訳するには、Chromeアドレスバーの右上にある翻訳アイコンをクリックしてください。",
+        zh: "🌐 此页面为韩文。请点击 Chrome 地址栏右上角的翻译图标进行翻译。",
+        de: "🌐 Diese Seite ist auf Koreanisch. Zum Übersetzen klicken Sie bitte auf das Übersetzungssymbol in der Chrome-Adressleiste (oben rechts).",
+        fr: "🌐 Cette page est en coréen. Pour traduire, cliquez sur l'icône de traduction dans la barre d'adresse Chrome (en haut à droite).",
+        es: "🌐 Esta página está en coreano. Para traducir, haz clic en el icono de traducción en la barra de direcciones de Chrome (arriba a la derecha).",
+        pt: "🌐 Esta página está em coreano. Para traduzir, clique no ícone de tradução na barra de endereço do Chrome (canto superior direito).",
+        ru: "🌐 Эта страница на корейском языке. Чтобы перевести, нажмите на значок перевода в адресной строке Chrome (в правом верхнем углу).",
+        it: "🌐 Questa pagina è in coreano. Per tradurre, clicca sull'icona di traduzione nella barra degli indirizzi di Chrome (in alto a destra).",
+        pl: "🌐 Ta strona jest po koreańsku. Aby przetłumaczyć, kliknij ikonę tłumaczenia na pasku adresu Chrome (prawy górny róg).",
+        tr: "🌐 Bu sayfa Korece yazılmıştır. Çevirmek için Chrome adres çubuğunun sağ üst köşesindeki çeviri simgesine tıklayın.",
+        vi: "🌐 Trang này được viết bằng tiếng Hàn. Để dịch, hãy nhấp vào biểu tượng Dịch ở thanh địa chỉ Chrome (góc trên bên phải).",
+        id: "🌐 Halaman ini ditulis dalam bahasa Korea. Untuk menerjemahkan, klik ikon Terjemahkan di bilah alamat Chrome (kanan atas).",
+        th: "🌐 หน้านี้เขียนด้วยภาษาเกาหลี หากต้องการแปลภาษา โปรดคลิกไอคอนแปลภาษาที่มุมขวาบนของแถบที่อยู่ Chrome",
+        ar: "🌐 هذه الصفحة مكتوبة باللغة الكورية. للترجمة، انقر على أيقونة الترجمة في شريط العنوان في Chrome (أعلى اليمين)."
       };
 
-      const langName = langNames[lang.toLowerCase()] || lang.toUpperCase();
-      const translateUrl = `https://translate.google.com/translate?sl=ko&tl=${encodeURIComponent(lang)}&u=${encodeURIComponent(window.location.href)}`;
+      const message = messages[lang] || messages.en;
 
       const banner = document.createElement('div');
       banner.id = 'lang-banner';
       banner.style.cssText = `
         position:fixed; top:0; left:0; right:0; z-index:9999;
         background:linear-gradient(135deg,#b8860b,#ffd700);
-        color:#0f172a; font-weight:700; padding:10px 16px;
-        text-align:center; font-size:0.88rem; display:flex;
+        color:#0f172a; font-weight:700; padding:12px 16px;
+        text-align:center; font-size:0.9rem; display:flex;
         align-items:center; justify-content:center; gap:12px;
-        box-shadow:0 2px 8px rgba(0,0,0,0.3);
+        box-shadow:0 2px 10px rgba(0,0,0,0.3); line-height:1.4;
       `;
 
       banner.innerHTML = `
-        <span>🌐 이 페이지는 한국어로 되어 있습니다.</span>
-        <a href="${translateUrl}" target="_blank" rel="noopener" 
-           style="background:#0f172a; color:#ffd700; padding:6px 16px; 
-                  border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">
-          ${langName}로 번역하기 →
-        </a>
+        <span>${message}</span>
         <button onclick="this.parentElement.remove()" 
-                style="background:none; border:none; font-size:1.1rem; 
+                style="background:none; border:none; font-size:1.2rem; 
                        color:#0f172a; cursor:pointer; margin-left:8px;">
           ✕
         </button>
       `;
 
       document.body.insertBefore(banner, document.body.firstChild);
-      document.body.style.paddingTop = '52px';
+      document.body.style.paddingTop = '58px';
     });
   </script>
 </head>
 <body>
 
-  <!-- ══ 공유용 이미지 카드 — 캡처 전용, 화면 밖 (STEP 4) ══ -->
-  <div id="shareCard" style="
-    position:fixed; left:-9999px; top:0; visibility:hidden;
-    width:540px; padding:36px 32px 28px;
-    background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);
-    font-family:'Noto Sans KR',sans-serif; color:#e2e8f0;
-    border-radius:20px; box-sizing:border-box;
-  ">
-    <div style="font-size:11px;color:#64748b;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;">
-      FutureJob · futurejob.site
-    </div>
+  <!-- 공유용 이미지 카드 -->
+  <div id="shareCard" style="position:fixed; left:-9999px; top:0; visibility:hidden; width:540px; padding:36px 32px 28px; background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%); font-family:'Noto Sans KR',sans-serif; color:#e2e8f0; border-radius:20px; box-sizing:border-box;">
+    <div style="font-size:11px;color:#64748b;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;">FutureJob · futurejob.site</div>
     <div id="sc_name"  style="font-size:13px;color:#94a3b8;margin-bottom:4px;"></div>
     <div id="sc_job"   style="font-size:28px;font-weight:700;color:#f1f5f9;line-height:1.3;margin-bottom:14px;"></div>
     <div id="sc_meta"  style="font-size:12px;color:#64748b;margin-bottom:16px;"></div>
     <div id="sc_desc"  style="font-size:13px;color:#cbd5e1;line-height:1.6;border-top:1px solid #334155;padding-top:14px;margin-bottom:18px;"></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;" id="sc_tags"></div>
-    <div style="margin-top:20px;font-size:11px;color:#475569;text-align:right;">
-      AI 미래 직업 추천 · futurejob.site
-    </div>
+    <div style="margin-top:20px;font-size:11px;color:#475569;text-align:right;">AI 미래 직업 추천 · futurejob.site</div>
   </div>
 
   <div class="container">
     <div class="header">
       <h1 style="font-size:1.1rem; font-weight:700; margin:0;">미래직업 추천결과</h1>
-      <p style="font-size:0.78rem; color:#94a3b8; margin-top:2px; text-align:center; line-height:1.4;">AI(Claude Pro)가 각국의 사정을<br>감안하여 추정한 것입니다.<br>미래가 불확실하다는 점도 잊지 마세요.
-      </p>
+      <p style="font-size:0.78rem; color:#94a3b8; margin-top:2px; text-align:center; line-height:1.4;">AI(Claude Pro)가 각국의 사정을<br>감안하여 추정한 것입니다.<br>미래가 불확실하다는 점도 잊지 마세요.</p>
     </div>
 
     <div id="resultContent">
@@ -240,14 +235,9 @@
       ];
 
       const fillBlue = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'D9E2F3' } };
-      const mediumBorder = {
-        top: { style: 'medium', color: { argb: '7F7F7F' } }, left: { style: 'medium', color: { argb: '7F7F7F' } },
-        bottom: { style: 'medium', color: { argb: '7F7F7F' } }, right: { style: 'medium', color: { argb: '7F7F7F' } }
-      };
-      const thinBorder = {
-        top: { style: 'thin', color: { argb: 'BFBFBF' } }, left: { style: 'thin', color: { argb: 'BFBFBF' } },
-        bottom: { style: 'thin', color: { argb: 'BFBFBF' } }, right: { style: 'thin', color: { argb: 'BFBFBF' } }
-      };
+      const mediumBorder = { top: { style: 'medium', color: { argb: '7F7F7F' } }, left: { style: 'medium', color: { argb: '7F7F7F' } }, bottom: { style: 'medium', color: { argb: '7F7F7F' } }, right: { style: 'medium', color: { argb: '7F7F7F' } } };
+      const thinBorder = { top: { style: 'thin', color: { argb: 'BFBFBF' } }, left: { style: 'thin', color: { argb: 'BFBFBF' } }, bottom: { style: 'thin', color: { argb: 'BFBFBF' } }, right: { style: 'thin', color: { argb: 'BFBFBF' } } };
+
       const topLabelStyle    = { font: { name: '맑은 고딕', size: 12, bold: true },  fill: fillBlue, border: mediumBorder, alignment: { vertical: 'middle', horizontal: 'left',   wrapText: true } };
       const topValueStyle    = { font: { name: '맑은 고딕', size: 12, bold: false }, fill: fillBlue, border: mediumBorder, alignment: { vertical: 'middle', horizontal: 'left',   wrapText: true } };
       const topEmphasisStyle = { font: { name: '맑은 고딕', size: 12, bold: true },  fill: fillBlue, border: mediumBorder, alignment: { vertical: 'middle', horizontal: 'left',   wrapText: true } };
@@ -277,15 +267,12 @@
         for (let i = 3; i <= 8; i++) row.getCell(i).style = bodyStyle;
       });
 
-      ws.pageSetup = {
-        paperSize: 9, orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0,
-        margins: { left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2 }
-      };
+      ws.pageSetup = { paperSize: 9, orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0, margins: { left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0.2, footer: 0.2 } };
       ws.getColumn('A').eachCell((cell) => { cell.border = {}; });
       return workbook;
     }
 
-    // ==================== 결과 이미지 카드 저장 (STEP 4) ====================
+    // ==================== 결과 이미지 카드 저장 ====================
     function fillShareCard(result) {
       const riasecLabel = { R:'🔧 만들고 조작', I:'🔬 파고들고 연구', A:'🎨 만들고 표현', S:'🤝 돕고 함께', E:'🚀 이끌고 도전', C:'📋 정리하고 관리' };
       const big5Label   = { O:'✨ 호기심', C:'📌 계획적', E:'😊 외향적', A:'💛 배려심', N:'🛡 신중함' };
@@ -413,12 +400,8 @@
 </div>
 
 <div class="section-card" style="border:1px solid rgba(255,215,0,0.35);background:rgba(184,134,11,0.08);">
-  <div class="section-title" style="font-size:1rem;">
-    🎯 성향매칭직업 상세보기
-  </div>
-  <p style="font-size:0.88rem;color:#fbbf24;font-weight:600;margin:0 0 12px 0;line-height:1.5;
-             padding:8px 12px;background:rgba(184,134,11,0.15);border-radius:8px;
-             border-left:3px solid #ffd700;">
+  <div class="section-title" style="font-size:1rem;">🎯 성향매칭직업 상세보기</div>
+  <p style="font-size:0.88rem;color:#fbbf24;font-weight:600;margin:0 0 12px 0;line-height:1.5;padding:8px 12px;background:rgba(184,134,11,0.15);border-radius:8px;border-left:3px solid #ffd700;">
     ✨ 무의미한 연봉순위보다 <strong><u>적성에 맞는 직업</u></strong> 모두가 중요합니다.<br>
     아래 직업을 <strong><u>하나씩 모두 눌러</u></strong> 확인해 보세요!
   </p>
@@ -427,8 +410,7 @@
       ? secondCandidates.map((item, index) => `
           <div style="padding:6px 0; border-bottom:1px solid rgba(148,163,184,0.18);">
             <a href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(item['추천직업'] || '')}"
-               style="color:#cbd5e1; text-decoration:none; font-weight:700;
-                      font-size:0.95rem; line-height:1.4; display:inline-block;">
+               style="color:#cbd5e1; text-decoration:none; font-weight:700;font-size:0.95rem; line-height:1.4; display:inline-block;">
               🔗 연봉${index + 1}위 ${escapeHtml(item['추천직업'] || '')}
             </a>
           </div>`).join('')
@@ -438,13 +420,10 @@
 
 <div class="section-card" id="countryInfoSection" style="margin-top:12px; display:none;">
   <div class="section-title" id="countryInfoTitle">🌐 국가 특성</div>
-
   <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">🏭 핵심 산업 키워드</div>
   <div id="countryTags" style="margin-bottom:14px;"></div>
-
   <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">📈 최근 경제·정치 상황</div>
   <p id="countryRecent" style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin:0 0 12px 0;"></p>
-
   <div style="font-size:0.82rem;font-weight:700;color:#cbd5e1;margin-bottom:6px;">🎯 향후 정책·전략 방향</div>
   <p id="countryPolicy" style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin:0;"></p>
 </div>
@@ -454,67 +433,50 @@
 <div class="download-wrap">
   <div id="countryShareBtns" style="margin-top:10px;"></div>
 
-  <button id="shareCardBtn" class="download-btn"
-    style="margin-top:10px; background:#0f766e; color:#fff;">
+  <button id="shareCardBtn" class="download-btn" style="margin-top:10px; background:#0f766e; color:#fff;">
     📷 내 직업카드 이미지 저장
   </button>
 
   <div id="resultShareBtn" style="margin-top:10px;"></div>
 
-  <div id="qrSection" style="margin-top:18px; padding:16px; background:#1e293b;
-       border-radius:12px; border:1px solid #334155; text-align:center;">
+  <div id="qrSection" style="margin-top:18px; padding:16px; background:#1e293b; border-radius:12px; border:1px solid #334155; text-align:center;">
     <p style="font-size:0.82rem; color:#94a3b8; margin:0 0 10px 0;">
       📌 선생님·부모님·학생, QR코드로<br>학생에 대한 위 추천직업을 공유,<br>진로상담을 하세요</p>
-    <button id="qrBtn" class="download-btn"
-      style="background:#0f766e; color:#fff; margin-bottom:12px;">
+    <button id="qrBtn" class="download-btn" style="background:#0f766e; color:#fff; margin-bottom:12px;">
       🔲 위 직업 QR코드 생성
     </button>
     <div id="qrDisplay" style="display:none; margin-top:8px;">
-      <img id="qrImg" src="" alt="QR코드"
-           style="width:160px; height:160px; border-radius:8px; background:#fff; padding:6px;">
+      <img id="qrImg" src="" alt="QR코드" style="width:160px; height:160px; border-radius:8px; background:#fff; padding:6px;">
       <p style="font-size:0.78rem; color:#64748b; margin:8px 0 0 0;">
         이미지에 마우스를 꾹 눌러 저장하거나<br>카카오톡 이미지 공유해서 사용하세요
       </p>
-      <button id="qrDownloadBtn" class="download-btn"
-        style="margin-top:8px; background:#0f766e; color:#fff; font-size:0.82rem; padding:8px 16px;">
+      <button id="qrDownloadBtn" class="download-btn" style="margin-top:8px; background:#0f766e; color:#fff; font-size:0.82rem; padding:8px 16px;">
         ⬇️ QR 이미지 저장
       </button>
     </div>
   </div>
 </div>`;
 
-      document.getElementById('shareCardBtn')?.addEventListener('click', () => {
-        downloadShareCard(data);
-      });
+      document.getElementById('shareCardBtn')?.addEventListener('click', () => downloadShareCard(data));
 
-      // STEP 8: 국가별 공유 버튼 동적 생성
+      // 국가별 공유 버튼 동적 생성
       (function setupShareButtons(country, shareUrl) {
         const lang = new URLSearchParams(window.location.search).get('lang') || 'ko';
         const langSiteMap = {
-          ko: 'https://www.futurejob.site/',
-          ja: 'https://www.futurejob.site/ja/',
-          zh: 'https://www.futurejob.site/zh/',
-          en: 'https://www.futurejob.site/en/',
-          de: 'https://www.futurejob.site/de/',
-          fr: 'https://www.futurejob.site/fr/',
-          es: 'https://www.futurejob.site/es/',
-          pt: 'https://www.futurejob.site/pt/',
-          ru: 'https://www.futurejob.site/ru/',
-          it: 'https://www.futurejob.site/it/',
-          pl: 'https://www.futurejob.site/pl/',
-          tr: 'https://www.futurejob.site/tr/',
-          vi: 'https://www.futurejob.site/vi/',
-          id: 'https://www.futurejob.site/id/',
-          th: 'https://www.futurejob.site/th/',
-          ar: 'https://www.futurejob.site/ar/',
+          ko: 'https://www.futurejob.site/', ja: 'https://www.futurejob.site/ja/', zh: 'https://www.futurejob.site/zh/',
+          en: 'https://www.futurejob.site/en/', de: 'https://www.futurejob.site/de/', fr: 'https://www.futurejob.site/fr/',
+          es: 'https://www.futurejob.site/es/', pt: 'https://www.futurejob.site/pt/', ru: 'https://www.futurejob.site/ru/',
+          it: 'https://www.futurejob.site/it/', pl: 'https://www.futurejob.site/pl/', tr: 'https://www.futurejob.site/tr/',
+          vi: 'https://www.futurejob.site/vi/', id: 'https://www.futurejob.site/id/', th: 'https://www.futurejob.site/th/',
+          ar: 'https://www.futurejob.site/ar/'
         };
         const baseSite = langSiteMap[lang] || 'https://www.futurejob.site/en/';
         const siteUrl = baseSite + '?utm_source=share&utm_medium=social&utm_campaign=site';
         const resultUtm = shareUrl + (shareUrl.includes('?') ? '&' : '?') + 'utm_source=share&utm_medium=social&utm_campaign=result';
 
-        const isKorea  = lang === 'ko';
-        const isJapan  = lang === 'ja';
-        const isChina  = lang === 'zh';
+        const isKorea = lang === 'ko';
+        const isJapan = lang === 'ja';
+        const isChina = lang === 'zh';
 
         const siteDiv = document.getElementById('countryShareBtns');
         if (siteDiv) {
@@ -527,47 +489,23 @@
             siteBtn.addEventListener('click', () => {
               gtag('event', 'share_site', { country, method: 'kakao' });
               if (window.Kakao && Kakao.isInitialized()) {
-                Kakao.Share.sendDefault({
-                  objectType: 'feed',
-                  content: {
-                    title: 'AI 미래 직업 추천 — FutureJob',
-                    description: '나의 성향(RIASEC·Big5)과 학업 계획으로 미래 유망 직업을 추천해드립니다. 무료로 바로 확인하세요!',
-                    link: { mobileWebUrl: siteUrl, webUrl: siteUrl }
-                  },
-                  buttons: [{ title: '무료로 내 직업 추천받기', link: { mobileWebUrl: siteUrl, webUrl: siteUrl } }]
-                });
+                Kakao.Share.sendDefault({ objectType: 'feed', content: { title: 'AI 미래 직업 추천 — FutureJob', description: '나의 성향(RIASEC·Big5)과 학업 계획으로 미래 유망 직업을 추천해드립니다. 무료로 바로 확인하세요!', link: { mobileWebUrl: siteUrl, webUrl: siteUrl } }, buttons: [{ title: '무료로 내 직업 추천받기', link: { mobileWebUrl: siteUrl, webUrl: siteUrl } }] });
               } else {
-                navigator.clipboard.writeText('https://www.futurejob.site/').then(() =>
-                  alert('링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요 😊')
-                ).catch(() => prompt('링크를 복사해서 공유하세요:', 'https://www.futurejob.site/'));
+                navigator.clipboard.writeText('https://www.futurejob.site/').then(() => alert('링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요 😊')).catch(() => prompt('링크를 복사해서 공유하세요:', 'https://www.futurejob.site/'));
               }
             });
           } else if (isJapan) {
             siteBtn.textContent = '💚 LINEでこのサイトをシェア';
-            siteBtn.style.background = '#06C755';
-            siteBtn.style.color = '#fff';
-            siteBtn.addEventListener('click', () => {
-              gtag('event', 'share_site', { country, method: 'line' });
-              window.open('https://line.me/R/msg/text/?' + encodeURIComponent('AI未来職業推薦 — FutureJob\nhttps://www.futurejob.site/'), '_blank');
-            });
+            siteBtn.style.background = '#06C755'; siteBtn.style.color = '#fff';
+            siteBtn.addEventListener('click', () => { gtag('event', 'share_site', { country, method: 'line' }); window.open('https://line.me/R/msg/text/?' + encodeURIComponent('AI未来職業推薦 — FutureJob\nhttps://www.futurejob.site/'), '_blank'); });
           } else if (isChina) {
             siteBtn.textContent = '🔗 链接复制 (微信分享用)';
-            siteBtn.style.background = '#07C160';
-            siteBtn.style.color = '#fff';
-            siteBtn.addEventListener('click', () => {
-              gtag('event', 'share_site', { country, method: 'wechat_copy' });
-              navigator.clipboard.writeText('https://www.futurejob.site/').then(() =>
-                alert('链接已复制！请粘贴到微信分享 😊')
-              ).catch(() => prompt('请复制此链接并在微信中分享：', 'https://www.futurejob.site/'));
-            });
+            siteBtn.style.background = '#07C160'; siteBtn.style.color = '#fff';
+            siteBtn.addEventListener('click', () => { gtag('event', 'share_site', { country, method: 'wechat_copy' }); navigator.clipboard.writeText('https://www.futurejob.site/').then(() => alert('链接已复制！请粘贴到微信分享 😊')).catch(() => prompt('请复制此链接并在微信中分享：', 'https://www.futurejob.site/')); });
           } else {
             siteBtn.textContent = '💚 Share via WhatsApp';
-            siteBtn.style.background = '#25D366';
-            siteBtn.style.color = '#fff';
-            siteBtn.addEventListener('click', () => {
-              gtag('event', 'share_site', { country, method: 'whatsapp' });
-              window.open('https://wa.me/?text=' + encodeURIComponent('AI Future Job Recommendation — FutureJob\nhttps://www.futurejob.site/'), '_blank');
-            });
+            siteBtn.style.background = '#25D366'; siteBtn.style.color = '#fff';
+            siteBtn.addEventListener('click', () => { gtag('event', 'share_site', { country, method: 'whatsapp' }); window.open('https://wa.me/?text=' + encodeURIComponent('AI Future Job Recommendation — FutureJob\nhttps://www.futurejob.site/'), '_blank'); });
           }
           siteDiv.appendChild(siteBtn);
         }
@@ -580,57 +518,33 @@
 
           if (isKorea) {
             resultBtn.textContent = '👉 카카오로 위 추천직업 공유하기';
-            resultBtn.style.background = '#0f766e';
-            resultBtn.style.color = '#fff';
+            resultBtn.style.background = '#0f766e'; resultBtn.style.color = '#fff';
             resultBtn.addEventListener('click', () => {
               gtag('event', 'share_result', { country, method: 'kakao' });
               if (window.Kakao && Kakao.isInitialized()) {
-                Kakao.Share.sendDefault({
-                  objectType: 'feed',
-                  content: {
-                    title: 'AI 미래 직업 추천 결과',
-                    description: '내 미래 직업 결과 확인해보기 (무료)',
-                    link: { mobileWebUrl: resultUtm, webUrl: resultUtm }
-                  },
-                  buttons: [{ title: '결과 보러가기', link: { mobileWebUrl: resultUtm, webUrl: resultUtm } }]
-                });
+                Kakao.Share.sendDefault({ objectType: 'feed', content: { title: 'AI 미래 직업 추천 결과', description: '내 미래 직업 결과 확인해보기 (무료)', link: { mobileWebUrl: resultUtm, webUrl: resultUtm } }, buttons: [{ title: '결과 보러가기', link: { mobileWebUrl: resultUtm, webUrl: resultUtm } }] });
               } else {
-                navigator.clipboard.writeText(shareUrl).then(() =>
-                  alert('링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요 😊')
-                ).catch(() => prompt('링크를 복사해서 공유하세요:', shareUrl));
+                navigator.clipboard.writeText(shareUrl).then(() => alert('링크가 복사되었습니다! 카카오톡에 붙여넣기 하세요 😊')).catch(() => prompt('링크를 복사해서 공유하세요:', shareUrl));
               }
             });
           } else if (isJapan) {
             resultBtn.textContent = '👉 LINEで結果をシェア';
-            resultBtn.style.background = '#0f766e';
-            resultBtn.style.color = '#fff';
-            resultBtn.addEventListener('click', () => {
-              gtag('event', 'share_result', { country, method: 'line' });
-              window.open('https://line.me/R/msg/text/?' + encodeURIComponent('AI未来職業推薦の結果\n' + resultUtm), '_blank');
-            });
+            resultBtn.style.background = '#0f766e'; resultBtn.style.color = '#fff';
+            resultBtn.addEventListener('click', () => { gtag('event', 'share_result', { country, method: 'line' }); window.open('https://line.me/R/msg/text/?' + encodeURIComponent('AI未来職業推薦の結果\n' + resultUtm), '_blank'); });
           } else if (isChina) {
             resultBtn.textContent = '🔗 结果链接复制 (微信分享用)';
-            resultBtn.style.background = '#0f766e';
-            resultBtn.style.color = '#fff';
-            resultBtn.addEventListener('click', () => {
-              gtag('event', 'share_result', { country, method: 'wechat_copy' });
-              navigator.clipboard.writeText(resultUtm).then(() =>
-                alert('链接已复制！请粘贴到微信分享 😊')
-              ).catch(() => prompt('请复制此链接并在微信中分享：', resultUtm));
-            });
+            resultBtn.style.background = '#0f766e'; resultBtn.style.color = '#fff';
+            resultBtn.addEventListener('click', () => { gtag('event', 'share_result', { country, method: 'wechat_copy' }); navigator.clipboard.writeText(resultUtm).then(() => alert('链接已复制！请粘贴到微信分享 😊')).catch(() => prompt('请复制此链接并在微信中分享：', resultUtm)); });
           } else {
             resultBtn.textContent = '👉 Share Result via WhatsApp';
-            resultBtn.style.background = '#0f766e';
-            resultBtn.style.color = '#fff';
-            resultBtn.addEventListener('click', () => {
-              gtag('event', 'share_result', { country, method: 'whatsapp' });
-              window.open('https://wa.me/?text=' + encodeURIComponent('Check my AI Future Job Result!\n' + resultUtm), '_blank');
-            });
+            resultBtn.style.background = '#0f766e'; resultBtn.style.color = '#fff';
+            resultBtn.addEventListener('click', () => { gtag('event', 'share_result', { country, method: 'whatsapp' }); window.open('https://wa.me/?text=' + encodeURIComponent('Check my AI Future Job Result!\n' + resultUtm), '_blank'); });
           }
           resultDiv.appendChild(resultBtn);
         }
       })(data.country, shareUrl);
 
+      // QR 코드 생성
       document.getElementById('qrBtn')?.addEventListener('click', () => {
         const url = encodeURIComponent(window.location.href);
         const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${url}&format=png`;
@@ -679,8 +593,7 @@
         big5:    p.get('big5')    || ''
       };
 
-      if (!userInput.country || !userInput.dob || !userInput.ability ||
-          !userInput.riasec  || !userInput.big5) {
+      if (!userInput.country || !userInput.dob || !userInput.ability || !userInput.riasec || !userInput.big5) {
         el.innerHTML = '<div class="empty-box"><p>입력 정보가 없습니다.</p><a href="index.html" class="back-btn">← 다시 입력하기</a></div>';
         return;
       }
@@ -707,9 +620,7 @@
         const riasecList = [userInput.riasec].filter(Boolean);
         const big5List   = [userInput.big5].filter(Boolean);
 
-        if (!riasecList.length || !big5List.length) {
-          throw new Error('RIASEC 또는 BIG5 유형이 선택되지 않았습니다.');
-        }
+        if (!riasecList.length || !big5List.length) throw new Error('RIASEC 또는 BIG5 유형이 선택되지 않았습니다.');
 
         const birthYear = parseInt(userInput.dob, 10);
         const addYear   = userInput.ability === '상' ? 30 : userInput.ability === '중' ? 26 : 22;
@@ -726,16 +637,13 @@
         const realMatchedCandidates = firstCandidates.filter(row => {
           const rCodes = (row['RIASEC'] || '').split(',').map(s => s.trim()).filter(Boolean);
           const bCodes = (row['BIG5']   || '').split(',').map(s => s.trim()).filter(Boolean);
-          return riasecList.some(code => rCodes.includes(code)) &&
-                 big5List.some(code   => bCodes.includes(code));
+          return riasecList.some(code => rCodes.includes(code)) && big5List.some(code => bCodes.includes(code));
         });
 
         const realMatchedCount  = realMatchedCandidates.length;
         const matchedCandidates = realMatchedCount ? [...realMatchedCandidates] : [firstCandidates[0]];
 
-        matchedCandidates.sort((a, b) =>
-          parseInt(a['연봉순위'] || 9999, 10) - parseInt(b['연봉순위'] || 9999, 10)
-        );
+        matchedCandidates.sort((a, b) => parseInt(a['연봉순위'] || 9999, 10) - parseInt(b['연봉순위'] || 9999, 10));
 
         const best = matchedCandidates[0];
 
@@ -771,12 +679,8 @@
         console.error(err);
         const isNetworkError = err.message.includes('fetch') || err.message.includes('Failed') || err.message.includes('로드 실패');
         el.innerHTML = `<div class="empty-box">
-          <p>${escapeHtml(isNetworkError
-            ? '데이터를 불러오는 데 실패했습니다. 인터넷 연결을 확인하고 새로고침 해주세요.'
-            : err.message)}</p>
-          ${isNetworkError
-            ? '<button onclick="location.reload()" class="back-btn" style="cursor:pointer;border:none;">🔄 새로고침</button>'
-            : ''}
+          <p>${escapeHtml(isNetworkError ? '데이터를 불러오는 데 실패했습니다. 인터넷 연결을 확인하고 새로고침 해주세요.' : err.message)}</p>
+          ${isNetworkError ? '<button onclick="location.reload()" class="back-btn" style="cursor:pointer;border:none;">🔄 새로고침</button>' : ''}
           <a href="index.html" class="back-btn">← 다시 입력하기</a>
         </div>`;
       }
@@ -790,24 +694,10 @@
         const info = cdata[country];
         if (!info) return;
 
-        const keywords = (info['핵심산업'] || '')
-          .split(/[,·]/)
-          .map(k => k.trim())
-          .filter(k => k.length > 1 && k.length < 30)
-          .slice(0, 8);
+        const keywords = (info['핵심산업'] || '').split(/[,·]/).map(k => k.trim()).filter(k => k.length > 1 && k.length < 30).slice(0, 8);
+        const tagHtml = keywords.map(k => `<span style="display:inline-block;padding:3px 9px;margin:3px 3px 3px 0;background:rgba(30,41,59,0.8);border:1px solid rgba(148,163,184,0.2);border-radius:6px;color:#94a3b8;font-size:0.78rem;">${escapeHtml(k)}</span>`).join('');
 
-        const tagHtml = keywords.map(k =>
-          `<span style="display:inline-block;padding:3px 9px;margin:3px 3px 3px 0;
-            background:rgba(30,41,59,0.8);border:1px solid rgba(148,163,184,0.2);
-            border-radius:6px;color:#94a3b8;font-size:0.78rem;">${escapeHtml(k)}</span>`
-        ).join('');
-
-        const flagMap = {'대한민국':'🇰🇷','미국':'🇺🇸','일본':'🇯🇵','독일':'🇩🇪','캐나다':'🇨🇦',
-          '호주':'🇦🇺','싱가포르':'🇸🇬','영국':'🇬🇧','중국':'🇨🇳','인도':'🇮🇳',
-          '베트남':'🇻🇳','태국':'🇹🇭','인도네시아':'🇮🇩','아랍에미리트':'🇦🇪',
-          '사우디아라비아':'🇸🇦','이스라엘':'🇮🇱','프랑스':'🇫🇷','이탈리아':'🇮🇹',
-          '스위스':'🇨🇭','튀르키예':'🇹🇷','폴란드':'🇵🇱','멕시코':'🇲🇽',
-          '브라질':'🇧🇷','남아프리카공화국':'🇿🇦','나이지리아':'🇳🇬','러시아':'🇷🇺'};
+        const flagMap = {'대한민국':'🇰🇷','미국':'🇺🇸','일본':'🇯🇵','독일':'🇩🇪','캐나다':'🇨🇦','호주':'🇦🇺','싱가포르':'🇸🇬','영국':'🇬🇧','중국':'🇨🇳','인도':'🇮🇳','베트남':'🇻🇳','태국':'🇹🇭','인도네시아':'🇮🇩','아랍에미리트':'🇦🇪','사우디아라비아':'🇸🇦','이스라엘':'🇮🇱','프랑스':'🇫🇷','이탈리아':'🇮🇹','스위스':'🇨🇭','튀르키예':'🇹🇷','폴란드':'🇵🇱','멕시코':'🇲🇽','브라질':'🇧🇷','남아프리카공화국':'🇿🇦','나이지리아':'🇳🇬','러시아':'🇷🇺'};
 
         const el = document.getElementById('countryInfoSection');
         const titleEl = document.getElementById('countryInfoTitle');
@@ -832,9 +722,7 @@
   <script>
     window.addEventListener('load', () => {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(err =>
-          console.warn('Service Worker 등록 실패:', err)
-        );
+        navigator.serviceWorker.register('/sw.js').catch(err => console.warn('Service Worker 등록 실패:', err));
       }
     });
   </script>
