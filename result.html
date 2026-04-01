@@ -406,6 +406,7 @@
 
       const el = document.getElementById('resultContent');
       const hasCandidates = secondCandidates?.length > 0;
+      const lang = (new URLSearchParams(window.location.search).get('lang') || 'ko').toLowerCase();
 
       const baseUrl = 'https://www.futurejob.site';
       const shareUrl = `${baseUrl}/result.html?name=${encodeURIComponent(data.name || '')}&dob=${encodeURIComponent(data.dob || '')}&country=${encodeURIComponent(data.country || '')}&ability=${encodeURIComponent(data.ability || '')}&riasec=${encodeURIComponent(data.riasec || '')}&big5=${encodeURIComponent(data.big5 || '')}&job=${encodeURIComponent(data.job || '')}`;
@@ -421,7 +422,7 @@
 <div class="job-card">
   <div class="section-title">추천 직업</div>
   <div class="job-name">
-    <a href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(data.job)}"
+    <a href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(data.job)}&lang=${lang}"
        style="color:#e2e8f0; text-decoration:none; font-weight:700;">
       ${escapeHtml(data.job)}
     </a>
@@ -492,7 +493,7 @@
     ${hasCandidates
       ? secondCandidates.map((item, index) => `
           <div style="padding:6px 0; border-bottom:1px solid rgba(148,163,184,0.18);">
-            <a href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(item['추천직업'] || '')}"
+            <a href="job.html?country=${encodeURIComponent(data.country)}&job=${encodeURIComponent(item['추천직업'] || '')}&lang=${lang}"
                style="color:#cbd5e1; text-decoration:none; font-weight:700;
                       font-size:0.95rem; line-height:1.4; display:inline-block;">
               🔗 연봉${index + 1}위 ${escapeHtml(item['추천직업'] || '')}
