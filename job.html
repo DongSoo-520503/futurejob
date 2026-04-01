@@ -127,6 +127,8 @@
       return (params.get(name) || '').trim();
     }
 
+    const _lang = (new URLSearchParams(window.location.search).get('lang') || 'ko').toLowerCase();
+
     function toText(value) {
       if (Array.isArray(value)) return value.join(', ');
       if (value === null || value === undefined) return '';
@@ -328,7 +330,7 @@
                 💡 ${escapeHtml(info['팁'])}
               </div>` : ''}
 
-            <a href="visa.html?country=${encodeURIComponent(country)}"
+            <a href="visa.html?country=${encodeURIComponent(country)}&lang=${_lang}"
                style="display:block;margin-top:12px;padding:14px;text-align:center;
                       background:linear-gradient(135deg,#b8860b,#ffd700);
                       color:#0f172a;border-radius:8px;font-size:0.82rem;font-weight:700;
@@ -342,7 +344,7 @@
           <div class="section-card" style="margin-top:12px;">
             <div class="section-title">🌏 취업비자 안내</div>
             <p class="section-text">
-              <a href="visa.html?country=${encodeURIComponent(country)}"
+              <a href="visa.html?country=${encodeURIComponent(country)}&lang=${_lang}"
                  style="color:#ffd700;text-decoration:none;">
                 ${escapeHtml(country)} 취업비자 절차 확인하기 →
               </a>
