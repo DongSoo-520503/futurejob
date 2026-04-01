@@ -202,11 +202,10 @@
     }
 
     function renderError(message) {
-      const currentLang = getQueryParam('lang');
       document.getElementById('jobDetailContent').innerHTML = `
         <div class="empty-box">
           <p>${escapeHtml(message)}</p>
-          <a href="index.html${currentLang ? `?lang=${encodeURIComponent(currentLang)}` : ''}" class="back-btn">← 처음으로 돌아가기</a>
+          <a href="index.html" class="back-btn">← 처음으로 돌아가기</a>
         </div>`;
     }
 
@@ -261,7 +260,6 @@
 
     // ── 취업비자 섹션 생성 함수 ──────────────────────────────────
     async function buildVisaSection(country) {
-      const currentLang = getQueryParam('lang');
       const FLAG = {
         '대한민국':'🇰🇷','미국':'🇺🇸','일본':'🇯🇵','독일':'🇩🇪','캐나다':'🇨🇦',
         '호주':'🇦🇺','싱가포르':'🇸🇬','영국':'🇬🇧','중국':'🇨🇳','인도':'🇮🇳',
@@ -330,7 +328,7 @@
                 💡 ${escapeHtml(info['팁'])}
               </div>` : ''}
 
-            <a href="visa.html?country=${encodeURIComponent(country)}${currentLang ? `&lang=${encodeURIComponent(currentLang)}` : ''}"
+            <a href="visa.html?country=${encodeURIComponent(country)}"
                style="display:block;margin-top:12px;padding:14px;text-align:center;
                       background:linear-gradient(135deg,#b8860b,#ffd700);
                       color:#0f172a;border-radius:8px;font-size:0.82rem;font-weight:700;
@@ -344,7 +342,7 @@
           <div class="section-card" style="margin-top:12px;">
             <div class="section-title">🌏 취업비자 안내</div>
             <p class="section-text">
-              <a href="visa.html?country=${encodeURIComponent(country)}${currentLang ? `&lang=${encodeURIComponent(currentLang)}` : ''}"
+              <a href="visa.html?country=${encodeURIComponent(country)}"
                  style="color:#ffd700;text-decoration:none;">
                 ${escapeHtml(country)} 취업비자 절차 확인하기 →
               </a>
@@ -402,7 +400,6 @@
     // ── renderJobDetail: FAQ + 비자 섹션 포함 ────────────────────
     async function renderJobDetail(item, country) {
       const el = document.getElementById('jobDetailContent');
-      const currentLang = getQueryParam('lang');
 
       const jobName     = toText(item['추천직업']);
       const description = toText(item['직업해설']);
@@ -453,7 +450,7 @@
         ${countryHtml}
 
         <a href="javascript:history.back()" class="back-btn">← 이전 페이지로 돌아가기</a>
-        <a href="index.html${currentLang ? `?lang=${encodeURIComponent(currentLang)}` : ''}" class="back-btn" style="margin-top:10px;">← 다시 입력하기</a>
+        <a href="index.html" class="back-btn" style="margin-top:10px;">← 다시 입력하기</a>
       `;
     }
 
