@@ -26,67 +26,61 @@
           integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
           crossorigin="anonymous"></script>
   <script>
-    // ⚠️ 카카오 JS SDK 키는 프론트엔드에 노출되는 구조입니다.
-    // 보안 조치: 카카오 개발자 콘솔 → 앱 설정 → 플랫폼 →
-    // 사이트 도메인을 https://futurejob.site 로만 제한하세요.
-    // 그러면 다른 사이트에서 이 키를 복사해도 작동하지 않습니다.
     const KAKAO_APP_KEY = '1d496a6dc1fc8f8e88bafb5f36db7ca6';
     if (window.Kakao && !Kakao.isInitialized()) {
       Kakao.init(KAKAO_APP_KEY);
     }
   </script>
 
+  <script src="./data/countryMap.js"></script>
 
+  <!-- 개선된 번역 안내 배너 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const lang = params.get('lang');
 
-<script src="./data/countryMap.js"></script>
+      if (!lang || lang.toLowerCase() === 'ko') return;
 
-<script>
-  /* ── 언어 감지 → 번역 안내 배너 표시 ── */
-  document.addEventListener('DOMContentLoaded', function() {
-    var lang = new URLSearchParams(window.location.search).get('lang');
-    if (!lang || lang === 'ko') return;
+      const langNames = {
+        en: 'English', ja: '日本語', zh: '中文', de: 'Deutsch',
+        fr: 'Français', es: 'Español', pt: 'Português', ru: 'Русский',
+        it: 'Italiano', pl: 'Polski', tr: 'Türkçe', vi: 'Tiếng Việt',
+        id: 'Bahasa Indonesia', th: 'ภาษาไทย', ar: 'العربية'
+      };
 
-    // 언어 이름 매핑
-    var langNames = {
-      en:'English', ja:'日本語', de:'Deutsch', fr:'Français',
-      es:'Español', pt:'Português', ru:'Русский', it:'Italiano',
-      pl:'Polski', tr:'Türkçe', vi:'Tiếng Việt', id:'Bahasa Indonesia',
-      th:'ภาษาไทย', ar:'العربية', zh:'中文'
-    };
-    var langName = langNames[lang] || lang.toUpperCase();
+      const langName = langNames[lang.toLowerCase()] || lang.toUpperCase();
+      const translateUrl = `https://translate.google.com/translate?sl=ko&tl=${encodeURIComponent(lang)}&u=${encodeURIComponent(window.location.href)}`;
 
-    // 번역 링크 생성
-    var translateUrl = 'https://translate.google.com/translate?sl=ko&tl='
-      + encodeURIComponent(lang) + '&u=' + encodeURIComponent(location.href);
+      const banner = document.createElement('div');
+      banner.id = 'lang-banner';
+      banner.style.cssText = `
+        position:fixed; top:0; left:0; right:0; z-index:9999;
+        background:linear-gradient(135deg,#b8860b,#ffd700);
+        color:#0f172a; font-weight:700; padding:10px 16px;
+        text-align:center; font-size:0.88rem; display:flex;
+        align-items:center; justify-content:center; gap:12px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.3);
+      `;
 
-    // 배너 생성
-    var banner = document.createElement('div');
-    banner.id = 'lang-banner';
-    banner.style.cssText = [
-      'position:fixed', 'top:0', 'left:0', 'right:0', 'z-index:9999',
-      'background:linear-gradient(135deg,#b8860b,#ffd700)',
-      'color:#0f172a', 'font-weight:700',
-      'padding:10px 16px', 'text-align:center',
-      'font-size:0.88rem', 'display:flex',
-      'align-items:center', 'justify-content:center', 'gap:12px'
-    ].join(';');
+      banner.innerHTML = `
+        <span>🌐 이 페이지는 한국어로 되어 있습니다.</span>
+        <a href="${translateUrl}" target="_blank" rel="noopener" 
+           style="background:#0f172a; color:#ffd700; padding:6px 16px; 
+                  border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">
+          ${langName}로 번역하기 →
+        </a>
+        <button onclick="this.parentElement.remove()" 
+                style="background:none; border:none; font-size:1.1rem; 
+                       color:#0f172a; cursor:pointer; margin-left:8px;">
+          ✕
+        </button>
+      `;
 
-    banner.innerHTML = [
-      '<span>🌐 Results are in Korean.</span>',
-      '<a href="' + translateUrl + '" target="_blank" rel="noopener"',
-      '   style="background:#0f172a;color:#ffd700;padding:5px 14px;',
-      '          border-radius:6px;text-decoration:none;font-size:0.82rem;">',
-      'Translate to ' + langName + ' →</a>',
-      '<button onclick="document.getElementById('lang-banner').remove()"',
-      '        style="background:none;border:none;cursor:pointer;',
-      '               font-size:1rem;color:#0f172a;padding:2px 6px;">✕</button>'
-    ].join('');
-
-    // body 최상단에 삽입 + body에 상단 여백 추가
-    document.body.insertBefore(banner, document.body.firstChild);
-    document.body.style.paddingTop = '44px';
-  });
-</script>
+      document.body.insertBefore(banner, document.body.firstChild);
+      document.body.style.paddingTop = '52px';
+    });
+  </script>
 </head>
 <body>
 
@@ -291,59 +285,6 @@
       return workbook;
     }
 
-    /* ==================== 개발자 전용 기능 (필요시 주석 해제) ====================
-       ※ 비밀번호: atob("a2RzczUy") 를 콘솔에서 실행하면 확인 가능
-       ※ 사용법: 이 주석 블록 전체 시작과 끝을 제거하면 엑셀 다운로드 기능 활성화
-       ==================== 개발자 전용 기능 (필요시 주석 해제) ====================
-
-    function checkDeveloperPassword() {
-      const encoded = "a2RzczUy";
-      const password = atob(encoded);
-      const input = prompt("🔐 개발자 전용 다운로드입니다.\n비밀번호를 입력하세요:");
-      if (input === null) return false;
-      if (input === password) return true;
-      alert("비밀번호가 일치하지 않습니다.");
-      return false;
-    }
-
-    async function downloadSecondCandidatesExcel(candidates, userName, birthYear, period) {
-      if (!checkDeveloperPassword()) return;
-      if (!candidates?.length) { alert('후보군 데이터가 없습니다.'); return; }
-
-      try {
-        const p = new URLSearchParams(window.location.search);
-        const userInputFromUrl = {
-          name:    p.get('name')    || userName || '',
-          dob:     p.get('dob')     || String(birthYear) || '',
-          country: p.get('country') || '',
-          ability: p.get('ability') || '',
-          riasec:  p.get('riasec')  || '',
-          big5:    p.get('big5')    || ''
-        };
-        const exportInfo = buildExcelExportInfo(userInputFromUrl, { name: userName, birthYear, period });
-        const workbook = await buildStyledWorkbook(candidates, exportInfo);
-        const buffer = await workbook.xlsx.writeBuffer();
-        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-
-        const safeName = (userName || exportInfo.name || '사용자').replace(/[\\/*?:"<>|]/g, '');
-        const fileName = `${safeName}_${birthYear || exportInfo.birthYear || '0000'}_${period || exportInfo.period || '시기미상'}_2차후보군.xlsx`;
-
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url; a.download = fileName;
-        document.body.appendChild(a);
-        gtag('event', 'download_excel', { count: candidates.length, country: exportInfo.country, period: exportInfo.period });
-        a.click(); a.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-        alert(`${candidates.length}개 항목이 ${fileName}로 다운로드되었습니다.`);
-      } catch (err) {
-        console.error('엑셀 생성 오류:', err);
-        alert('엑셀 파일 생성 중 오류가 발생했습니다. 콘솔을 확인해 주세요.');
-      }
-    }
-
-    */ // ==================== 개발자 전용 기능 끝 ====================
-
     // ==================== 결과 이미지 카드 저장 (STEP 4) ====================
     function fillShareCard(result) {
       const riasecLabel = { R:'🔧 만들고 조작', I:'🔬 파고들고 연구', A:'🎨 만들고 표현', S:'🤝 돕고 함께', E:'🚀 이끌고 도전', C:'📋 정리하고 관리' };
@@ -394,9 +335,8 @@
     // ==================== 결과 화면 렌더링 ====================
     function displayResult(data, secondCandidates) {
       updateResultMeta(data);
-
       loadCountryInfo(data.country);
-        gtag('event', 'view_result', { job: data.job, country: data.country, period: data.period, riasec: data.riasec, big5: data.big5 });
+      gtag('event', 'view_result', { job: data.job, country: data.country, period: data.period, riasec: data.riasec, big5: data.big5 });
 
       const el = document.getElementById('resultContent');
       const hasCandidates = secondCandidates?.length > 0;
@@ -496,7 +436,6 @@
   </div>
 </div>
 
-
 <div class="section-card" id="countryInfoSection" style="margin-top:12px; display:none;">
   <div class="section-title" id="countryInfoTitle">🌐 국가 특성</div>
 
@@ -513,7 +452,6 @@
 <a href="index.html" class="back-btn">← 다시 입력하기</a>
 
 <div class="download-wrap">
-  <!-- 국가별 공유 버튼 (displayResult에서 동적 생성) -->
   <div id="countryShareBtns" style="margin-top:10px;"></div>
 
   <button id="shareCardBtn" class="download-btn"
@@ -521,29 +459,7 @@
     📷 내 직업카드 이미지 저장
   </button>
 
-  <!-- 주석처리: 성향매칭 다운로드 (트래픽 무관)
-  <button id="downloadBtn" class="download-btn" ${hasCandidates ? '' : 'disabled'}>
-    🔒 성향매칭 ${escapeHtml(data.matchedCount || 0)}개 전체 다운로드
-  </button>
-  -->
-
-  <!-- 주석처리: AI 문의 버튼 (트래픽 무관)
-  <button class="download-btn" style="margin-top:10px; background-color:#475569; color:#fff;"
-          onclick="window.open('AI.html')">
-    모르는 용어,문장 AI앞 문의하기
-  </button>
-  -->
-
-  <!-- 주석처리: 카톡 직접문의 버튼 (트래픽 무관)
-  <button class="download-btn" style="margin-top:10px; background-color:#475569; color:#fff;"
-          onclick="window.open('https://open.kakao.com/o/g6YIdfmi')">
-    개발자앞 직접문의(카톡오픈채팅)
-  </button>
-  -->
-
-  <!-- 결과 공유 버튼 (국가별 동적 생성) -->
   <div id="resultShareBtn" style="margin-top:10px;"></div>
-
 
   <div id="qrSection" style="margin-top:18px; padding:16px; background:#1e293b;
        border-radius:12px; border:1px solid #334155; text-align:center;">
@@ -567,21 +483,12 @@
   </div>
 </div>`;
 
-      /* 개발자 전용 — 위 함수 주석 해제 시 함께 해제
-      if (hasCandidates) {
-        document.getElementById('downloadBtn')?.addEventListener('click', () => {
-          downloadSecondCandidatesExcel(secondCandidates, data.name, data.dob, data.period);
-        });
-      }
-      */
-
       document.getElementById('shareCardBtn')?.addEventListener('click', () => {
         downloadShareCard(data);
       });
 
       // STEP 8: 국가별 공유 버튼 동적 생성
       (function setupShareButtons(country, shareUrl) {
-        // ── 언어 기준으로 공유 버튼 결정 (취업 국가가 아닌 사용자 언어) ──
         const lang = new URLSearchParams(window.location.search).get('lang') || 'ko';
         const langSiteMap = {
           ko: 'https://www.futurejob.site/',
@@ -605,13 +512,10 @@
         const siteUrl = baseSite + '?utm_source=share&utm_medium=social&utm_campaign=site';
         const resultUtm = shareUrl + (shareUrl.includes('?') ? '&' : '?') + 'utm_source=share&utm_medium=social&utm_campaign=result';
 
-        // 언어별 공유 플랫폼 설정
         const isKorea  = lang === 'ko';
         const isJapan  = lang === 'ja';
         const isChina  = lang === 'zh';
-        // 나머지는 WhatsApp
 
-        // ── 사이트 공유 버튼 ──────────────────────────────────────
         const siteDiv = document.getElementById('countryShareBtns');
         if (siteDiv) {
           const siteBtn = document.createElement('button');
@@ -668,7 +572,6 @@
           siteDiv.appendChild(siteBtn);
         }
 
-        // ── 결과 공유 버튼 ──────────────────────────────────────
         const resultDiv = document.getElementById('resultShareBtn');
         if (resultDiv) {
           const resultBtn = document.createElement('button');
@@ -727,12 +630,13 @@
           resultDiv.appendChild(resultBtn);
         }
       })(data.country, shareUrl);
+
       document.getElementById('qrBtn')?.addEventListener('click', () => {
-        const url      = encodeURIComponent(window.location.href);
+        const url = encodeURIComponent(window.location.href);
         const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${url}&format=png`;
-        const img      = document.getElementById('qrImg');
-        const display  = document.getElementById('qrDisplay');
-        const btn      = document.getElementById('qrBtn');
+        const img = document.getElementById('qrImg');
+        const display = document.getElementById('qrDisplay');
+        const btn = document.getElementById('qrBtn');
 
         btn.disabled = true;
         btn.textContent = '⏳ 생성 중...';
@@ -781,11 +685,10 @@
         return;
       }
 
-      // XSS 방어: 허용된 값 목록으로 검증
-      const VALID_ABILITY = ['\uc0c1', '\uc911', '\ud558'];
+      const VALID_ABILITY = ['상', '중', '하'];
       const VALID_RIASEC  = ['R', 'I', 'A', 'S', 'E', 'C'];
       const VALID_BIG5    = ['O', 'C', 'E', 'A', 'N'];
-      const invalidMsg    = '<div class="empty-box"><p>\uc62c\ubc14\ub974\uc9c0 \uc54a\uc740 \uc785\ub825\uac12\uc785\ub2c8\ub2e4.</p><a href="index.html" class="back-btn">\u2190 \ub2e4\uc2dc \uc785\ub825\ud558\uae30</a></div>';
+      const invalidMsg    = '<div class="empty-box"><p>올바르지 않은 입력값입니다.</p><a href="index.html" class="back-btn">← 다시 입력하기</a></div>';
 
       if (!VALID_ABILITY.includes(userInput.ability)) { el.innerHTML = invalidMsg; return; }
       if (!VALID_RIASEC.includes(userInput.riasec))   { el.innerHTML = invalidMsg; return; }
@@ -793,8 +696,6 @@
       userInput.name = String(userInput.name).slice(0, 100);
 
       try {
-        // countryFileMap → data/countryMap.js 공용 파일에서 로드
-
         const country = String(userInput.country).trim();
         const fileName = countryFileMap[country];
         if (!fileName) throw new Error('국가 데이터 파일을 찾을 수 없습니다.');
@@ -881,8 +782,6 @@
       }
     }
 
-
-    // ── 국가 특성 로딩 ──────────────────────────────────────────
     async function loadCountryInfo(country) {
       try {
         const res = await fetch('./data/country_data.json');
@@ -930,34 +829,25 @@
     window.addEventListener('DOMContentLoaded', loadAndDisplayResult);
   </script>
 
-<script>
-/* 국가별 공유 버튼으로 대체됨 — 미사용
-function shareKakao() { ... }
-*/
-</script>
-
-<script>
-  window.addEventListener('load', () => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(err =>
-        console.warn('Service Worker 등록 실패:', err)
-      );
-    }
-  });
-</script>
-
-
-<script>
-  /* ── "다시 입력하기" 링크에 lang 파라미터 유지 ── */
-  document.addEventListener('DOMContentLoaded', function() {
-    var lang = new URLSearchParams(window.location.search).get('lang');
-    if (!lang || lang === 'ko') return;
-    // 정적 href="index.html" 링크 업데이트
-    document.querySelectorAll('a[href="index.html"]').forEach(function(a) {
-      a.href = 'https://www.futurejob.site/' + lang + '/';
+  <script>
+    window.addEventListener('load', () => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(err =>
+          console.warn('Service Worker 등록 실패:', err)
+        );
+      }
     });
-  });
-</script>
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var lang = new URLSearchParams(window.location.search).get('lang');
+      if (!lang || lang === 'ko') return;
+      document.querySelectorAll('a[href="index.html"]').forEach(function(a) {
+        a.href = 'https://www.futurejob.site/' + lang + '/';
+      });
+    });
+  </script>
 
 </body>
 </html>
