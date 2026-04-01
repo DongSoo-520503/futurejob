@@ -28,90 +28,144 @@
     gtag('config', 'G-J3V0P1S9DZ');
   </script>
 
-  <!-- 개선된 다국어 번역 안내 배너 -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const params = new URLSearchParams(window.location.search);
-      let lang = params.get('lang') || 'ko';
-      lang = lang.toLowerCase();
-
-      if (lang === 'ko') return;
-
-      const messages = {
-        en: "🌐 This page is written in Korean. To translate, click the Translate icon (top right) in the Chrome address bar.",
-        ja: "🌐 このページは韓国語で書かれています。翻訳するには、Chromeアドレスバーの右上にある翻訳アイコンをクリックしてください。",
-        zh: "🌐 此页面为韩文。请点击 Chrome 地址栏右上角的翻译图标进行翻译。",
-        de: "🌐 Diese Seite ist auf Koreanisch. Zum Übersetzen klicken Sie bitte auf das Übersetzungssymbol in der Chrome-Adressleiste (oben rechts).",
-        fr: "🌐 Cette page est en coréen. Pour traduire, cliquez sur l'icône de traduction dans la barre d'adresse Chrome (en haut à droite).",
-        es: "🌐 Esta página está en coreano. Para traducir, haz clic en el icono de traducción en la barra de direcciones de Chrome (arriba a la derecha).",
-        pt: "🌐 Esta página está em coreano. Para traduzir, clique no ícone de tradução na barra de endereço do Chrome (canto superior direito).",
-        ru: "🌐 Эта страница на корейском языке. Чтобы перевести, нажмите на значок перевода в адресной строке Chrome (в правом верхнем углу).",
-        it: "🌐 Questa pagina è in coreano. Per tradurre, clicca sull'icona di traduzione nella barra degli indirizzi di Chrome (in alto a destra).",
-        pl: "🌐 Ta strona jest po koreańsku. Aby przetłumaczyć, kliknij ikonę tłumaczenia na pasku adresu Chrome (prawy górny róg).",
-        tr: "🌐 Bu sayfa Korece yazılmıştır. Çevirmek için Chrome adres çubuğunun sağ üst köşesindeki çeviri simgesine tıklayın.",
-        vi: "🌐 Trang này được viết bằng tiếng Hàn. Để dịch, hãy nhấp vào biểu tượng Dịch ở thanh địa chỉ Chrome (góc trên bên phải).",
-        id: "🌐 Halaman ini ditulis dalam bahasa Korea. Untuk menerjemahkan, klik ikon Terjemahkan di bilah alamat Chrome (kanan atas).",
-        th: "🌐 หน้านี้เขียนด้วยภาษาเกาหลี หากต้องการแปลภาษา โปรดคลิกไอคอนแปลภาษาที่มุมขวาบนของแถบที่อยู่ Chrome",
-        ar: "🌐 هذه الصفحة مكتوبة باللغة الكورية. للترجمة، انقر على أيقونة الترجمة في شريط العنوان في Chrome (أعلى اليمين)."
-      };
-
-      const message = messages[lang] || messages.en;
-
-      const banner = document.createElement('div');
-      banner.id = 'lang-banner';
-      banner.style.cssText = `
-        position:fixed; top:0; left:0; right:0; z-index:9999;
-        background:linear-gradient(135deg,#b8860b,#ffd700);
-        color:#0f172a; font-weight:700; padding:12px 16px;
-        text-align:center; font-size:0.9rem; display:flex;
-        align-items:center; justify-content:center; gap:12px;
-        box-shadow:0 2px 10px rgba(0,0,0,0.3); line-height:1.4;
-      `;
-
-      banner.innerHTML = `
-        <span>${message}</span>
-        <button onclick="this.parentElement.remove()" 
-                style="background:none; border:none; font-size:1.2rem; 
-                       color:#0f172a; cursor:pointer; margin-left:8px;">
-          ✕
-        </button>
-      `;
-
-      document.body.insertBefore(banner, document.body.firstChild);
-      document.body.style.paddingTop = '58px';
-    });
-  </script>
-
   <style>
-    .gold-divider { position: relative; height: 1px; border-radius: 2px; background: linear-gradient(90deg, transparent 0%, #b8860b 20%, #ffd700 50%, #b8860b 80%, transparent 100%); margin: 12px 0; overflow: hidden; }
-    .gold-divider::after { content: ''; position: absolute; top: 0; left: -60%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent); animation: goldShimmer 1.8s ease-in-out infinite; }
+    .gold-divider {
+      position: relative; height: 1px; border-radius: 2px;
+      background: linear-gradient(90deg, transparent 0%, #b8860b 20%, #ffd700 50%, #b8860b 80%, transparent 100%);
+      margin: 12px 0; overflow: hidden;
+    }
+    .gold-divider::after {
+      content: ''; position: absolute; top: 0; left: -60%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+      animation: goldShimmer 1.8s ease-in-out infinite;
+    }
     @keyframes goldShimmer { 0%{left:-60%} 100%{left:160%} }
 
-    .country-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0; padding: 16px; background: rgba(30,41,59,0.6); border-radius: 12px; border: 1px solid rgba(148,163,184,0.15); }
-    .country-btn { padding: 10px 8px; border: 1px solid rgba(148,163,184,0.3); border-radius: 12px; background: rgba(30,41,59,0.8); color: #94a3b8; font-size: 0.88rem; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans KR', sans-serif; text-align: center; width: 100%; }
+    .country-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 16px 0; padding: 16px;
+      background: rgba(30,41,59,0.6);
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .country-btn {
+      padding: 10px 8px;
+      border: 1px solid rgba(148,163,184,0.3);
+      border-radius: 12px;
+      background: rgba(30,41,59,0.8);
+      color: #94a3b8;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Noto Sans KR', sans-serif;
+      text-align: center;
+      width: 100%;
+    }
     .country-btn:hover { border-color: #ffd700; color: #ffd700; }
-    .country-btn.active { background: linear-gradient(135deg, #b8860b, #ffd700); color: #0f172a; font-weight: 700; border-color: #ffd700; }
+    .country-btn.active {
+      background: linear-gradient(135deg, #b8860b, #ffd700);
+      color: #0f172a; font-weight: 700;
+      border-color: #ffd700;
+    }
 
-    .visa-card { background: rgba(30,41,59,0.7); border: 1px solid rgba(148,163,184,0.15); border-radius: 14px; padding: 20px; margin-top: 16px; }
-    .visa-title { font-size: 1.2rem; font-weight: 700; background: linear-gradient(135deg, #b8860b, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
-    .visa-type { color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px; }
-    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-    .info-item { background: rgba(15,23,42,0.5); border-radius: 10px; padding: 12px; border: 1px solid rgba(148,163,184,0.1); }
-    .info-label { font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-    .info-value { font-size: 0.9rem; color: #e2e8f0; font-weight: 500; }
+    .visa-card {
+      background: rgba(30,41,59,0.7);
+      border: 1px solid rgba(148,163,184,0.15);
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+    .visa-title {
+      font-size: 1.2rem; font-weight: 700;
+      background: linear-gradient(135deg, #b8860b, #ffd700);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    .visa-type {
+      color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px;
+    }
+    .info-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-bottom: 16px;
+    }
+    /* info-grid: 항상 2열 유지 */
+    .info-item {
+      background: rgba(15,23,42,0.5);
+      border-radius: 10px; padding: 12px;
+      border: 1px solid rgba(148,163,184,0.1);
+    }
+    .info-label {
+      font-size: 0.75rem; color: #64748b;
+      font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 4px;
+    }
+    .info-value {
+      font-size: 0.9rem; color: #e2e8f0; font-weight: 500;
+    }
+
     .steps-section { margin-top: 16px; }
-    .steps-title { font-size: 0.9rem; font-weight: 700; color: #cbd5e1; margin-bottom: 10px; }
-    .step-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
-    .step-num { width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,0.15); color: #e2e8f0; font-size: 0.70rem; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .steps-title {
+      font-size: 0.9rem; font-weight: 700;
+      color: #cbd5e1; margin-bottom: 10px;
+    }
+    .step-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 8px;
+    }
+    .step-num {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      color: #e2e8f0; font-size: 0.70rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
     .step-text { color: #94a3b8; font-size: 0.88rem; line-height: 1.5; }
+
     .docs-section { margin-top: 16px; }
-    .doc-tags { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
-    .doc-tag { padding: 8px 10px; background: rgba(15,23,42,0.6); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; color: #94a3b8; font-size: 0.82rem; text-align: center; }
-    .tip-box { margin-top: 16px; padding: 12px 14px; background: rgba(184,134,11,0.1); border: 1px solid rgba(255,215,0,0.2); border-radius: 10px; color: #fbbf24; font-size: 0.87rem; line-height: 1.5; }
+    .doc-tags {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px; margin-top: 8px;
+    }
+    .doc-tag {
+      padding: 8px 10px;
+      background: rgba(15,23,42,0.6);
+      border: 1px solid rgba(148,163,184,0.2);
+      border-radius: 8px;
+      color: #94a3b8; font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .tip-box {
+      margin-top: 16px; padding: 12px 14px;
+      background: rgba(184,134,11,0.1);
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 10px;
+      color: #fbbf24; font-size: 0.87rem; line-height: 1.5;
+    }
     .tip-box::before { content: '💡 '; }
-    .back-btn { display: inline-block; margin-top: 20px; padding: 10px 18px; background: rgba(30,41,59,0.8); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; color: #94a3b8; text-decoration: none; font-size: 0.85rem; transition: all 0.2s; }
+
+
+
+    .back-btn {
+      display: inline-block; margin-top: 20px;
+      padding: 10px 18px;
+      background: rgba(30,41,59,0.8);
+      border: 1px solid rgba(148,163,184,0.2);
+      border-radius: 8px;
+      color: #94a3b8; text-decoration: none;
+      font-size: 0.85rem; transition: all 0.2s;
+    }
     .back-btn:hover { border-color: #ffd700; color: #ffd700; }
-    .empty-state { text-align: center; padding: 40px 20px; color: #475569; font-size: 0.9rem; }
+
+    .empty-state {
+      text-align: center; padding: 40px 20px;
+      color: #475569; font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
@@ -123,6 +177,7 @@
     </div>
 
     <div class="card" style="padding:16px;">
+
       <div class="country-selector" id="countrySelector"></div>
     </div>
 
@@ -140,7 +195,12 @@
     let visaData = {};
     let currentCountry = null;
 
-    const COUNTRIES = ['대한민국','미국','일본','독일','캐나다','호주','싱가포르','영국','중국','인도','베트남','태국','인도네시아','아랍에미리트','사우디아라비아','이스라엘','프랑스','이탈리아','스위스','튀르키예','폴란드','멕시코','브라질','남아프리카공화국','나이지리아','러시아'];
+    const COUNTRIES = [
+      '대한민국','미국','일본','독일','캐나다','호주','싱가포르','영국',
+      '중국','인도','베트남','태국','인도네시아','아랍에미리트','사우디아라비아',
+      '이스라엘','프랑스','이탈리아','스위스','튀르키예','폴란드','멕시코',
+      '브라질','남아프리카공화국','나이지리아','러시아'
+    ];
 
     const FLAG = {
       '대한민국':'🇰🇷','미국':'🇺🇸','일본':'🇯🇵','독일':'🇩🇪','캐나다':'🇨🇦',
@@ -159,20 +219,27 @@
       const sel = document.getElementById('countrySelector');
       const filtered = COUNTRIES.filter(c => c.includes(filter));
       sel.innerHTML = filtered.map(c => `
-        <button class="country-btn ${currentCountry === c ? 'active' : ''}" onclick="selectCountry('${c}')">
+        <button class="country-btn ${currentCountry === c ? 'active' : ''}"
+                onclick="selectCountry('${c}')">
           ${FLAG[c] || ''} ${c}
         </button>`).join('');
     }
+
+
 
     function selectCountry(country) {
       currentCountry = country;
       buildCountryButtons();
 
-      if (typeof gtag !== 'undefined') gtag('event', 'view_visa_info', { country });
+      // GA4 이벤트
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'view_visa_info', { country });
+      }
 
       const info = visaData[country];
       if (!info) {
-        document.getElementById('visaContent').innerHTML = `<div class="empty-state">해당 국가의 비자 정보가 없습니다.</div>`;
+        document.getElementById('visaContent').innerHTML = `
+          <div class="empty-state">해당 국가의 비자 정보가 없습니다.</div>`;
         return;
       }
 
@@ -182,28 +249,65 @@
           <div class="step-text">${escapeHtml(s)}</div>
         </div>`).join('');
 
-      const docs = (info['필요서류'] || []).map(d => `<span class="doc-tag">📄 ${escapeHtml(d)}</span>`).join('');
+      const docs = (info['필요서류'] || []).map(d =>
+        `<span class="doc-tag">📄 ${escapeHtml(d)}</span>`).join('');
+
+      // JSON-LD 구조화 데이터
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "GovernmentService",
+        "name": `${country} 취업비자`,
+        "description": `${country} 취업비자 종류: ${info['비자종류']}. 처리기간: ${info['처리기간']}`,
+        "serviceType": "취업비자",
+        "areaServed": { "@type": "Country", "name": country },
+        "provider": { "@type": "GovernmentOrganization", "name": info['발급기관'] }
+      };
+      let schemaEl = document.getElementById('visa-jsonld');
+      if (!schemaEl) {
+        schemaEl = document.createElement('script');
+        schemaEl.id = 'visa-jsonld';
+        schemaEl.type = 'application/ld+json';
+        document.head.appendChild(schemaEl);
+      }
+      schemaEl.textContent = JSON.stringify(schema, null, 2);
 
       document.getElementById('visaContent').innerHTML = `
         <div class="visa-card">
           <div class="visa-title">${FLAG[country] || ''} ${escapeHtml(country)} 취업비자</div>
           <div class="visa-type">📋 ${escapeHtml(info['비자종류'] || '')}</div>
+
           <div class="info-grid">
-            <div class="info-item"><div class="info-label">발급 기관</div><div class="info-value">${escapeHtml(info['발급기관'] || '-')}</div></div>
-            <div class="info-item"><div class="info-label">처리 기간</div><div class="info-value">⏱ ${escapeHtml(info['처리기간'] || '-')}</div></div>
-            <div class="info-item"><div class="info-label">비용</div><div class="info-value">💰 ${escapeHtml(info['비용'] || '-')}</div></div>
-            <div class="info-item"><div class="info-label">유효 기간</div><div class="info-value">📅 ${escapeHtml(info['유효기간'] || '-')}</div></div>
+            <div class="info-item">
+              <div class="info-label">발급 기관</div>
+              <div class="info-value">${escapeHtml(info['발급기관'] || '-')}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">처리 기간</div>
+              <div class="info-value">⏱ ${escapeHtml(info['처리기간'] || '-')}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">비용</div>
+              <div class="info-value">💰 ${escapeHtml(info['비용'] || '-')}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">유효 기간</div>
+              <div class="info-value">📅 ${escapeHtml(info['유효기간'] || '-')}</div>
+            </div>
           </div>
+
           <div class="steps-section">
             <div class="steps-title">📌 취업비자 취득 절차</div>
             ${steps}
           </div>
+
           <div class="docs-section">
             <div class="steps-title">📂 필요 서류</div>
             <div class="doc-tags">${docs}</div>
           </div>
+
           ${info['팁'] ? `<div class="tip-box">${escapeHtml(info['팁'])}</div>` : ''}
         </div>
+
         <p style="font-size:0.75rem; color:#475569; margin-top:12px; text-align:center;">
           ※ 위 정보는 2025년 기준이며, 각국 정책 변동에 따라 달라질 수 있습니다.<br>
           반드시 해당국 대사관 또는 공식 이민기관에서 최신 정보를 확인하세요.
@@ -213,6 +317,7 @@
 
     async function loadVisaData() {
       try {
+        // ✅ 수정된 경로: ./data/visa_data.json
         const res = await fetch('./data/visa_data.json');
         if (!res.ok) throw new Error('비자 데이터 로드 실패');
         visaData = await res.json();
@@ -220,6 +325,7 @@
         console.warn('visa_data.json 로드 실패, 내장 데이터 사용:', e.message);
       }
 
+      // URL 파라미터로 국가 자동 선택
       const params = new URLSearchParams(window.location.search);
       const urlCountry = params.get('country');
       buildCountryButtons();
