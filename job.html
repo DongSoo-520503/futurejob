@@ -52,10 +52,12 @@
 
       if (lang === 'ko') return;
 
-      // WebView 감지 (APK 환경)
+      // WebView 감지 (APK 환경) - chrome.runtime 없으면 WebView
       const ua = navigator.userAgent;
-      const isWebView = /wv/.test(ua) ||
-                        (/Android/.test(ua) && !/Chrome\/[.0-9]*\s/.test(ua));
+      const isAndroid = /Android/.test(ua);
+      const hasWv = /wv/.test(ua) || /; wv\)/.test(ua);
+      const noChromeRuntime = !window.chrome || !window.chrome.runtime;
+      const isWebView = hasWv || (isAndroid && noChromeRuntime);
 
       if (isWebView) {
         // ✅ APK/WebView: Google Translate 위젯 삽입 (오른쪽 하단 고정)
