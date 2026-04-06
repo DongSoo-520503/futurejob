@@ -60,26 +60,44 @@
       const isWebView = hasWv || (isAndroid && noChromeRuntime);
 
       if (isWebView) {
-        // ✅ APK/WebView: Google Translate 위젯 삽입 (오른쪽 하단 고정)
-        const widgetDiv = document.createElement('div');
-        widgetDiv.id = 'google_translate_element';
-        widgetDiv.style.cssText = `
-          position:fixed; bottom:16px; right:16px; z-index:9999;
-          background:#1e293b; border-radius:10px;
-          padding:6px 10px; box-shadow:0 2px 12px rgba(0,0,0,0.5);
+        // ✅ APK/WebView: 심플 번역 버튼 (Google Translate 프록시 방식)
+        const currentUrl = encodeURIComponent(window.location.href);
+        const langs = [
+          { code:'en', label:'EN' }, { code:'ja', label:'JA' },
+          { code:'zh-TW', label:'ZH' }, { code:'de', label:'DE' },
+          { code:'fr', label:'FR' }, { code:'es', label:'ES' },
+          { code:'pt', label:'PT' }, { code:'ru', label:'RU' },
+          { code:'it', label:'IT' }, { code:'pl', label:'PL' },
+          { code:'tr', label:'TR' }, { code:'vi', label:'VI' },
+          { code:'id', label:'ID' }, { code:'th', label:'TH' },
+          { code:'ar', label:'AR' }
+        ];
+
+        const btnHtml = langs.map(l =>
+          `<a href="https://translate.google.com/translate?sl=ko&tl=${l.code}&u=${currentUrl}"
+             style="display:inline-block; padding:5px 8px; margin:2px;
+                    background:#1e293b; color:#ffd700; border:1px solid #ffd700;
+                    border-radius:6px; font-size:0.75rem; font-weight:700;
+                    text-decoration:none; white-space:nowrap;"
+             target="_self">${l.label}</a>`
+        ).join('');
+
+        const panel = document.createElement('div');
+        panel.style.cssText = `
+          position:fixed; bottom:0; left:0; right:0; z-index:9999;
+          background:#0f172a; padding:8px 10px 10px;
+          box-shadow:0 -2px 12px rgba(0,0,0,0.5);
+          text-align:center;
         `;
-        document.body.appendChild(widgetDiv);
-
-        window.googleTranslateElementInit = function() {
-          new google.translate.TranslateElement(
-            { pageLanguage: 'ko', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
-            'google_translate_element'
-          );
-        };
-
-        const script = document.createElement('script');
-        script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-        document.body.appendChild(script);
+        panel.innerHTML = `
+          <div style="font-size:0.72rem; color:#94a3b8; margin-bottom:5px;">
+            🌐 번역 언어 선택 / Select Language
+          </div>
+          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:2px;">
+            ${btnHtml}
+          </div>
+        `;
+        document.body.appendChild(panel);
 
       } else {
         // ✅ Chrome 브라우저: 기존 배너 유지
