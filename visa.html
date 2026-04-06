@@ -28,7 +28,7 @@
     gtag('config', 'G-J3V0P1S9DZ');
   </script>
 
-  <!-- 개선된 다국어 번역 안내 배너 -->
+  <!-- 다국어 번역 안내: Chrome=배너, WebView(APK)=Google Translate 위젯 -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const params = new URLSearchParams(window.location.search);
@@ -37,48 +37,76 @@
 
       if (lang === 'ko') return;
 
-      const messages = {
-        en: "🌐 This page is written in Korean. To translate, click the Translate icon (top right) in the Chrome address bar.",
-        ja: "🌐 このページは韓国語で書かれています。翻訳するには、Chromeアドレスバーの右上にある翻訳アイコンをクリックしてください。",
-        zh: "🌐 此页面为韩文。请点击 Chrome 地址栏右上角的翻译图标进行翻译。",
-        de: "🌐 Diese Seite ist auf Koreanisch. Zum Übersetzen klicken Sie bitte auf das Übersetzungssymbol in der Chrome-Adressleiste (oben rechts).",
-        fr: "🌐 Cette page est en coréen. Pour traduire, cliquez sur l'icône de traduction dans la barre d'adresse Chrome (en haut à droite).",
-        es: "🌐 Esta página está en coreano. Para traducir, haz clic en el icono de traducción en la barra de direcciones de Chrome (arriba a la derecha).",
-        pt: "🌐 Esta página está em coreano. Para traduzir, clique no ícone de tradução na barra de endereço do Chrome (canto superior direito).",
-        ru: "🌐 Эта страница на корейском языке. Чтобы перевести, нажмите на значок перевода в адресной строке Chrome (в правом верхнем углу).",
-        it: "🌐 Questa pagina è in coreano. Per tradurre, clicca sull'icona di traduzione nella barra degli indirizzi di Chrome (in alto a destra).",
-        pl: "🌐 Ta strona jest po koreańsku. Aby przetłumaczyć, kliknij ikonę tłumaczenia na pasku adresu Chrome (prawy górny róg).",
-        tr: "🌐 Bu sayfa Korece yazılmıştır. Çevirmek için Chrome adres çubuğunun sağ üst köşesindeki çeviri simgesine tıklayın.",
-        vi: "🌐 Trang này được viết bằng tiếng Hàn. Để dịch, hãy nhấp vào biểu tượng Dịch ở thanh địa chỉ Chrome (góc trên bên phải).",
-        id: "🌐 Halaman ini ditulis dalam bahasa Korea. Untuk menerjemahkan, klik ikon Terjemahkan di bilah alamat Chrome (kanan atas).",
-        th: "🌐 หน้านี้เขียนด้วยภาษาเกาหลี หากต้องการแปลภาษา โปรดคลิกไอคอนแปลภาษาที่มุมขวาบนของแถบที่อยู่ Chrome",
-        ar: "🌐 هذه الصفحة مكتوبة باللغة الكورية. للترجمة، انقر على أيقونة الترجمة في شريط العنوان في Chrome (أعلى اليمين)."
-      };
+      // WebView 감지 (APK 환경)
+      const ua = navigator.userAgent;
+      const isWebView = /wv/.test(ua) ||
+                        (/Android/.test(ua) && !/Chrome\/[.0-9]*\s/.test(ua));
 
-      const message = messages[lang] || messages.en;
+      if (isWebView) {
+        // ✅ APK/WebView: Google Translate 위젯 삽입 (오른쪽 하단 고정)
+        const widgetDiv = document.createElement('div');
+        widgetDiv.id = 'google_translate_element';
+        widgetDiv.style.cssText = `
+          position:fixed; bottom:16px; right:16px; z-index:9999;
+          background:#1e293b; border-radius:10px;
+          padding:6px 10px; box-shadow:0 2px 12px rgba(0,0,0,0.5);
+        `;
+        document.body.appendChild(widgetDiv);
 
-      const banner = document.createElement('div');
-      banner.id = 'lang-banner';
-      banner.style.cssText = `
-        position:fixed; top:0; left:0; right:0; z-index:9999;
-        background:linear-gradient(135deg,#b8860b,#ffd700);
-        color:#0f172a; font-weight:700; padding:12px 16px;
-        text-align:center; font-size:0.9rem; display:flex;
-        align-items:center; justify-content:center; gap:12px;
-        box-shadow:0 2px 10px rgba(0,0,0,0.3); line-height:1.4;
-      `;
+        window.googleTranslateElementInit = function() {
+          new google.translate.TranslateElement(
+            { pageLanguage: 'ko', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+            'google_translate_element'
+          );
+        };
 
-      banner.innerHTML = `
-        <span>${message}</span>
-        <button onclick="this.parentElement.remove()" 
-                style="background:none; border:none; font-size:1.2rem; 
-                       color:#0f172a; cursor:pointer; margin-left:8px;">
-          ✕
-        </button>
-      `;
+        const script = document.createElement('script');
+        script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        document.body.appendChild(script);
 
-      document.body.insertBefore(banner, document.body.firstChild);
-      document.body.style.paddingTop = '58px';
+      } else {
+        // ✅ Chrome 브라우저: 기존 배너 유지
+        const messages = {
+          en: "🌐 This page is written in Korean. To translate, click the Translate icon (top right) in the Chrome address bar.",
+          ja: "🌐 このページは韓国語で書かれています。翻訳するには、Chromeアドレスバーの右上にある翻訳アイコンをクリックしてください。",
+          zh: "🌐 此页面为韩文。请点击 Chrome 地址栏右上角的翻译图标进行翻译。",
+          de: "🌐 Diese Seite ist auf Koreanisch. Zum Übersetzen klicken Sie bitte auf das Übersetzungssymbol in der Chrome-Adressleiste (oben rechts).",
+          fr: "🌐 Cette page est en coréen. Pour traduire, cliquez sur l'icône de traduction dans la barre d'adresse Chrome (en haut à droite).",
+          es: "🌐 Esta página está en coreano. Para traducir, haz clic en el icono de traducción en la barra de direcciones de Chrome (arriba a la derecha).",
+          pt: "🌐 Esta página está em coreano. Para traduzir, clique no ícone de tradução na barra de endereço do Chrome (canto superior direito).",
+          ru: "🌐 Эта страница на корейском языке. Чтобы перевести, нажмите на значок перевода в адресной строке Chrome (в правом верхнем углу).",
+          it: "🌐 Questa pagina è in coreano. Per tradurre, clicca sull'icona di traduzione nella barra degli indirizzi di Chrome (in alto a destra).",
+          pl: "🌐 Ta strona jest po koreańsku. Aby przetłumaczyć, kliknij ikonę tłumaczenia na pasku adresu Chrome (prawy górny róg).",
+          tr: "🌐 Bu sayfa Korece yazılmıştır. Çevirmek için Chrome adres çubuğunun sağ üst köşesindeki çeviri simgesine tıklayın.",
+          vi: "🌐 Trang này được viết bằng tiếng Hàn. Để dịch, hãy nhấp vào biểu tượng Dịch ở thanh địa chỉ Chrome (góc trên bên phải).",
+          id: "🌐 Halaman ini ditulis dalam bahasa Korea. Untuk menerjemahkan, klik ikon Terjemahkan di bilah alamat Chrome (kanan atas).",
+          th: "🌐 หน้านี้เขียนด้วยภาษาเกาหลี หากต้องการแปลภาษา โปรดคลิกไอคอนแปลภาษาที่มุมขวาบนของแถบที่อยู่ Chrome",
+          ar: "🌐 هذه الصفحة مكتوبة باللغة الكورية. للترجمة، انقر على أيقونة الترجمة في شريط العنوان في Chrome (أعلى اليمين)."
+        };
+
+        const message = messages[lang] || messages.en;
+
+        const banner = document.createElement('div');
+        banner.id = 'lang-banner';
+        banner.style.cssText = `
+          position:fixed; top:0; left:0; right:0; z-index:9999;
+          background:linear-gradient(135deg,#b8860b,#ffd700);
+          color:#0f172a; font-weight:700; padding:12px 16px;
+          text-align:center; font-size:0.9rem; display:flex;
+          align-items:center; justify-content:center; gap:12px;
+          box-shadow:0 2px 10px rgba(0,0,0,0.3); line-height:1.4;
+        `;
+        banner.innerHTML = `
+          <span>${message}</span>
+          <button onclick="this.parentElement.remove()"
+                  style="background:none; border:none; font-size:1.2rem;
+                         color:#0f172a; cursor:pointer; margin-left:8px;">
+            ✕
+          </button>
+        `;
+        document.body.insertBefore(banner, document.body.firstChild);
+        document.body.style.paddingTop = '58px';
+      }
     });
   </script>
 
