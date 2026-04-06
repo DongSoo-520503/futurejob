@@ -45,42 +45,26 @@
       const isWebView = hasWv || (isAndroid && noChromeRuntime);
 
       if (isWebView) {
-        // ✅ APK/WebView: 심플 번역 버튼 (Google Translate 프록시 방식)
-        const currentUrl = encodeURIComponent(window.location.href);
-        const langs = [
-          { code:'en', label:'EN' }, { code:'ja', label:'JA' },
-          { code:'zh-TW', label:'ZH' }, { code:'de', label:'DE' },
-          { code:'fr', label:'FR' }, { code:'es', label:'ES' },
-          { code:'pt', label:'PT' }, { code:'ru', label:'RU' },
-          { code:'it', label:'IT' }, { code:'pl', label:'PL' },
-          { code:'tr', label:'TR' }, { code:'vi', label:'VI' },
-          { code:'id', label:'ID' }, { code:'th', label:'TH' },
-          { code:'ar', label:'AR' }
-        ];
-
-        const btnHtml = langs.map(l =>
-          `<a href="https://translate.google.com/translate?sl=ko&tl=${l.code}&u=${currentUrl}"
-             style="display:inline-block; padding:5px 8px; margin:2px;
-                    background:#1e293b; color:#ffd700; border:1px solid #ffd700;
-                    border-radius:6px; font-size:0.75rem; font-weight:700;
-                    text-decoration:none; white-space:nowrap;"
-             target="_self">${l.label}</a>`
-        ).join('');
+        // ✅ APK/WebView: Chrome으로 열기 버튼 (Intent URL 방식)
+        const rawUrl = window.location.href;
+        const intentUrl = 'intent://' + rawUrl.replace(/^https?:\/\//, '')
+                        + '#Intent;scheme=https;package=com.android.chrome;end';
 
         const panel = document.createElement('div');
         panel.style.cssText = `
           position:fixed; bottom:0; left:0; right:0; z-index:9999;
-          background:#0f172a; padding:8px 10px 10px;
+          background:#0f172a; padding:10px 16px 14px;
           box-shadow:0 -2px 12px rgba(0,0,0,0.5);
           text-align:center;
         `;
         panel.innerHTML = `
-          <div style="font-size:0.72rem; color:#94a3b8; margin-bottom:5px;">
-            🌐 번역 언어 선택 / Select Language
-          </div>
-          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:2px;">
-            ${btnHtml}
-          </div>
+          <a href="${intentUrl}"
+             style="display:inline-block; padding:10px 28px;
+                    background:#ffd700; color:#0f172a;
+                    border-radius:8px; font-size:0.88rem; font-weight:700;
+                    text-decoration:none;">
+            🌐 Open in Chrome to translate
+          </a>
         `;
         document.body.appendChild(panel);
 
